@@ -1,5 +1,7 @@
 package main
 
+import "github.com/tylerconlee/Deskmate/datastore"
+
 func main() {
 	// TODO: Connect to Postgres database
 	// On launch, Deskmate should connect to a local Postgres database using
@@ -9,6 +11,7 @@ func main() {
 	// Slack API authentication token.
 	// Further configuration would then be handled within the Deskmate app in
 	// Slack.
+	datastore.ConnectPostgres()
 
 	// TODO: After configuration is loaded, launch webserver
 	// Deskmate will use heavy use of the SlabAPI GraphQL API project. In order
