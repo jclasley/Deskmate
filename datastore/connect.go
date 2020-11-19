@@ -3,6 +3,8 @@ package datastore
 import (
 	"database/sql"
 	"fmt"
+	"os"
+	"strconv"
 )
 
 // ConnectionDetails represents the pieces needed to open a connection
@@ -16,7 +18,11 @@ type ConnectionDetails struct {
 }
 
 // config is a given instance of the connection details needed for Postgres
-var config ConnectionDetails
+var (
+	config ConnectionDetails
+	db     *sql.DB
+	err    error
+)
 
 // ConnectPostgres establishes the connection between Deskmate and
 // a local Postgres database. The connection details for Deskmate
@@ -36,7 +42,7 @@ func ConnectPostgres() {
 	}
 	// Open a connection using connection details
 	connection := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", config.host, config.port, config.user, config.password, config.dbname)
-	db, err := sql.Open("postgres", connection)
+	db, err = sql.Open("postgres", connection)
 	if err != nil {
 		// TODO: Add logging for an error on database connection
 	}
@@ -52,7 +58,19 @@ func ConnectPostgres() {
 // relating to Deskmate and containing the Postgres connection details are
 // present
 func checkEnvVar() (config ConnectionDetails) {
-	return ConnectionDetails{}
+	port, err := strconv.Atoi(os.Getenv("DESKMATE_PSQL_PORT"))
+	if err != nil {
+		// TODO: Add logging to capture error for port not being able to be
+		// converted
+	}
+	config = ConnectionDetails{
+		host:     os.Getenv("DESKMATE_PSQL_HOST"),
+		port:     port,
+		user:     os.Getenv("DESKMATE_PSQL_USER"),
+		password: os.Getenv("DESKMATE_PSQL_PASS"),
+		dbname:   os.Getenv("DESKMATE_PSQL_DBNAME"),
+	}
+	return config
 }
 
 // promptForConnectionDetails asks the user to enter the necessary connection
