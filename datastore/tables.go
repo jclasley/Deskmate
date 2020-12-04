@@ -42,5 +42,24 @@ func checkTable() {
 // - Tags
 // - Triager
 func createTables() {
+	createConfigTable()
+}
 
+// Create the table that Deskmate's configuration is stored in if the table
+// does not already exist. This configuration contains the Slack API key,
+// Zendesk connection details,
+func createConfigTable() {
+	const query = `
+	CREATE TABLE IF NOT EXISTS configuration (
+		slack_api text
+		zendesk_url text
+		zendesk_user text
+		zendesk_api text	
+	)`
+	// Exec executes a query without returning any rows.
+	if _, err := db.Exec(query); err != nil {
+		return
+	}
+
+	return
 }
