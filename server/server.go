@@ -11,5 +11,5 @@ func Launch() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", IndexRouter)
 	r.HandleFunc("/slack", SlackHandler)
-	http.Handle("/", r)
+	http.ListenAndServe(":8000", r)
 }

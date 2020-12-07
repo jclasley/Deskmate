@@ -58,10 +58,17 @@ func createConfigTable() {
 		zendesk_api text
 	)`
 	// Exec executes a query without returning any rows.
-	if _, err := db.Exec(query); err != nil {
+	result, err := db.Exec(query)
+	if err != nil {
 		fmt.Println("Error creating configuration table", err.Error())
 		return
 	}
-	fmt.Println("Configuration table successfully created.")
+	a, err := result.RowsAffected()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	if a != 0 {
+		fmt.Println("Configuration table successfully created.", a)
+	}
 	return
 }
