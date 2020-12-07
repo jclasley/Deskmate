@@ -34,6 +34,7 @@ func checkTable() {
 	if count != len(tables) {
 		createTables()
 	}
+	fmt.Println("Tables successfully loaded/created")
 }
 
 // createTable creates the necessary tables for Deskmate to run if they're
@@ -51,15 +52,16 @@ func createTables() {
 func createConfigTable() {
 	const query = `
 	CREATE TABLE IF NOT EXISTS configuration (
-		slack_api text
-		zendesk_url text
-		zendesk_user text
-		zendesk_api text	
+		slack_api text,
+		zendesk_url text,
+		zendesk_user text,
+		zendesk_api text
 	)`
 	// Exec executes a query without returning any rows.
 	if _, err := db.Exec(query); err != nil {
+		fmt.Println("Error creating configuration table", err.Error())
 		return
 	}
-
+	fmt.Println("Configuration table successfully created.")
 	return
 }

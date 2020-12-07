@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+
+	// pq is the postgres driver for the sql package
+	_ "github.com/lib/pq"
 )
 
 // ConnectionDetails represents the pieces needed to open a connection
@@ -44,14 +47,18 @@ func ConnectPostgres() {
 	connection := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", config.host, config.port, config.user, config.password, config.dbname)
 	db, err = sql.Open("postgres", connection)
 	if err != nil {
+		fmt.Println("Error opening connection to Postgres database:", err.Error())
 		// TODO: Add logging for an error on database connection
 	}
 
 	// Ping database to ensure connection
 	err = db.Ping()
 	if err != nil {
+
+		fmt.Println("Error pinging Postgres database:", err.Error())
 		// TODO: Add logging for a failed ping, likely due to a connection issue
 	}
+	checkTable()
 }
 
 // checkEnvVar runs a quick check on the environment variables to see if ones
