@@ -19,6 +19,7 @@ func createConfigTable() {
 	const query = `
 	CREATE TABLE IF NOT EXISTS configuration (
 		slack_api text,
+		slack_url text,
 		zendesk_url text,
 		zendesk_user text,
 		zendesk_api text
