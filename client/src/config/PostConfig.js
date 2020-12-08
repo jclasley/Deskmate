@@ -36,18 +36,18 @@ class SaveConfigButton extends Component {
     return errors;
   }
 
-  createPost() {
-    const { author, message } = this.state;
+  postConfig() {
+    const { slackapi,  slackurl} = this.state;
     this.setState({ isLoading: true, errors: [] });
     const errors = this.checkInput();
     if (errors.length === 0) {
-      axios.post(`${Urls.api}/posts`, {
-        Author: author,
-        Message: message,
+      axios.post(`${Urls.api}/api/config`, {
+        SlackURL: slackurl,
+        SlackAPI: slackapi,
       })
         .then((res) => {
-          this.props.addPost(res.data);
-          this.setState({ isLoading: false, author: '', message: '', showModal: false, errors: [] });
+            this.props.updateConfig(res.data);
+            this.setState({ isLoading: false, slackapi: '', slackurl: '', showModal: false, errors: [] });
         },
       )
         .catch((err) => {
@@ -76,30 +76,30 @@ class SaveConfigButton extends Component {
     const { showModal, isLoading } = this.state;
     return (
       <div>
-        <Button bsStyle="primary" onClick={this.open.bind(this)}>Create Post</Button>
+        <Button bsStyle="primary" onClick={this.open.bind(this)}>Create Config</Button>
         <Modal show={showModal} onHide={this.close.bind(this)}>
           <Modal.Header closeButton>
-            <Modal.Title>Create Post</Modal.Title>
+            <Modal.Title>Create Config</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {this.makeModalErrors()}
             <form>
               <FormGroup>
-                <ControlLabel>Author</ControlLabel>
+                <ControlLabel>Slack URL</ControlLabel>
                 <FormControl
                   type="text"
-                  value={this.state.author}
-                  placeholder="Enter author name to display"
-                  onChange={this.handleChange.bind(this, 'author')}
+                  value={this.state.slackurl}
+                  placeholder="Enter Slack URL to connect to"
+                  onChange={this.handleChange.bind(this, 'slackurl')}
                 />
               </FormGroup>
               <FormGroup>
-                <ControlLabel>Message</ControlLabel>
+                <ControlLabel>Slack API</ControlLabel>
                 <FormControl
                   type="text"
-                  value={this.state.message}
-                  placeholder="Enter message to display"
-                  onChange={this.handleChange.bind(this, 'message')}
+                  value={this.state.slackapi}
+                  placeholder="Enter Slack API key to connect with"
+                  onChange={this.handleChange.bind(this, 'slackapi')}
                 />
               </FormGroup>
             </form>
@@ -118,8 +118,5 @@ class SaveConfigButton extends Component {
   }
 }
 
-CreatePostButton.propTypes = {
-  addPost: PropTypes.func.isRequired,
-};
 
 export default CreatePostButton;

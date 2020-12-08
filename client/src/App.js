@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import PingComponent from './PingComponent';
+import SaveConfigButton from './config/PostConfig.js';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           Learn React
         </a>
         <PingComponent />
+        <PostConfigButton />
       </header>
     </div>
   );

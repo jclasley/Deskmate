@@ -4,15 +4,21 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/tylerconlee/Deskmate/server/datastore"
 )
 
-type Config struct {
-	SlackAPI string
-}
+var c Config
 
 func GetConfig(w http.ResponseWriter, r *http.Request) {
-	config := Config{SlackAPI: "test"}
-	js, err := json.Marshal(config)
+	rows := datastore.LoadConfig()
+	for rows.Next() {
+		err := rows.Scan(&c.Slack.SlackURL, &c.Slack.SlackAPI, &c.Zendesk.ZendeskUser, &c.Zendesk.ZendeskAPI, &c.Zendesk.ZendeskURL)
+		if err != nil {
+			fmt.Println("Error scanning config into struct")
+		}
+	}
+	js, err := json.Marshal(c)
 	if err != nil {
 		fmt.Println("Error marshalling JSON for config")
 	}

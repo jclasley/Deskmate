@@ -19,6 +19,8 @@ services:
         app_env: ${APP_ENV}
     volumes:
       - ./server:/go/src/github.com/tylerconlee/Deskmate/server
+    depends_on: 
+      - db
     ports:
       - "5000:8080"
     links:

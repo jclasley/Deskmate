@@ -14,7 +14,7 @@ class PingComponent extends Component {
         axios.get(`${Urls.api}/api/config`)
             .then((response) => {
                 this.setState(() => {
-                    return { pong: response.data.message }
+                    return { pong: response.data.Slack.SlackURL }
                 })
             })
             .catch(function (error) {
