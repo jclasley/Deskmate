@@ -2,8 +2,9 @@ package server
 
 import (
 	"fmt"
-	"github.com/tylerconlee/Deskmate/config"
 	"net/http"
+
+	"github.com/tylerconlee/Deskmate/server/config"
 )
 
 // SlackHandler routes all callbacks from Slack
