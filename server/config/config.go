@@ -10,7 +10,7 @@ type Config struct {
 	SlackAPI string
 }
 
-func LoadConfig(w http.ResponseWriter, r *http.Request) {
+func GetConfig(w http.ResponseWriter, r *http.Request) {
 	config := Config{SlackAPI: "test"}
 	js, err := json.Marshal(config)
 	if err != nil {
@@ -18,4 +18,11 @@ func LoadConfig(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
+}
+
+func PutConfig(w http.ResponseWriter, r *http.Request) {
+
+}
+func PostConfig(w http.ResponseWriter, r *http.Request) {
+
 }
