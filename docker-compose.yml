@@ -9,7 +9,7 @@ services:
     environment:
       - POSTGRES_USER=docker
       - POSTGRES_PASSWORD=docker
-      - POSTGRES_DBNAME=deskmate
+      - POSTGRES_DB=deskmate
       - PGDATA=/pgdata
 
   api:

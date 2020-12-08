@@ -17,6 +17,7 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 }
 func ConfigHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Request received for /config endpoint")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	if r.Method == http.MethodGet {
 		config.LoadConfig(w, r)
 	}

@@ -16,7 +16,7 @@ func Launch() {
 	// "/api/"
 	s.HandleFunc("/", APIHandler)
 	// "/api/config"
-	s.HandleFunc("/config", ConfigHandler).Methods("GET", "POST", "PUT")
-
+	s.HandleFunc("/config", ConfigHandler).Methods("GET", "POST", "PUT", http.MethodOptions)
+	r.Use(mux.CORSMethodMiddleware(r))
 	http.ListenAndServe(":8080", r)
 }

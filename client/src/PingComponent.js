@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import Urls from './Util/Urls.js';
 class PingComponent extends Component {
 
     constructor() {
@@ -10,7 +11,7 @@ class PingComponent extends Component {
     }
 
     componentWillMount() {
-        axios.get('api/config')
+        axios.get(`${Urls.api}/api/config`)
             .then((response) => {
                 this.setState(() => {
                     return { pong: response.data.message }
