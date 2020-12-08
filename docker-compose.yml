@@ -1,0 +1,35 @@
+version: '3'
+services:
+  db:
+    build: ./db
+    volumes:
+      - ./db/pgdata:/pgdata
+    ports:
+      - "5432"
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DBNAME=deskmate
+      - PGDATA=/pgdata
+
+  api:
+    build:
+      context: ./server
+      args:
+        app_env: ${APP_ENV}
+    volumes:
+      - ./server:/go/src/github.com/tylerconlee/Deskmate/server
+    ports:
+      - "5000:8080"
+    links:
+      - db
+
+  frontend:
+    build:
+      context: ./client
+      args:
+        app_env: ${APP_ENV}
+    volumes:
+      - ./client/src:/client/src 
+    ports:
+      - "3000:3000"
