@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/tylerconlee/Deskmate/server/datastore"
-	"github.com/tylerconlee/Deskmate/server/server"
+	"github.com/tylerconlee/Deskmate/datastore"
+	"github.com/tylerconlee/Deskmate/server"
 )
 
 func main() {
