@@ -9,7 +9,14 @@ import (
 // Launch starts the webserver for Deskmate and waits for incoming requests
 func Launch() {
 	r := mux.NewRouter()
-	r.HandleFunc("/", IndexRouter)
 	r.HandleFunc("/slack", SlackHandler)
-	http.ListenAndServe(":8000", r)
+
+	// Web App Endpoints
+	s := r.PathPrefix("/api").Subrouter()
+	// "/api/"
+	s.HandleFunc("/", APIHandler)
+	// "/api/config"
+	s.HandleFunc("/config", ConfigHandler).Method("GET", "POST", "PUT")
+
+	http.ListenAndServe(":8080", r)
 }
