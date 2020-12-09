@@ -13,3 +13,15 @@ func LoadConfig() (rows *sql.Rows) {
 	}
 	return rows
 }
+
+func SaveConfig(data map[string]interface{}) {
+	fmt.Println(data)
+
+	rows, err := db.Query("INSERT INTO configuration(slack_api, slack_url) VALUES ($1, $2);", data["slackapi"], data["slackurl"])
+	if err != nil {
+		fmt.Println("error saving configuration into database", err.Error())
+	}
+
+	defer rows.Close()
+
+}

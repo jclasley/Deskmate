@@ -34,17 +34,14 @@ class CreateConfigButton extends Component {
   submitForm(e) {
     e.preventDefault();
     const data = new FormData(e.target);
-    console.log(this.state.slackapi)
-    this.toggle();
+    
+  
     axios.post(`${Urls.api}/config`, {
       slackapi: this.state.slackapi,
       slackurl: this.state.slackurl,
-    }, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
     })
       .then((res) => {
+        this.toggle();
         this.setState({ res: stringifyFormData(data) });
       },
     )
