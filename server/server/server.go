@@ -3,6 +3,7 @@ package server
 import (
 	"net/http"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
@@ -18,5 +19,7 @@ func Launch() {
 	// "/api/config"
 	s.HandleFunc("/config", ConfigHandler).Methods("GET", "POST", "PUT", http.MethodOptions)
 	r.Use(mux.CORSMethodMiddleware(r))
-	http.ListenAndServe(":8080", r)
+	headers := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
+	origin := handlers.AllowedOrigins([]string{"*"})
+	http.ListenAndServe(":8080", handlers.CORS(headers, origin)(r))
 }

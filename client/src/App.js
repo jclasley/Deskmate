@@ -1,8 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import PingComponent from './PingComponent';
-import SaveConfigButton from './config/PostConfig.js';
+import CreateConfigButton from './PostConfig.js';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
           Learn React
         </a>
         <PingComponent />
-        <PostConfigButton />
+        <CreateConfigButton />
       </header>
     </div>
   );

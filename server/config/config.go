@@ -30,5 +30,11 @@ func PutConfig(w http.ResponseWriter, r *http.Request) {
 
 }
 func PostConfig(w http.ResponseWriter, r *http.Request) {
-
+	fmt.Println("received POST request")
+	r.ParseForm()
+	fmt.Println(r.Form.Get("slackapi"))
+	fmt.Println(r.FormValue("slackapi"))
+	for k, v := range r.Form {
+		fmt.Printf("%s = %s\n", k, v)
+	}
 }
