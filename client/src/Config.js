@@ -90,6 +90,34 @@ class CreateConfigButton extends Component {
   }
 }
 
+class LoadConfig extends Component {
+
+  constructor() {
+      super();
+      this.state = {
+          pong: 'pending'
+      }
+  }
+
+  componentDidMount() {
+      axios.get(`${Urls.api}/config`)
+          .then((response) => {
+              this.setState(() => {
+                  return { pong: response.data.Slack.SlackURL }
+              })
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
+
+  }
+
+  render() {
+      return <h1>Ping {this.state.pong}</h1>;
+  }
+}
+
+
 function stringifyFormData(fd) {
   const data = {};
 	for (let key of fd.keys()) {
@@ -97,4 +125,4 @@ function stringifyFormData(fd) {
   }
   return JSON.stringify(data, null, 2);
 }
-export default CreateConfigButton;                 
+export {LoadConfig,  CreateConfigButton};                 

@@ -5,23 +5,21 @@ import (
 	"fmt"
 )
 
-func LoadConfig() (rows *sql.Rows) {
+var configID = 0
+
+func LoadConfig() (rows *sql.Row) {
 	// Load config from database
-	rows, err := db.Query("SELECT  slack_api,slack_url, zendesk_user, zendesk_api, zendesk_url from configuration")
-	if err != nil {
-		fmt.Println("Error retrieving configuration from database")
-	}
-	return rows
+	row := db.QueryRow("SELECT slack_api,slack_url from configuration where id = $1 ", configID)
+
+	return row
 }
 
 func SaveConfig(data map[string]interface{}) {
 	fmt.Println(data)
 
-	rows, err := db.Query("INSERT INTO configuration(slack_api, slack_url) VALUES ($1, $2);", data["slackapi"], data["slackurl"])
+	err := db.QueryRow("INSERT INTO configuration(slack_api, slack_url) VALUES ($1, $2) returning id", data["slackapi"], data["slackurl"]).Scan(&configID)
 	if err != nil {
 		fmt.Println("error saving configuration into database", err.Error())
 	}
-
-	defer rows.Close()
 
 }

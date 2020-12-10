@@ -56,5 +56,6 @@ func ConnectPostgres() {
 		fmt.Println("Error pinging Postgres database:", err.Error())
 		// TODO: Add logging for a failed ping, likely due to a connection issue
 	}
+	fmt.Println("Successfully connected to Postgres")
 	checkTable()
 }

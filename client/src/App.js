@@ -2,8 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PingComponent from './PingComponent';
-import CreateConfigButton from './PostConfig.js';
+import { CreateConfigButton, LoadConfig } from './Config.js';
 
 function App() {
   return (
@@ -21,7 +20,7 @@ function App() {
         >
           Learn React
         </a>
-        <PingComponent />
+        <LoadConfig />
         <CreateConfigButton />
       </header>
     </div>

@@ -18,6 +18,7 @@ func checkTable() {
 func createConfigTable() {
 	const query = `
 	CREATE TABLE IF NOT EXISTS configuration (
+		id serial PRIMARY KEY,
 		slack_api text,
 		slack_url text,
 		zendesk_url text,
