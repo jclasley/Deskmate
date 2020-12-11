@@ -6,8 +6,8 @@ type Config struct {
 }
 
 type Slack struct {
-	SlackURL string `json:slackurl`
-	SlackAPI string `json:slackapi`
+	SlackURL string `json:"slackurl"`
+	SlackAPI string `json:"slackapi"`
 }
 
 type Zendesk struct {

@@ -10,6 +10,10 @@ import (
 
 var c Config
 
+// GetConfig sends a request to the database to grab the
+// contents of the configuration table. It scans it into
+// an instance of 'c', the config for Deskmate. If it
+// runs into any errors, it reports them to the logs.
 func GetConfig(w http.ResponseWriter, r *http.Request) {
 	rows := datastore.LoadConfig()
 	err := rows.Scan(&c.Slack.SlackURL, &c.Slack.SlackAPI)
