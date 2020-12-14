@@ -6,12 +6,12 @@ type Config struct {
 }
 
 type Slack struct {
-	SlackURL string `json:"slackurl"`
-	SlackAPI string `json:"slackapi"`
+	SlackURL NullString `json:"slackurl,omitempty"`
+	SlackAPI NullString `json:"slackapi,omitempty"`
 }
 
 type Zendesk struct {
-	ZendeskUser string
-	ZendeskAPI  string
-	ZendeskURL  string
+	ZendeskUser NullString
+	ZendeskAPI  NullString
+	ZendeskURL  NullString
 }

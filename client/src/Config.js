@@ -1,128 +1,105 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, Label, FormText, FormGroup, Input} from 'reactstrap';
+import { Button, Form, Label, FormText, FormGroup, Input} from 'reactstrap';
 import Urls from './Util/Urls.js';
 
 
-class CreateConfigButton extends Component {
-  constructor(props) {
-    super(props);
-      this.state = {
-        slackapi:"",
-        slackurl:"",
-      modal: false,
-    }
-    this.toggle = this.toggle.bind(this);
-    this.submitForm = this.submitForm.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-  toggle() {
-    this.setState({
-      modal: !this.state.modal
-    });
-  }
+class ConfigEditor extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			config: {},
+		}
+		this.submitForm = this.submitForm.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+	}
 
-  handleChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+	async componentDidMount() {
+		const response = await axios.get(`${Urls.api}/config`);
+		this.setState( { config: response.data })
+		console.log(response)
+	}
 
-    this.setState({
-      [name]: value
-    });
-  }
-  submitForm(e) {
-    e.preventDefault();
-    const data = new FormData(e.target);
-    
-  
-    axios.post(`${Urls.api}/config`, {
-      slackapi: this.state.slackapi,
-      slackurl: this.state.slackurl,
-    })
-      .then((res) => {
-        this.toggle();
-        this.setState({ res: stringifyFormData(data) });
-      },
-    )
-      .catch((err) => {
-        
-      },
-    );
-  }
-  render() {
-    return (
-    <div>
-      <Button color="danger" onClick={this.toggle}>Create Config</Button>
-      <Modal isOpen={this.state.modal} toggle={this.toggle}>
-      <Form onSubmit={this.submitForm}>
-        <ModalHeader toggle={this.toggle}>Create Configuration</ModalHeader>
-        <ModalBody>
-            <FormGroup>
-              <Label for="slackurl">Slack URL</Label>
-              <Input 
-                name="slackurl"
-                onChange={this.handleChange}/>
-              <FormText>Enter the URL for the Slack workspace to connect to</FormText>
-            </FormGroup>
-            <FormGroup>
-              <Label for="slackapi">Slack API</Label>
-              <Input 
-                name="slackapi"
-                onChange={this.handleChange}/>
-              <FormText>Enter the API Key for the Slack workspace</FormText>
-            </FormGroup>
-        </ModalBody>
-        <ModalFooter>
-        <Button type="submit">Save & Close</Button>
-       
-        </ModalFooter>
-        </Form>
-      </Modal>
-      {this.state.res && (
-        	<div className="res-block">
-            <h3>Config Saved:</h3>
-            <pre>FormData {this.state.res}</pre>
-        	</div>
-        )}
-    </div>
-    );
-  }
-}
+	handleChange(event) {
+		const target = event.target;
+		const value = target.type === 'checkbox' ? target.checked : target.value;
+		const name = target.name;
 
-class LoadConfig extends Component {
-
-  constructor() {
-      super();
-      this.state = {
-          pong: 'pending'
-      }
-  }
-
-  componentDidMount() {
-      axios.get(`${Urls.api}/config`)
-          .then((response) => {
-              this.setState(() => {
-                  return { pong: response.data.Slack.SlackURL }
-              })
-          })
-          .catch(function (error) {
-              console.log(error);
-          });
-
-  }
-
-  render() {
-      return <h1>Ping {this.state.pong}</h1>;
-  }
+		this.setState({
+			[name]: value
+		});
+	}
+	submitForm(e) {
+		e.preventDefault();
+		const data = new FormData(e.target);
+		
+		if (this.state.slackapi === ""){
+			this.config.Slack.slackapi = this.state.slackapi;
+		}
+		if (this.state.slackurl === ""){
+			this.config.Slack.slackurl = this.state.slackurl;
+		}
+		axios({
+			method: 'post',
+			url: `${Urls.api}/config`,
+			data: data ,
+			headers: { 'content-type': 'application/json'}
+		})
+			.then((res) => {
+				this.setState({ res: stringifyFormData(data) });
+			},
+		)
+			.catch((err) => {
+				
+			},
+		);
+	}
+	render() {
+		const {config} = this.state
+		if (config.Slack) {
+			return (
+			<div>
+				<Form onSubmit={this.submitForm}>
+					<FormGroup>
+						<Label for="slackurl">Slack URL</Label>
+						<Input 
+							name="slackurl"
+							placeholder={config.Slack.slackurl}
+							defaultValue={config.Slack.slackurl}
+							onChange={this.handleChange}/>
+						<FormText>Enter the URL for the Slack workspace to connect to {this.slackurl} </FormText>
+					</FormGroup>
+					<FormGroup>
+						<Label for="slackapi">Slack API</Label>
+						<Input 
+							name="slackapi"
+							placeholder={config.Slack.slackapi}
+							defaultValue={config.Slack.slackapi}
+							onChange={this.handleChange}/>
+						<FormText>Enter the API Key for the Slack workspace {this.slackapi} </FormText>
+					</FormGroup>
+					<Button type="submit">Save & Close</Button>
+		
+				</Form>
+				{this.state.res && (
+						<div className="res-block">
+							<h3>Config Saved:</h3>
+							<pre>FormData {this.state.res}</pre>
+						</div>
+					)}
+			</div>
+			);
+		}
+		return <div>Loading config...</div>
+	}
 }
 
 
 function stringifyFormData(fd) {
-  const data = {};
+	const data = {};
 	for (let key of fd.keys()) {
-  	data[key] = fd.get(key);
-  }
-  return JSON.stringify(data, null, 2);
+		data[key] = fd.get(key);
+	}
+	return JSON.stringify(data, null, 2);
 }
-export {LoadConfig,  CreateConfigButton};                 
+export { ConfigEditor };                 
