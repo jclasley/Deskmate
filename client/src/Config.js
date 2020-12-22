@@ -12,12 +12,9 @@ class Config extends Component {
 			success: false,
 			error: null,
 		}
-		this.toggle = this.toggle.bind(this);
-		
-		
+		this.toggle = this.toggle.bind(this);		
 	}
 
-	
 	onSubmitForm = e => {
 		e.preventDefault()
 		const formData = new FormData(e.target)
@@ -71,7 +68,7 @@ class Config extends Component {
 			if(success) {
 				return (<div>
 						<UncontrolledAlert color="success">
-							I am an alert and I can be dismissed!
+							Configuration successfully updated
 						</UncontrolledAlert>
 						</div>
 					)
@@ -115,28 +112,28 @@ class Config extends Component {
 							<Label for="slackurl">Slack URL</Label>
 							<Input 
 								name="slackurl"
-								placeholder={this.state.slack_url }
-								defaultValue={this.state.slack_url}
+								placeholder={config ? config.Slack.slackurl : ""}
+								defaultValue={config ? config.Slack.slackurl : ""}
 							/>
-							<FormText>Enter the URL for the Slack workspace to connect to {this.slackurl} </FormText>
+							<FormText>Enter the URL for the Slack workspace to connect to </FormText>
 						</FormGroup>
 						<FormGroup>
 							<Label for="slackapi">Slack API</Label>
 							<Input 
 								name="slackapi"
-								placeholder={this.state.slack_api}
-								defaultValue={this.state.slack_api}
+								placeholder={config ? config.Slack.slackapi : ""}
+								defaultValue={config ? config.Slack.slackapi : ""}
 							/>
-							<FormText>Enter the API Key for the Slack workspace {this.slackapi} </FormText>
+							<FormText>Enter the API Key for the Slack workspace  </FormText>
 						</FormGroup>
 						<FormGroup>
 							<Label for="slacksigning">Slack Signing Secret</Label>
 							<Input 
 								name="slacksigning"
-								placeholder={this.state.slack_signing}
-								defaultValue={this.state.slack_signing}
+								placeholder={config ? config.Slack.slacksigning : ""}
+								defaultValue={config ? config.Slack.slacksigning : ""}
 							/>
-							<FormText>Enter the <a href="https://api.slack.com/authentication/verifying-requests-from-slack#signing_secrets_admin_page">Signing Secret</a> for the Slack workspace {this.slacksigning} </FormText>
+							<FormText>Enter the <a href="https://api.slack.com/authentication/verifying-requests-from-slack#signing_secrets_admin_page">Signing Secret</a> for the Slack workspace  </FormText>
 						</FormGroup>
 					</ModalBody>
 					<ModalFooter>
