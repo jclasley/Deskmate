@@ -1,6 +1,6 @@
 import React, { Component  } from 'react';
 import axios from 'axios';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, FormText, FormGroup, Input, Table,UncontrolledAlert} from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, FormText, FormGroup, Input, Table, Alert} from 'reactstrap';
 import Urls from './Util/Urls.js';
 
 class Config extends Component {
@@ -11,6 +11,9 @@ class Config extends Component {
 			config: null,
 			success: false,
 			error: null,
+			alertColor: "",
+			alertVisible: false,
+			alertMessage: "",
 		}
 		this.toggle = this.toggle.bind(this);		
 	}
@@ -27,10 +30,10 @@ class Config extends Component {
 		})
 			.then((res) => {
 				this.getConfig().then(data => this.setState({config: data}))
-				this.setState({success: true})
+				this.setState({alertVisible: true, alertMessage: "Configuration Updated Successfully", alertColor: "success"}, ()=> {window.setTimeout(()=>{this.setState({alertVisible:false})},8000)});
 			})
 			.catch(err => {
-				this.setState({error: err})
+				this.setState({alertVisible: true, alertMessage: err, alertColor: "danger"}, ()=> {window.setTimeout(()=>{this.setState({alertVisible:false})},8000)});
 			});
 	}
 	
@@ -53,31 +56,11 @@ class Config extends Component {
 	}
 	
 	render() {
-		const { config, error, success } = this.state
-		const renderErrorAlert = ()=>{
-			if(error) {
-				return (<div>
-						<UncontrolledAlert color="danger">
-							I am an alert and I can be dismissed!
-						</UncontrolledAlert>
-						</div>
-					)
-				}
-		}
-		const renderSuccessAlert = ()=>{
-			if(success) {
-				return (<div>
-						<UncontrolledAlert color="success">
-							Configuration successfully updated
-						</UncontrolledAlert>
-						</div>
-					)
-				}
-		}
+		const { config, } = this.state
+		
 			return (
 				<div>
-					{renderErrorAlert()}
-					{renderSuccessAlert()}
+					<Alert color={this.state.alertColor} isOpen={this.state.alertVisible} toggle={(e) => this.setState({alertVisible: false})}> {this.state.alertMessage} </Alert>
 				<Table bordered >
 					<thead>
 						
