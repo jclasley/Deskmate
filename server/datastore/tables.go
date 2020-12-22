@@ -21,6 +21,7 @@ func createConfigTable() {
 		id serial PRIMARY KEY,
 		slack_api text,
 		slack_url text,
+		slack_signing text,
 		zendesk_url text,
 		zendesk_user text,
 		zendesk_api text

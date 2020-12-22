@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
-import { ConfigEditor } from './Config.js';
+import { Config } from './Config.js';
 
 const MainTabs = (props) => {
   const [activeTab, setActiveTab] = useState('1');
@@ -34,14 +34,14 @@ const MainTabs = (props) => {
         <TabPane tabId="1">
           <Row>
             <Col sm="12">
-              <h4>Tab 1 Contents</h4>
+            <Config />
             </Col>
           </Row>
         </TabPane>
         <TabPane tabId="2">
           <Row>
             <Col sm="6">
-                <ConfigEditor />
+                
             </Col>
             <Col sm="6">
               <Card body>

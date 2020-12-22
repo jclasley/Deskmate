@@ -5,10 +5,13 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"github.com/tylerconlee/Deskmate/server/slack"
 )
 
 // Launch starts the webserver for Deskmate and waits for incoming requests
 func Launch() {
+	slack.LoadConfig()
+
 	r := mux.NewRouter()
 	r.HandleFunc("/slack", SlackHandler)
 

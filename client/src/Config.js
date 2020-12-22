@@ -1,86 +1,150 @@
-import React, { Component } from 'react';
+import React, { Component  } from 'react';
 import axios from 'axios';
-import { Button, Form, Label, FormText, FormGroup, Input} from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, FormText, FormGroup, Input, Table,UncontrolledAlert} from 'reactstrap';
 import Urls from './Util/Urls.js';
 
-
-class ConfigEditor extends Component {
+class Config extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			config: {},
+			modal: false,
+			config: null,
+			success: false,
+			error: null,
 		}
-		this.submitForm = this.submitForm.bind(this);
-		this.handleChange = this.handleChange.bind(this);
-	}
-
-	async componentDidMount() {
-		const response = await axios.get(`${Urls.api}/config`);
-		this.setState( { config: response.data })
-		console.log(response)
-	}
-
-	handleChange(event) {
-		const target = event.target;
-		const value = target.type === 'checkbox' ? target.checked : target.value;
-		const name = target.name;
-
-		this.setState({
-			[name]: value
-		});
-	}
-	submitForm(e) {
-		e.preventDefault();
-		const data = new FormData(e.target);
+		this.toggle = this.toggle.bind(this);
 		
-		if (this.state.slackapi === ""){
-			this.config.Slack.slackapi = this.state.slackapi;
-		}
-		if (this.state.slackurl === ""){
-			this.config.Slack.slackurl = this.state.slackurl;
-		}
-		axios({
-			method: 'post',
-			url: `${Urls.api}/config`,
-			data: data ,
+		
+	}
+
+	
+	onSubmitForm = e => {
+		e.preventDefault()
+		const formData = new FormData(e.target)
+		const body = {}
+		formData.forEach((value, property) => body[property] = value)
+		console.table(body)
+		const json = JSON.stringify(body)
+		axios.post(`${Urls.api}/config`, json, {
 			headers: { 'content-type': 'application/json'}
 		})
 			.then((res) => {
-				this.setState({ res: stringifyFormData(data) });
-			},
-		)
-			.catch((err) => {
-				
-			},
-		);
+				this.getConfig().then(data => this.setState({config: data}))
+				this.setState({success: true})
+			})
+			.catch(err => {
+				this.setState({error: err})
+			});
 	}
-	render() {
-		const {config} = this.state
-		if (config.Slack) {
-			return (
-			<div>
-				<Form onSubmit={this.submitForm}>
-					<FormGroup>
-						<Label for="slackurl">Slack URL</Label>
-						<Input 
-							name="slackurl"
-							placeholder={config.Slack.slackurl}
-							defaultValue={config.Slack.slackurl}
-							onChange={this.handleChange}/>
-						<FormText>Enter the URL for the Slack workspace to connect to {this.slackurl} </FormText>
-					</FormGroup>
-					<FormGroup>
-						<Label for="slackapi">Slack API</Label>
-						<Input 
-							name="slackapi"
-							placeholder={config.Slack.slackapi}
-							defaultValue={config.Slack.slackapi}
-							onChange={this.handleChange}/>
-						<FormText>Enter the API Key for the Slack workspace {this.slackapi} </FormText>
-					</FormGroup>
-					<Button type="submit">Save & Close</Button>
+	
+	toggle() {
+		this.setState({
+		  modal: !this.state.modal
+		});
+	  }
+	componentDidMount() {
+		if (!this.state.data) {
+			this.getConfig().then(data => this.setState({config: data}))
+			.catch(err => {})
+		}
+	}
+	async getConfig() {
+		const res = await axios.get(`${Urls.api}/config`);
 		
-				</Form>
+		console.log(res["data"])
+		return await res.data;
+	}
+	
+	render() {
+		const { config, error, success } = this.state
+		const renderErrorAlert = ()=>{
+			if(error) {
+				return (<div>
+						<UncontrolledAlert color="danger">
+							I am an alert and I can be dismissed!
+						</UncontrolledAlert>
+						</div>
+					)
+				}
+		}
+		const renderSuccessAlert = ()=>{
+			if(success) {
+				return (<div>
+						<UncontrolledAlert color="success">
+							I am an alert and I can be dismissed!
+						</UncontrolledAlert>
+						</div>
+					)
+				}
+		}
+			return (
+				<div>
+					{renderErrorAlert()}
+					{renderSuccessAlert()}
+				<Table bordered >
+					<thead>
+						
+					</thead>
+					<tbody>
+						<tr>
+							<td>Slack URL</td>
+							<td>
+								<pre>{config ? config.Slack.slackurl : <em>Loading...</em> }</pre>
+							</td>
+						</tr>
+						<tr>
+							<td>Slack API</td>
+							<td>
+								<pre>{config ? config.Slack.slackapi : <em>Loading...</em> }</pre>
+							</td>
+						</tr>
+						<tr>
+							<td>Slack Signing Key</td>
+							<td>
+								<pre>{config ? config.Slack.slacksigning : <em>Loading...</em> }</pre>
+							</td>
+						</tr>
+					</tbody>
+				</Table>
+				<Button color="danger" onClick={this.toggle}>Edit Config</Button>
+      			<Modal isOpen={this.state.modal} toggle={this.toggle} >
+				  	<form onSubmit={e => this.onSubmitForm(e)}>
+					<ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+					<ModalBody>
+						<FormGroup>
+							<Label for="slackurl">Slack URL</Label>
+							<Input 
+								name="slackurl"
+								placeholder={this.state.slack_url }
+								defaultValue={this.state.slack_url}
+							/>
+							<FormText>Enter the URL for the Slack workspace to connect to {this.slackurl} </FormText>
+						</FormGroup>
+						<FormGroup>
+							<Label for="slackapi">Slack API</Label>
+							<Input 
+								name="slackapi"
+								placeholder={this.state.slack_api}
+								defaultValue={this.state.slack_api}
+							/>
+							<FormText>Enter the API Key for the Slack workspace {this.slackapi} </FormText>
+						</FormGroup>
+						<FormGroup>
+							<Label for="slacksigning">Slack Signing Secret</Label>
+							<Input 
+								name="slacksigning"
+								placeholder={this.state.slack_signing}
+								defaultValue={this.state.slack_signing}
+							/>
+							<FormText>Enter the <a href="https://api.slack.com/authentication/verifying-requests-from-slack#signing_secrets_admin_page">Signing Secret</a> for the Slack workspace {this.slacksigning} </FormText>
+						</FormGroup>
+					</ModalBody>
+					<ModalFooter>
+						<Button color="primary" type="submit" onClick={this.toggle}>Do Something</Button>{' '}
+					</ModalFooter>
+					</form>
+				</Modal>
+				
 				{this.state.res && (
 						<div className="res-block">
 							<h3>Config Saved:</h3>
@@ -89,17 +153,10 @@ class ConfigEditor extends Component {
 					)}
 			</div>
 			);
+		
 		}
-		return <div>Loading config...</div>
-	}
+
+	
 }
 
-
-function stringifyFormData(fd) {
-	const data = {};
-	for (let key of fd.keys()) {
-		data[key] = fd.get(key);
-	}
-	return JSON.stringify(data, null, 2);
-}
-export { ConfigEditor };                 
+export { Config };                 
