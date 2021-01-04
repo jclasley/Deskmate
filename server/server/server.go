@@ -23,6 +23,8 @@ func Launch() {
 
 	s.HandleFunc("/slack", SlackHandler).Methods("GET", "POST", http.MethodOptions)
 
+	s.HandleFunc("/slack/connect", SlackConnectHandler)
+
 	s.HandleFunc("/slack/status", SlackStatusHandler)
 
 	r.Use(mux.CORSMethodMiddleware(r))

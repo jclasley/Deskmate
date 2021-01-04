@@ -19,6 +19,11 @@ func SlackStatusHandler(w http.ResponseWriter, r *http.Request) {
 	slack.StatusHandler(w, r)
 }
 
+func SlackConnectHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Request received for /slack/connect endpoint")
+	slack.ConnectHandler(w, r)
+}
+
 func APIHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Request received for /slack endpoint")
 }
