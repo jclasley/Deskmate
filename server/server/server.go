@@ -13,7 +13,6 @@ func Launch() {
 	slack.LoadConfig()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/slack", SlackHandler)
 
 	// Web App Endpoints
 	s := r.PathPrefix("/api").Subrouter()
@@ -21,6 +20,11 @@ func Launch() {
 	s.HandleFunc("/", APIHandler)
 	// "/api/config"
 	s.HandleFunc("/config", ConfigHandler).Methods("GET", "POST", "PUT", http.MethodOptions)
+
+	s.HandleFunc("/slack", SlackHandler).Methods("GET", "POST", http.MethodOptions)
+
+	s.HandleFunc("/slack/status", SlackStatusHandler)
+
 	r.Use(mux.CORSMethodMiddleware(r))
 	headers := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
 	origin := handlers.AllowedOrigins([]string{"*"})
