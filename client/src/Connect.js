@@ -24,7 +24,8 @@ class SlackConnect extends Component {
                 })
 			.catch(err => {})
 		}
-	}
+    }
+
 	async getConnectedState() {
         const res = await axios.get(`${Urls.api}/slack/status`);
         console.log(res.data);
@@ -51,7 +52,7 @@ class SlackConnect extends Component {
         const { connected } = this.state
         return (
             <div>
-                <Button onClick={this.connect}>{connected ? <b>Connected</b> : <b>Not Connected</b> }</Button>
+                <Button color={this.state.connectedColor} onClick={this.connect}>{connected ? <b>Connected</b> : <b>Not Connected</b> }</Button>
             </div>
         )
     }

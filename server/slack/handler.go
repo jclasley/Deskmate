@@ -11,7 +11,8 @@ import (
 )
 
 func StatusHandler(w http.ResponseWriter, r *http.Request) {
-	js, err := json.Marshal(status)
+	info := Ping()
+	js, err := json.Marshal(info)
 	if err != nil {
 		fmt.Println("Error marshalling JSON for config")
 	}
@@ -53,7 +54,7 @@ func EventHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Println("Slack event received: ", eventsAPIEvent.InnerEvent.Type)
-	status = true
+
 	if eventsAPIEvent.Type == slackevents.URLVerification {
 		var r *slackevents.ChallengeResponse
 		err := json.Unmarshal([]byte(body), &r)
