@@ -9,6 +9,7 @@ import (
 // creates them if they're not available.
 func checkTable() {
 	createConfigTable()
+	createTriageTable()
 	fmt.Println("Tables successfully loaded/created")
 }
 
@@ -38,6 +39,30 @@ func createConfigTable() {
 	}
 	if a != 0 {
 		fmt.Println("Configuration table successfully created.", a)
+	}
+	return
+}
+
+func createTriageTable() {
+	const query = `
+	CREATE TABLE IF NOT EXISTS triage (
+		id serial PRIMARY KEY,
+		slack_id text,
+		channel text,
+		started timestamp
+	)`
+	// Exec executes a query without returning any rows.
+	result, err := db.Exec(query)
+	if err != nil {
+		fmt.Println("Error creating triage table", err.Error())
+		return
+	}
+	a, err := result.RowsAffected()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	if a != 0 {
+		fmt.Println("Triage table successfully created.", a)
 	}
 	return
 }
