@@ -1,15 +1,27 @@
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import MainTabs from './Tabs.js';
-import Navigation from './Nav.js';
+import Config from './components/Config.js';
+import Navigation from './components/Nav.js';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
 
       <Navigation />
-      <MainTabs />
+      <BrowserRouter>
+      <Switch>
+          <Route path="/config">
+            <Config />
+          </Route>
+          <Route path="/triage">
+          </Route>
+          <Route path="/whale">
+          </Route>
+        </Switch>
+      </BrowserRouter>
+      
     </div>
   );
 }

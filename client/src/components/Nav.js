@@ -13,7 +13,7 @@ import {
     DropdownItem,
     NavbarText
   } from 'reactstrap';
-// import Urls from './Util/Urls.js';
+import {SlackConnect} from './SlackConnect.js';
 
 const Navigation = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,15 +23,15 @@ const Navigation = (props) => {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">reactstrap</NavbarBrand>
+        <NavbarBrand href="/">deskmate</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink href="/components/">Components</NavLink>
+              <NavLink href="/config">Config</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
+              <NavLink href="/triage">Triage</NavLink>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
@@ -51,7 +51,8 @@ const Navigation = (props) => {
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>
-          <NavbarText>Simple Text</NavbarText>
+
+          <NavbarText><SlackConnect /></NavbarText>
         </Collapse>
       </Navbar>
     </div>

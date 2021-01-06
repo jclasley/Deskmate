@@ -47,6 +47,7 @@ func createTriageTable() {
 	const query = `
 	CREATE TABLE IF NOT EXISTS triage (
 		id serial PRIMARY KEY,
+		name text,
 		slack_id text,
 		channel text,
 		started timestamp

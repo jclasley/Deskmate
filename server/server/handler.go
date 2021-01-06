@@ -8,7 +8,11 @@ import (
 	"github.com/tylerconlee/Deskmate/server/slack"
 )
 
-// SlackHandler routes all callbacks from Slack
+func APIHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Request received for /api endpoint")
+}
+
+// SlackHandler routes all event callbacks from Slack
 func SlackHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Request received for /slack endpoint")
 	slack.EventHandler(w, r)
@@ -24,9 +28,10 @@ func SlackConnectHandler(w http.ResponseWriter, r *http.Request) {
 	slack.ConnectHandler(w, r)
 }
 
-func APIHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request received for /slack endpoint")
+func TriageHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Request received for /triage endpoint")
 }
+
 func ConfigHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Request received for /config endpoint")
 	w.Header().Set("Access-Control-Allow-Origin", "*")

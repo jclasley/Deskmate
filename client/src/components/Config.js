@@ -1,9 +1,10 @@
-import React, { Component  } from 'react';
+import React, { Component, useState  } from 'react';
 import axios from 'axios';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, FormText, FormGroup, Input, Table, Alert} from 'reactstrap';
-import Urls from './Util/Urls.js';
+import classnames from 'classnames';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, FormText, FormGroup, Input, Table, Alert, Container, TabContent, TabPane, Nav, NavItem, NavLink, Card, CardTitle, CardText, Row, Col } from 'reactstrap';
+import Urls from '../Util/Urls.js';
 
-class Config extends Component {
+class SlackConfig extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -139,4 +140,66 @@ class Config extends Component {
 	
 }
 
-export { Config };                 
+const ConfigTabs = (props) => {
+	const [activeTab, setActiveTab] = useState('1');
+  
+	const toggle = tab => {
+	  if(activeTab !== tab) setActiveTab(tab);
+	}
+  
+	return (
+	  <div>
+		<Container>
+		  <Nav tabs>
+			<NavItem>
+			  <NavLink
+				className={classnames({ active: activeTab === '1' })}
+				onClick={() => { toggle('1'); }}
+			  >
+				Slack
+			  </NavLink>
+			</NavItem>
+			<NavItem>
+			  <NavLink
+				className={classnames({ active: activeTab === '2' })}
+				onClick={() => { toggle('2'); }}
+			  >
+				Zendesk
+			  </NavLink>
+			</NavItem>
+		  </Nav>
+		  <TabContent activeTab={activeTab}>
+			<TabPane tabId="1">
+			  <Row>
+				<Col sm="6">
+				<SlackConfig />
+				</Col>
+				<Col sm="6">
+				</Col>
+			  </Row>
+			</TabPane>
+			<TabPane tabId="2">
+			  <Row>
+				<Col sm="6">
+					
+				</Col>
+				<Col sm="6">
+				  <Card body>
+					<CardTitle>Special Title Treatment</CardTitle>
+					<CardText>With supporting text below as a natural lead-in to additional content.</CardText>
+					<Button>Go somewhere</Button>
+				  </Card>
+				</Col>
+			  </Row>
+			</TabPane>
+		  </TabContent>
+		  </Container>
+	  </div>
+	);
+  }
+
+export default function Config() {
+	return <ConfigTabs />;
+  }
+
+export { ConfigTabs, Config };                 
