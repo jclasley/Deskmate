@@ -35,4 +35,5 @@ class CurrentTriage extends Component {
         )
     }
 }
+
 export {CurrentTriage};
