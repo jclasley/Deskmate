@@ -29,18 +29,29 @@ func SlackConnectHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func TriageHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request received for /triage endpoint")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	switch r.Method {
+	case http.MethodGet:
+		fmt.Println("GET method request for /triage endpoint")
+		slack.GetTriage(w, r)
+	case http.MethodPost:
+		fmt.Println("POST method request for /triage endpoint")
+		slack.PostTriage(w, r)
+	}
+}
+func TriageAllHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	fmt.Println("GET method request for /triage endpoint")
+	slack.GetTriage(w, r)
+
 }
 
 func ConfigHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request received for /config endpoint")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	switch r.Method {
 	case http.MethodGet:
 		fmt.Println("GET method request for /config endpoint")
 		config.GetConfig(w, r)
-	case http.MethodPut:
-		config.PutConfig(w, r)
 	case http.MethodPost:
 		fmt.Println("POST method request for /config endpoint")
 		config.PostConfig(w, r)

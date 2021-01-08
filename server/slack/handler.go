@@ -10,6 +10,11 @@ import (
 	"github.com/nlopes/slack/slackevents"
 )
 
+// StatusHandler is called from the front end to determine whether
+// Deskmate is currently connected to a Slack instance or not.
+// It calls slack.Ping(), and writes the result as JSON to be
+// parsed by the frontend
+// SEE: src/components/SlackConnect.js
 func StatusHandler(w http.ResponseWriter, r *http.Request) {
 	info := Ping()
 	js, err := json.Marshal(info)
@@ -20,10 +25,21 @@ func StatusHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
+// ConnectHandler handles the request from the front end to establish
+// a connection to Slack using the saved configuration. On the front end,
+// this is triggered by the button in the top right corner.
+// SEE: src/components/SlackConnect.js
+// TODO: Add log or notification to indicate successful call to start connection
 func ConnectHandler(w http.ResponseWriter, r *http.Request) {
 	Connect()
 }
 
+// EventHandler processes the incoming callbacks set from Slack to the
+// /api/slack endpoint. Slack sends an event back to this endpoint
+// and it matches up to one of the events listed on their Events API
+// page: https://api.slack.com/events
+// Depending on the event type, Deskmate either verifies the URL or
+// processes incoming text
 func EventHandler(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
