@@ -15,7 +15,7 @@ func GetAllTriage() {
 
 }
 
-func SaveTriage(name string, slackID string, channel string, channelName string) {
-	_ = db.QueryRow("INSERT INTO triage(name, slack_id, channel, channel_name, started) VALUES ($1, $2, $3) RETURNING id", name, slackID, channel, channelName, time.Now())
+func SaveTriage(slackID string, channel string) {
+	_ = db.QueryRow("INSERT INTO triage(slack_id, channel, started) VALUES ($1, $2, $3) RETURNING id", slackID, channel, time.Now())
 
 }

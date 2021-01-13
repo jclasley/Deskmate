@@ -1,10 +1,12 @@
 package slack
 
 import (
+	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"time"
+
+	"github.com/tylerconlee/Deskmate/server/datastore"
 )
 
 // Triage outlines the various users that are currently in the
@@ -12,9 +14,9 @@ import (
 // the channel and user structs are included here to represent the
 // multiple channels that could have an active triager
 type Triage struct {
-	Channels []Channel
-	Users    []User
-	Started  []time.Time
+	Channel Channel
+	User    User
+	Started time.Time
 }
 
 // Channel struct defines the details about a specific channel in Slack
@@ -37,7 +39,7 @@ type User struct {
 }
 
 // T represents the users that are currently in the triage role
-var T Triage
+var T []Triage
 
 // GetTriage gets the triage user details for a specific channel and returns it
 // in a JSON format so it can be parsed in Slack and the frontend.
@@ -51,18 +53,33 @@ func GetTriage(w http.ResponseWriter, r *http.Request) (T Triage) {
 // triage role.
 // Endpoint: GET /api/triage
 func GetAllTriage(w http.ResponseWriter, r *http.Request) {
+	// Add LoadTriage to retrieve data from database
+	t, err := json.Marshal(T)
+	if err != nil {
+		fmt.Println("Error marshalling JSON for config")
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(t)
 
 }
 
-// PostTriage submits a new user for the triage role in a specific channel and
-// saves it to the database. It also updates the main Triage object, T, so that
-// the new user is reflected as on the triage role across the board.
-// Endpoint: POST /api/triage/{channel-id}
-func PostTriage(w http.ResponseWriter, r *http.Request) {
+func setTriage(channel string, user string) {
+	u := getUserInfo(user)
+	c := getChannelInfo(channel)
 
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		fmt.Println("Error processing channel ID")
+	new := Triage{
+		Channel: c,
+		User:    u,
+		Started: time.Now(),
 	}
-	fmt.Println(body)
+	saveTriage(new)
+
+	T = append(T, new)
+	fmt.Println("Added new triager", T)
+
+}
+
+func saveTriage(t Triage) {
+	fmt.Println("Saving triage role to database")
+	datastore.SaveTriage(t.User.ID, t.Channel.ID)
 }

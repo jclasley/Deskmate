@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Config from './components/Config.js';
 import Navigation from './components/Nav.js';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { CurrentTriage } from './components/Triage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Config />
           </Route>
           <Route path="/triage">
+            <CurrentTriage />
           </Route>
           <Route path="/whale">
           </Route>

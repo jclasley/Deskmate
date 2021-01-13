@@ -32,17 +32,14 @@ func TriageHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	switch r.Method {
 	case http.MethodGet:
-		fmt.Println("GET method request for /triage endpoint")
+		fmt.Println("GET method request for /triage/{channel} endpoint")
 		slack.GetTriage(w, r)
-	case http.MethodPost:
-		fmt.Println("POST method request for /triage endpoint")
-		slack.PostTriage(w, r)
 	}
 }
 func TriageAllHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	fmt.Println("GET method request for /triage endpoint")
-	slack.GetTriage(w, r)
+	slack.GetAllTriage(w, r)
 
 }
 

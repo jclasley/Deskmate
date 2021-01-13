@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/nlopes/slack"
-	"github.com/nlopes/slack/slackevents"
+	"github.com/slack-go/slack"
+	"github.com/slack-go/slack/slackevents"
 )
 
 // StatusHandler is called from the front end to determine whether
@@ -87,7 +87,8 @@ func EventHandler(w http.ResponseWriter, r *http.Request) {
 		innerEvent := eventsAPIEvent.InnerEvent
 		switch ev := innerEvent.Data.(type) {
 		case *slackevents.AppMentionEvent:
-			api.PostMessage(ev.Channel, slack.MsgOptionText("Yes, hello.", false))
+			fmt.Println("Handling mention event", ev)
+			HandleMentionEvent(ev)
 		}
 	}
 }
