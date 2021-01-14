@@ -8,6 +8,7 @@ class CurrentTriage extends Component {
 		super(props);
 		this.state = {
 			triage: "",
+			roles: [],
 			error: null,
 		}
 	}
@@ -16,6 +17,12 @@ class CurrentTriage extends Component {
 			this.getCurrentTriage().then(
 				data => {
 					this.setState({triage: data})
+					 this.state.triage.forEach((item, i) => this.state.roles.push(<tr>
+						<th scope="row">{item.Channel.name}</th>
+						<td>{item.User.name}</td>
+						<td>{item.Started}</td>
+					</tr>));
+
 				})
 			.catch(err => {})
 		}
@@ -28,14 +35,8 @@ class CurrentTriage extends Component {
 	}
 	
 	render(){
-		const { triage } = this.state
-		const items = this.state.triage.map((item) =>
-			<tr>
-				<th scope="row">{item.Channel.name}</th>
-				<td>{item.User.name}</td>
-				<td>{item.Started}</td>
-			</tr>
-		);
+		const { roles } = this.state
+		
 		return (
 
 			<div>
@@ -48,7 +49,7 @@ class CurrentTriage extends Component {
 				</tr>
 			</thead>
 			<tbody>
-				{items}
+				{roles}
 			</tbody>
 		  </Table>
 			</div>
