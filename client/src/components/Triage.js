@@ -1,41 +1,42 @@
 import React, { Component  } from 'react';
-import axios from 'axios';
 import Urls from '../Util/Urls.js';
 import { Table } from 'reactstrap';
 
+
 class CurrentTriage extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			triage: "",
-			roles: [],
-			error: null,
-		}
+
+	intervalID;
+
+	state = {
+	  data: "",
 	}
+
 	componentDidMount() {
-		if (this.state.triage === "") {
-			this.getCurrentTriage().then(
-				data => {
-					this.setState({triage: data})
-					 this.state.triage.forEach((item, i) => this.state.roles.push(<tr>
-						<th scope="row">{item.Channel.name}</th>
-						<td>{item.User.name}</td>
-						<td>{item.Started}</td>
-					</tr>));
-
-				})
-			.catch(err => {})
-		}
+	  this.getData();
 	}
 
-	async getCurrentTriage() {
-		const res = await axios.get(`${Urls.api}/triage`);
-		console.log(res.data);
-		return await res.data;
+	componentWillUnmount() {
+	  /*
+		stop getData() from continuing to run even
+		after unmounting this component. Notice we are calling
+		'clearTimeout()` here rather than `clearInterval()` as
+		in the previous example.
+	  */
+	  clearTimeout(this.intervalID);
 	}
-	
+
+	getData = () => {
+	  fetch(`${Urls.api}/triage`)
+		.then(response => response.json())
+		.then(data => {
+		  this.setState({ data: data});
+		  // call getData() again in 5 seconds
+		  this.intervalID = setTimeout(this.getData.bind(this), 30000);
+		});
+	}
+
 	render(){
-		const { roles } = this.state
+	
 		
 		return (
 
@@ -49,7 +50,15 @@ class CurrentTriage extends Component {
 				</tr>
 			</thead>
 			<tbody>
-				{roles}
+			{this.state.data &&
+			 this.state.data.map((item, index) => (
+				<tr>
+				<th scope="row">{item.Channel.Name}</th>
+				<td>{item.User.Name}</td>
+				<td>{item.Started}</td>
+			</tr>
+			))}
+			
 			</tbody>
 		  </Table>
 			</div>
