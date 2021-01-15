@@ -35,6 +35,18 @@ class CurrentTriage extends Component {
 		});
 	}
 
+	handleClick = channelID => {
+		const requestOptions = {
+		  method: 'DELETE'
+		};
+	  
+		fetch(`${Urls.api}/triage/`  +  channelID, requestOptions).then((response) => {
+		  return response.json();
+		}).then((result) => {
+		  this.getData()
+		});
+	  }
+
 	render(){
 	
 		
@@ -47,6 +59,7 @@ class CurrentTriage extends Component {
 				<th>Channel</th>
 				<th>Username</th>
 				<th>Started</th>
+				<th>Delete</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -56,6 +69,9 @@ class CurrentTriage extends Component {
 				<th scope="row">{item.Channel.Name}</th>
 				<td>{item.User.Name}</td>
 				<td>{item.Started}</td>
+				<td>
+				<button onClick={() => { this.handleClick(item.Channel.ID) }} className="delete-btn">Delete</button>
+				</td>
 			</tr>
 			))}
 			

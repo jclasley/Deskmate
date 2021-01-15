@@ -27,7 +27,7 @@ func Launch() {
 
 	s.HandleFunc("/slack/status", SlackStatusHandler)
 
-	s.HandleFunc("/triage/{id}", TriageHandler).Methods("GET", "POST", http.MethodOptions)
+	s.HandleFunc("/triage/{id}", TriageHandler).Methods("GET", "POST", "DELETE", http.MethodOptions)
 
 	s.HandleFunc("/triage", TriageAllHandler)
 

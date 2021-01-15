@@ -5,14 +5,10 @@ import (
 	"time"
 )
 
-func GetTriage(channel string) (row *sql.Row) {
+func LoadTriage() (row *sql.Rows) {
 	// Load triage from database
-	row = db.QueryRow("SELECT name, slack_id, channel, channel_name, started FROM triage WHERE channel = $1 ORDER BY started DESC LIMIT 1; ", channel)
+	row, err = db.Query("SELECT slack_id, channel, started FROM triage ORDER BY started DESC; ")
 	return row
-}
-
-func GetAllTriage() {
-
 }
 
 func SaveTriage(slackID string, channel string) {

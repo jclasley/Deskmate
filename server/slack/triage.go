@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"path"
 	"time"
 
 	"github.com/tylerconlee/Deskmate/server/datastore"
@@ -44,7 +45,14 @@ var T []Triage
 // GetTriage gets the triage user details for a specific channel and returns it
 // in a JSON format so it can be parsed in Slack and the frontend.
 // Endpoint: GET /api/triage/{channel-id}
-func GetTriage(w http.ResponseWriter, r *http.Request) (T Triage) {
+func GetTriage(w http.ResponseWriter, r *http.Request) (n Triage) {
+	return
+}
+
+func DeleteTriage(w http.ResponseWriter, r *http.Request) (n Triage) {
+	u := path.Base(r.RequestURI)
+	fmt.Println("Removing active triager for channel: ", u)
+	removeTriage(u)
 	return
 }
 
@@ -54,7 +62,9 @@ func GetTriage(w http.ResponseWriter, r *http.Request) (T Triage) {
 // Endpoint: GET /api/triage
 func GetAllTriage(w http.ResponseWriter, r *http.Request) {
 	// Add LoadTriage to retrieve data from database
+	loadTriage()
 	t, err := json.Marshal(T)
+	fmt.Println(T)
 	if err != nil {
 		fmt.Println("Error marshalling JSON for config")
 	}
@@ -82,4 +92,20 @@ func setTriage(channel string, user string) {
 func saveTriage(t Triage) {
 	fmt.Println("Saving triage role to database")
 	datastore.SaveTriage(t.User.ID, t.Channel.ID)
+}
+
+func loadTriage() {
+	fmt.Println("Loading existing triage from database")
+	rows := datastore.LoadTriage()
+	fmt.Println(rows)
+
+}
+
+func removeTriage(channel string) {
+	for i := range T {
+		if T[i].Channel.Name == channel {
+			T = append(T[:i], T[i+1:]...)
+			break
+		}
+	}
 }
