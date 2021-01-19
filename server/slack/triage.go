@@ -62,9 +62,10 @@ func DeleteTriage(w http.ResponseWriter, r *http.Request) (n Triage) {
 // Endpoint: GET /api/triage
 func GetAllTriage(w http.ResponseWriter, r *http.Request) {
 	// Add LoadTriage to retrieve data from database
-	loadTriage()
+	if T == nil {
+		loadTriage()
+	}
 	t, err := json.Marshal(T)
-	fmt.Println(T)
 	if err != nil {
 		fmt.Println("Error marshalling JSON for config")
 	}
@@ -94,12 +95,14 @@ func loadTriage() {
 		if T == nil {
 			addTriage(channel, user, row["started"].(time.Time), false)
 		} else {
+			exists := false
 			for _, item := range T {
 				if item.Channel.ID == channel {
-					break
-				} else {
-					addTriage(channel, user, row["started"].(time.Time), false)
+					exists = true
 				}
+			}
+			if exists == false {
+				addTriage(channel, user, row["started"].(time.Time), false)
 			}
 		}
 	}

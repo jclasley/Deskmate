@@ -35,6 +35,13 @@ func init() {
 		CommandDescription: "set",
 		Function:           setTriageFunc,
 	})
+	RegisterScript(Script{
+		Name:               "Unset Triage Role",
+		Matcher:            "(?i)^unset$",
+		Description:        "removes the current user from the triage role for this channel",
+		CommandDescription: "unset",
+		Function:           unsetTriageFunc,
+	})
 
 }
 
@@ -87,4 +94,8 @@ func helpScriptFunc(event *slackevents.AppMentionEvent) {
 
 func setTriageFunc(event *slackevents.AppMentionEvent) {
 	setTriage(event.Channel, event.User)
+}
+
+func unsetTriageFunc(event *slackevents.AppMentionEvent) {
+	removeTriage(event.Channel)
 }
