@@ -8,6 +8,7 @@ import (
 func LoadTriage() (row *sql.Rows) {
 	// Load triage from database
 	row, err = db.Query("SELECT slack_id, channel, started FROM triage ORDER BY started DESC; ")
+	defer db.Close()
 	return row
 }
 
