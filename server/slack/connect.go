@@ -18,6 +18,7 @@ var (
 // loaded configuration to the package-wide variable 'c'
 func LoadConfig() {
 	c = config.LoadConfig()
+	api = slack.New(c.Slack.SlackAPI)
 }
 
 // Connect loads the configuration needed to connect to a Slack instance,

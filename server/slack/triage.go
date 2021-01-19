@@ -74,18 +74,9 @@ func GetAllTriage(w http.ResponseWriter, r *http.Request) {
 }
 
 func setTriage(channel string, user string) {
-	u := getUserInfo(user)
-	c := getChannelInfo(channel)
-
-	new := Triage{
-		Channel: c,
-		User:    u,
-		Started: time.Now(),
-	}
-	saveTriage(new)
-
-	T = append(T, new)
-	fmt.Println("Added new triager", T)
+	// Remove the current triager for this channel if it exists
+	removeTriage(channel)
+	addTriage(channel, user, time.Now(), true)
 
 }
 
@@ -95,15 +86,44 @@ func saveTriage(t Triage) {
 }
 
 func loadTriage() {
-	fmt.Println("Loading existing triage from database")
-	rows := datastore.LoadTriage()
-	fmt.Println(rows)
 
+	rows := datastore.LoadAllTriage()
+	for _, row := range rows {
+		channel := fmt.Sprintf("%v", row["channel"])
+		user := fmt.Sprintf("%v", row["user"])
+		if T == nil {
+			addTriage(channel, user, row["started"].(time.Time), false)
+		} else {
+			for _, item := range T {
+				if item.Channel.ID == channel {
+					break
+				} else {
+					addTriage(channel, user, row["started"].(time.Time), false)
+				}
+			}
+		}
+	}
+
+}
+
+func addTriage(channel string, user string, started time.Time, save bool) {
+	u := getUserInfo(user)
+	c := getChannelInfo(channel)
+	t := Triage{
+		Channel: c,
+		User:    u,
+		Started: started,
+	}
+	T = append(T, t)
+	if save {
+		saveTriage(t)
+	}
+	fmt.Println("Added triage: ", t)
 }
 
 func removeTriage(channel string) {
 	for i := range T {
-		if T[i].Channel.Name == channel {
+		if T[i].Channel.ID == channel {
 			T = append(T[:i], T[i+1:]...)
 			break
 		}
