@@ -10,8 +10,13 @@ import (
 
 var scripts []Script
 
+// ScriptFunction is the function that the command from
+// Slack will call
 type ScriptFunction func(*slackevents.AppMentionEvent)
 
+// Script represents an individual command that can be ran from
+// Slack. Creating an individual Script adds it to the help command
+// for documentation.
 type Script struct {
 	Name               string
 	Matcher            string
@@ -45,10 +50,16 @@ func init() {
 
 }
 
+// RegisterScript adds the included Script to the list of available
+// commands that can be ran from Slack
 func RegisterScript(script Script) {
 	scripts = append(scripts, script)
 }
 
+// HandleMentionEvent parses the mention of the app in Slack and
+// matches it to the assoociated command, running the command if the
+// function is available. If not, it sends a message back to Slack to
+// indicate it doesn't exist.
 func HandleMentionEvent(event *slackevents.AppMentionEvent) {
 
 	// Strip @bot-name out

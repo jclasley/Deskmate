@@ -42,13 +42,8 @@ type User struct {
 // T represents the users that are currently in the triage role
 var T []Triage
 
-// GetTriage gets the triage user details for a specific channel and returns it
-// in a JSON format so it can be parsed in Slack and the frontend.
-// Endpoint: GET /api/triage/{channel-id}
-func GetTriage(w http.ResponseWriter, r *http.Request) (n Triage) {
-	return
-}
-
+// DeleteTriage takes the request URI which has a channel ID in it,
+// and removes the triage role associated with that channel.
 func DeleteTriage(w http.ResponseWriter, r *http.Request) (n Triage) {
 	u := path.Base(r.RequestURI)
 	fmt.Println("Removing active triager for channel: ", u)
