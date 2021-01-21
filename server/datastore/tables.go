@@ -10,6 +10,7 @@ import (
 func checkTable() {
 	createConfigTable()
 	createTriageTable()
+	createTagsTable()
 	fmt.Println("Tables successfully loaded/created")
 }
 
@@ -64,6 +65,33 @@ func createTriageTable() {
 	}
 	if a != 0 {
 		fmt.Println("Triage table successfully created.", a)
+	}
+	return
+}
+
+func createTagsTable() {
+	const query = `
+	CREATE TABLE IF NOT EXISTS tags (
+		id serial PRIMARY KEY,
+		tag text,
+		slack_id text,
+		group_id text,
+		channel text,
+		notification_type int,
+		added timestamp
+	)`
+	// Exec executes a query without returning any rows.
+	result, err := db.Exec(query)
+	if err != nil {
+		fmt.Println("Error creating tags table", err.Error())
+		return
+	}
+	a, err := result.RowsAffected()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	if a != 0 {
+		fmt.Println("Tags table successfully created.", a)
 	}
 	return
 }
