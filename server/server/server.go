@@ -27,6 +27,10 @@ func Launch() {
 
 	s.HandleFunc("/slack/status", SlackStatusHandler)
 
+	s.HandleFunc("/triage/{id}", TriageHandler).Methods("GET", "POST", "DELETE", http.MethodOptions)
+
+	s.HandleFunc("/triage", TriageAllHandler)
+
 	r.Use(mux.CORSMethodMiddleware(r))
 	headers := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
 	origin := handlers.AllowedOrigins([]string{"*"})

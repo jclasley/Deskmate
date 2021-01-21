@@ -1,7 +1,7 @@
 import React, { Component  } from 'react';
 import axios from 'axios';
 import { Button } from 'reactstrap';
-import Urls from './Util/Urls.js';
+import Urls from '../Util/Urls.js';
 
 class SlackConnect extends Component {
     constructor(props) {
