@@ -7,6 +7,8 @@ import (
 
 var configID = 0
 
+// LoadConfig pulls the configuration details from the database and returns a
+// pointer to a sql.Row
 func LoadConfig() (rows *sql.Row) {
 	// Load config from database
 	row := db.QueryRow("SELECT slack_url,slack_api,slack_signing from configuration where id = 1 ")
@@ -14,6 +16,8 @@ func LoadConfig() (rows *sql.Row) {
 	return row
 }
 
+// SaveConfig takes a map[string]interface containing configuration details
+// and saves the key/values to the database
 func SaveConfig(data map[string]interface{}) {
 	fmt.Println(data)
 

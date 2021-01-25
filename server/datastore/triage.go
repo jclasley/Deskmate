@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+// LoadAllTriage pulls all triage roles from the database in the triage table
+// and returns it as a slice of map[string]interface
 func LoadAllTriage() (rows []map[string]interface{}) {
 	// Load triage from database
 	row, err := db.Query("SELECT slack_id, channel, started FROM triage ORDER BY started DESC; ")
@@ -36,6 +38,8 @@ func LoadAllTriage() (rows []map[string]interface{}) {
 	return rows
 }
 
+// SaveTriage takes a Slack ID of a user, and the channel that they submitted
+// from and saves them as the triage role for that channel
 func SaveTriage(slackID string, channel string) {
 	_, err = db.Query("INSERT INTO triage(slack_id, channel, started) VALUES ($1, $2, $3)", slackID, channel, time.Now())
 	if err != nil {
