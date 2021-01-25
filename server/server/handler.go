@@ -6,6 +6,7 @@ import (
 
 	"github.com/tylerconlee/Deskmate/server/config"
 	"github.com/tylerconlee/Deskmate/server/slack"
+	"github.com/tylerconlee/Deskmate/server/tags"
 )
 
 // APIHandler is a base path for all API related requests
@@ -17,6 +18,21 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 func SlackHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Request received for /slack endpoint")
 	slack.EventHandler(w, r)
+}
+
+func SlackUserHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Request received for /slack/users endpoint")
+	slack.UserListHandler(w, r)
+}
+
+func SlackChannelHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Request received for /slack/channels endpoint")
+	slack.ChannelListHandler(w, r)
+}
+
+func SlackGroupHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Request received for /slack/groups endpoint")
+	slack.GroupListHandler(w, r)
 }
 
 // SlackStatusHandler returns a health check if Slack is connected
@@ -68,4 +84,39 @@ func ConfigHandler(w http.ResponseWriter, r *http.Request) {
 		config.PostConfig(w, r)
 	}
 
+}
+
+// TagsHandler handles all incoming requests for any of the tag
+// based routes. GET goes to tags.GetAllTagsHandler, which returns
+// all tags, POST goes to tags.PostTagHandler, which saves new tags,
+// PUT goes to tags.UpdateTagHandler, which saves an existing tag and
+// DELETE goes to tags.DeleteTagHandler which removes the tag from the
+// database
+func TagsHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	switch r.Method {
+	case http.MethodGet:
+		fmt.Println("GET method request for /tags endpoint")
+		tags.GetAllTagsHandler(w, r)
+	case http.MethodPost:
+		fmt.Println("POST method request for /tags/{id} endpoint")
+		tags.PostTagHandler(w, r)
+
+	}
+}
+
+// TagHandler handles the requests related to a specific tag, such as updating
+// or deleting
+func TagHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	switch r.Method {
+
+	case http.MethodPut:
+		fmt.Println("PUT method request for /tags endpoint")
+		tags.UpdateTagHandler(w, r)
+	case http.MethodDelete:
+		fmt.Println("DELETE method request for /tags endpoint")
+		tags.DeleteTagHandler(w, r)
+	}
 }

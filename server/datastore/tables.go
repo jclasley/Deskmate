@@ -77,7 +77,7 @@ func createTagsTable() {
 		slack_id text,
 		group_id text,
 		channel text,
-		notification_type int,
+		notification_type text,
 		added timestamp
 	)`
 	// Exec executes a query without returning any rows.

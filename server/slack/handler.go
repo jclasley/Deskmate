@@ -34,6 +34,36 @@ func ConnectHandler(w http.ResponseWriter, r *http.Request) {
 	Connect()
 }
 
+func ChannelListHandler(w http.ResponseWriter, r *http.Request) {
+	channels := ListChannels()
+	js, err := json.Marshal(channels)
+	if err != nil {
+		fmt.Println("Error marshalling JSON for channels")
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}
+
+func GroupListHandler(w http.ResponseWriter, r *http.Request) {
+	groups := ListGroups()
+	js, err := json.Marshal(groups)
+	if err != nil {
+		fmt.Println("Error marshalling JSON for groups")
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}
+
+func UserListHandler(w http.ResponseWriter, r *http.Request) {
+	user := ListUsers()
+	js, err := json.Marshal(user)
+	if err != nil {
+		fmt.Println("Error marshalling JSON for user")
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}
+
 // EventHandler processes the incoming callbacks set from Slack to the
 // /api/slack endpoint. Slack sends an event back to this endpoint
 // and it matches up to one of the events listed on their Events API

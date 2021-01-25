@@ -22,7 +22,9 @@ func Launch() {
 	s.HandleFunc("/config", ConfigHandler).Methods("GET", "POST", "PUT", http.MethodOptions)
 
 	s.HandleFunc("/slack", SlackHandler).Methods("GET", "POST", http.MethodOptions)
-
+	s.HandleFunc("/slack/users", SlackUserHandler)
+	s.HandleFunc("/slack/channels", SlackChannelHandler)
+	s.HandleFunc("/slack/groups", SlackGroupHandler)
 	s.HandleFunc("/slack/connect", SlackConnectHandler)
 
 	s.HandleFunc("/slack/status", SlackStatusHandler)
@@ -30,6 +32,11 @@ func Launch() {
 	s.HandleFunc("/triage/{id}", TriageHandler).Methods("GET", "POST", "DELETE", http.MethodOptions)
 
 	s.HandleFunc("/triage", TriageAllHandler)
+
+	// "/api/tags"
+	s.HandleFunc("/tags", TagsHandler).Methods("GET", "POST", "PUT", "DELETE", http.MethodOptions)
+
+	s.HandleFunc("/tags/{id}", TagHandler).Methods("PUT", "DELETE", http.MethodOptions)
 
 	r.Use(mux.CORSMethodMiddleware(r))
 	headers := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})

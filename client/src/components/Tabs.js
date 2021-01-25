@@ -3,6 +3,7 @@ import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, Ca
 import { CurrentTriage } from './Triage.js'
 import { Config } from './Config.js'
 import classnames from 'classnames';
+import { Tags } from './Tags.js';
 
 const MainTabs = (props) => {
   const [activeTab, setActiveTab] = useState('1');
@@ -30,6 +31,14 @@ const MainTabs = (props) => {
             Config
           </NavLink>
         </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: activeTab === '3' })}
+            onClick={() => { toggle('3'); }}
+          >
+            Tags
+          </NavLink>
+        </NavItem>
       </Nav>
       <TabContent activeTab={activeTab}>
         <TabPane tabId="1">
@@ -43,6 +52,13 @@ const MainTabs = (props) => {
           <Row>
             <Col sm="12">
               <Config />
+            </Col>
+          </Row>
+        </TabPane>
+        <TabPane tabId="3">
+          <Row>
+            <Col sm="12">
+              <Tags />
             </Col>
           </Row>
         </TabPane>
