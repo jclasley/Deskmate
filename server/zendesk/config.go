@@ -1,0 +1,3 @@
+package zendesk
+
+func SetConfig() {}

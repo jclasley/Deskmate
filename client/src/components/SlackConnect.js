@@ -29,6 +29,7 @@ class SlackConnect extends Component {
 	async getConnectedState() {
         const res = await axios.get(`${Urls.api}/slack/status`);
         console.log(res.data);
+
 		return await res.data;
 	}
     connect = e => {
