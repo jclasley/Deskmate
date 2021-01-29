@@ -33,12 +33,18 @@ func PostConfig(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	if payload["slackuser"] != nil {
-		datastore.SaveSlackConfig(payload)
+	if payload["slackurl"] != nil {
+		payload["zendeskuser"] = c.Zendesk.ZendeskUser
+		payload["zendeskapi"] = c.Zendesk.ZendeskAPI
+		payload["zendeskurl"] = c.Zendesk.ZendeskURL
+		datastore.SaveConfig(payload)
 		return
 	}
 	if payload["zendeskuser"] != nil {
-		datastore.SaveZendeskConfig(payload)
+		payload["slackurl"] = c.Slack.SlackURL
+		payload["slackapi"] = c.Slack.SlackAPI
+		payload["slacksigning"] = c.Slack.SlackSigning
+		datastore.SaveConfig(payload)
 		return
 	}
 }

@@ -14,6 +14,7 @@ import {
     NavbarText
   } from 'reactstrap';
 import {SlackConnect} from './SlackConnect.js';
+import { ZendeskConnect } from './ZendeskConnect.js';
 
 const Navigation = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +29,7 @@ const Navigation = (props) => {
         <Collapse isOpen={isOpen} navbar>
           
 
-          <NavbarText><SlackConnect /></NavbarText>
+          <NavbarText><SlackConnect /> <ZendeskConnect /></NavbarText>
         </Collapse>
       </Navbar>
     </div>

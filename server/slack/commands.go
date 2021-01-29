@@ -105,8 +105,10 @@ func helpScriptFunc(event *slackevents.AppMentionEvent) {
 
 func setTriageFunc(event *slackevents.AppMentionEvent) {
 	setTriage(event.Channel, event.User)
+	api.PostMessage(event.Channel, slack.MsgOptionText(fmt.Sprintf("%s is now set as the triage role for this channel", event.User), false))
 }
 
 func unsetTriageFunc(event *slackevents.AppMentionEvent) {
 	removeTriage(event.Channel)
+	api.PostMessage(event.Channel, slack.MsgOptionText(fmt.Sprintf("%s is no longer set as the triage role for this channel", event.User), false))
 }

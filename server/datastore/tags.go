@@ -30,7 +30,7 @@ func LoadTags() (t []map[string]interface{}) {
 			fmt.Println(err)
 
 		}
-		t = append(t, map[string]interface{}{"id": id, "tag": tag, "slackID": slackID, "groupID": groupID, "channel": channel, "notifcationType": notificationType, "added": added})
+		t = append(t, map[string]interface{}{"id": id, "tag": tag, "slackID": slackID, "groupID": groupID, "channel": channel, "notificationType": notificationType, "added": added})
 
 	}
 

@@ -69,6 +69,15 @@ func GetAllTriage(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func activeTriage(channel string) (triage string) {
+	for _, role := range T {
+		if channel == role.Channel.ID {
+			return role.User.ID
+		}
+	}
+	return ""
+}
+
 func setTriage(channel string, user string) {
 	// Remove the current triager for this channel if it exists
 	removeTriage(channel)

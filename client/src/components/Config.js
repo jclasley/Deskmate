@@ -76,13 +76,13 @@ class SlackConfig extends Component {
 						<tr>
 							<td>Slack API</td>
 							<td>
-								<pre>{config ? config.Slack.slackapi : <em>Loading...</em> }</pre>
+								<pre>{config ? config.Slack.slackapi.substring(8) : <em>Loading...</em> }</pre>
 							</td>
 						</tr>
 						<tr>
 							<td>Slack Signing Key</td>
 							<td>
-								<pre>{config ? config.Slack.slacksigning : <em>Loading...</em> }</pre>
+								<pre>{config ? config.Slack.slacksigning.substring(8) : <em>Loading...</em> }</pre>
 							</td>
 						</tr>
 					</tbody>
@@ -118,6 +118,151 @@ class SlackConfig extends Component {
 								defaultValue={config ? config.Slack.slacksigning : ""}
 							/>
 							<FormText>Enter the <a href="https://api.slack.com/authentication/verifying-requests-from-slack#signing_secrets_admin_page">Signing Secret</a> for the Slack workspace  </FormText>
+						</FormGroup>
+					</ModalBody>
+					<ModalFooter>
+						<Button color="primary" type="submit" onClick={this.toggle}>Do Something</Button>{' '}
+					</ModalFooter>
+					</form>
+				</Modal>
+				
+				{this.state.res && (
+						<div className="res-block">
+							<h3>Config Saved:</h3>
+							<pre>FormData {this.state.res}</pre>
+						</div>
+					)}
+			</div>
+			);
+		
+		}
+
+	
+}
+
+class ZendeskConfig extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			modal: false,
+			config: null,
+			success: false,
+			error: null,
+			alertColor: "",
+			alertVisible: false,
+			alertMessage: "",
+		}
+		this.toggle = this.toggle.bind(this);		
+	}
+
+	onSubmitForm = e => {
+		e.preventDefault()
+		const formData = new FormData(e.target)
+		const body = {}
+		formData.forEach((value, property) => body[property] = value)
+		console.table(body)
+		const json = JSON.stringify(body)
+		axios.post(`${Urls.api}/config`, json, {
+			headers: { 'content-type': 'application/json'}
+		})
+			.then((res) => {
+				this.getConfig().then(data => this.setState({config: data}))
+				this.setState({alertVisible: true, alertMessage: "Configuration Updated Successfully", alertColor: "success"}, ()=> {window.setTimeout(()=>{this.setState({alertVisible:false})},8000)});
+			})
+			.catch(err => {
+				this.setState({alertVisible: true, alertMessage: err, alertColor: "danger"}, ()=> {window.setTimeout(()=>{this.setState({alertVisible:false})},8000)});
+			});
+			axios.post(`${Urls.api}/config/zendesk`, json, {
+				headers: { 'content-type': 'application/json'}
+			})
+				.then((res) => {
+					this.setState({alertVisible: true, alertMessage: "Configuration Updated Successfully", alertColor: "success"}, ()=> {window.setTimeout(()=>{this.setState({alertVisible:false})},8000)});
+				})
+				.catch(err => {
+					this.setState({alertVisible: true, alertMessage: err, alertColor: "danger"}, ()=> {window.setTimeout(()=>{this.setState({alertVisible:false})},8000)});
+				});
+	}
+	
+	toggle() {
+		this.setState({
+		  modal: !this.state.modal
+		});
+	  }
+	componentDidMount() {
+		if (!this.state.data) {
+			this.getConfig().then(data => this.setState({config: data}))
+			.catch(err => {})
+		}
+	}
+	async getConfig() {
+		const res = await axios.get(`${Urls.api}/config`);
+		
+		console.log(res["data"])
+		return await res.data;
+	}
+	
+	render() {
+		const { config, } = this.state
+		
+			return (
+				<div>
+					<Alert color={this.state.alertColor} isOpen={this.state.alertVisible} toggle={(e) => this.setState({alertVisible: false})}> {this.state.alertMessage} </Alert>
+				<Table bordered >
+					<thead>
+						
+					</thead>
+					<tbody>
+						<tr>
+							<td>Zendesk User</td>
+							<td>
+								<pre>{config ? config.Zendesk.ZendeskUser : <em>Loading...</em> }</pre>
+							</td>
+						</tr>
+						<tr>
+							<td>Zendesk API</td>
+							<td>
+								<pre>{config ? config.Zendesk.ZendeskAPI.substring(8) : <em>Loading...</em> }</pre>
+							</td>
+						</tr>
+						<tr>
+							<td>Zendesk URL</td>
+							<td>
+								<pre>{config ? config.Zendesk.ZendeskURL : <em>Loading...</em> }</pre>
+							</td>
+						</tr>
+					</tbody>
+				</Table>
+				<Button color="danger" onClick={this.toggle}>Edit Config</Button>
+      			<Modal isOpen={this.state.modal} toggle={this.toggle} >
+				  	<form onSubmit={e => this.onSubmitForm(e)}>
+					<ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+					<ModalBody>
+						<FormGroup>
+							<Label for="zendeskuser">Zendesk User</Label>
+							<Input 
+								name="zendeskuser"
+								placeholder={config ? config.Zendesk.ZendeskUser : ""}
+								defaultValue={config ? config.Zendesk.ZendeskUser : ""}
+							/>
+							<FormText>Enter the email address to connect to Zendesk with </FormText>
+						</FormGroup>
+						<FormGroup>
+							<Label for="zendeskapi">Zendesk API</Label>
+							<Input 
+								name="zendeskapi"
+								placeholder={config ? config.Zendesk.ZendeskAPI : ""}
+								defaultValue={config ? config.Zendesk.ZendeskAPI : ""}
+							/>
+							<FormText>Enter the API key to connect to Zendesk with  </FormText>
+						</FormGroup>
+						<FormGroup>
+							<Label for="zendeskurl">Zendesk URL</Label>
+							<Input 
+								name="zendeskurl"
+								placeholder={config ? config.Zendesk.ZendeskURL : ""}
+								defaultValue={config ? config.Zendesk.ZendeskURL : ""}
+							/>
+							<FormText>Enter the Zendesk URL  </FormText>
 						</FormGroup>
 					</ModalBody>
 					<ModalFooter>
@@ -181,14 +326,10 @@ const ConfigTabs = (props) => {
 			<TabPane tabId="2">
 			  <Row>
 				<Col sm="6">
-					
+					<ZendeskConfig />
 				</Col>
 				<Col sm="6">
-				  <Card body>
-					<CardTitle>Special Title Treatment</CardTitle>
-					<CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-					<Button>Go somewhere</Button>
-				  </Card>
+				  
 				</Col>
 			  </Row>
 			</TabPane>
