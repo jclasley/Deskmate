@@ -9,7 +9,7 @@ import (
 func SLANotification(notification map[string]interface{}) {
 
 	divSection := slack.NewDividerBlock()
-	alertmsg := fmt.Sprintf("Upcoming SLA Alert - Less than %s remaining", notification["TimeRemaining"])
+	alertmsg := fmt.Sprintf("<!here> Upcoming SLA Alert - Less than %s remaining", notification["TimeRemaining"])
 	// Header Section
 	headerText := slack.NewTextBlockObject("plain_text", alertmsg, false, false)
 	headerSection := slack.NewSectionBlock(headerText, nil, nil)

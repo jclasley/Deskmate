@@ -76,13 +76,13 @@ class SlackConfig extends Component {
 						<tr>
 							<td>Slack API</td>
 							<td>
-								<pre>{config ? config.Slack.slackapi.substring(8) : <em>Loading...</em> }</pre>
+								<pre>{config ? <b>Slack API Key Set</b> : <em>Loading...</em> }</pre>
 							</td>
 						</tr>
 						<tr>
 							<td>Slack Signing Key</td>
 							<td>
-								<pre>{config ? config.Slack.slacksigning.substring(8) : <em>Loading...</em> }</pre>
+								<pre>{config ? <b>Slack Signing Key Set</b> : <em>Loading...</em> }</pre>
 							</td>
 						</tr>
 					</tbody>
@@ -221,13 +221,13 @@ class ZendeskConfig extends Component {
 						<tr>
 							<td>Zendesk API</td>
 							<td>
-								<pre>{config ? config.Zendesk.ZendeskAPI.substring(8) : <em>Loading...</em> }</pre>
+								<pre>{config ? <b>API Key Set</b> : <em>Loading...</em> }</pre>
 							</td>
 						</tr>
 						<tr>
 							<td>Zendesk URL</td>
 							<td>
-								<pre>{config ? config.Zendesk.ZendeskURL : <em>Loading...</em> }</pre>
+								<pre>{config ?  <b>URL Set</b> : <em>Loading...</em> }</pre>
 							</td>
 						</tr>
 					</tbody>

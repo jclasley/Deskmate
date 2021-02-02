@@ -22,7 +22,7 @@ func Launch() {
 	s.HandleFunc("/config", ConfigHandler).Methods("GET", "POST", "PUT", http.MethodOptions)
 
 	s.HandleFunc("/slack", SlackHandler).Methods("GET", "POST", http.MethodOptions)
-	s.HandleFunc("/slack/callback", SlackHandler).Methods("GET", "POST", http.MethodOptions)
+	s.HandleFunc("/slack/callback", SlackCallbackHandler).Methods("GET", "POST", http.MethodOptions)
 	s.HandleFunc("/slack/users", SlackUserHandler)
 	s.HandleFunc("/slack/channels", SlackChannelHandler)
 	s.HandleFunc("/slack/groups", SlackGroupHandler)

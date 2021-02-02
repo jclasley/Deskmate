@@ -73,18 +73,18 @@ func UserListHandler(w http.ResponseWriter, r *http.Request) {
 // Depending on the event type, Deskmate either verifies the URL or
 // processes incoming text
 func EventHandler(w http.ResponseWriter, r *http.Request) {
-	if r.PostFormValue("payload") != "" {
-		CallbackHandler(w, r)
-		return
-	}
+
 	body, err := ioutil.ReadAll(r.Body)
+
 	if err != nil {
+		fmt.Println("Error reading request", err)
 		w.WriteHeader(http.StatusBadRequest)
 		status = false
 		return
 	}
 	sv, err := slack.NewSecretsVerifier(r.Header, c.Slack.SlackSigning)
 	if err != nil {
+		fmt.Println("Error creating secrets verifier", err)
 		w.WriteHeader(http.StatusBadRequest)
 		status = false
 		return
