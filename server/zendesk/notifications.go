@@ -33,8 +33,7 @@ func sendSLANotification(ticket Ticket, channel string, tag string) {
 	if ticket.SLA != "" {
 		send, notify := UpdateCache(ticket, channel)
 		if send {
-			message, color := prepSLANotification(ticket, notify, tag)
-			fmt.Println("Message: ", message, " | Color: ", color)
+			message, _ := prepSLANotification(ticket, notify, tag)
 
 			notification := map[string]interface{}{
 				"ID":            ticket.ID,
