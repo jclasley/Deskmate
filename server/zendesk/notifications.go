@@ -32,6 +32,7 @@ func sendSLANotification(ticket Ticket, channel string, tag string) {
 	url := fmt.Sprintf("https://%s.zendesk.com/agent/tickets/%d", string(c.url), ticket.ID)
 	if ticket.SLA != "" {
 		send, notify := UpdateCache(ticket, channel)
+		fmt.Println(ticket.ID, "SLA: ", ticket.SLA, " Send SLA?: ", send)
 		if send {
 			message, _ := prepSLANotification(ticket, notify, tag)
 
