@@ -261,7 +261,12 @@ function ChannelDropdown(){
           const body = await response.json();
           if (!unmounted) {
             if (body != null){
-          setItems(body.map(({ ChannelName, ID }) => ({ label: ChannelName, value: ID })));
+              body.sort(function(a, b) {
+                var textA = a.ChannelName.toUpperCase();
+                var textB = b.ChannelName.toUpperCase();
+                return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+              });
+              setItems(body.map(({ ChannelName, ID }) => ({ label: ChannelName, value: ID })));
             }
           setLoading(false);
           }
