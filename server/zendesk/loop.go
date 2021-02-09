@@ -37,24 +37,27 @@ func RunTimer(interval time.Duration) {
 }
 
 func iteration(t *time.Ticker, interval time.Duration) {
+
 	lastRan = time.Now()
 	getAllTickets()
-	for _, ticket := range activeTickets {
-		notify := checkTag(ticket)
-		if notify != nil {
+	if activeTickets != nil {
+		for _, ticket := range activeTickets {
+			notify := checkTag(ticket)
+			if notify != nil {
 
-			for _, t := range notify {
-				switch t.notificationType {
-				case "breaches":
-					sendSLANotification(ticket, t.channel, t.tag)
-				case "new":
-					sendNewNotification(ticket, t.channel, t.tag)
-				case "updates":
-					sendUpdatedNotification(ticket, t.channel, t.tag)
+				for _, t := range notify {
+					switch t.notificationType {
+					case "breaches":
+						sendSLANotification(ticket, t.channel, t.tag)
+					case "new":
+						sendNewNotification(ticket, t.channel, t.tag)
+					case "updates":
+						sendUpdatedNotification(ticket, t.channel, t.tag)
+					}
 				}
 			}
-		}
 
+		}
 	}
 	activeTickets = nil
 	<-t.C
