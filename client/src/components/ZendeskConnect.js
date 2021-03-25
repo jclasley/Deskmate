@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Button } from 'reactstrap';
 import Urls from '../Util/Urls.js';
 
-class SlackConnect extends Component {
+class ZendeskConnect extends Component {
     constructor(props) {
 		super(props);
 		this.state = {
@@ -27,15 +27,19 @@ class SlackConnect extends Component {
     }
 
 	async getConnectedState() {
-        const res = await axios.get(`${Urls.api}/slack/status`);
+        const res = await axios.get(`${Urls.api}/zendesk/status`);
         console.log(res.data);
 
 		return await res.data;
 	}
     connect = e => {
         e.preventDefault()
-        console.log("Connecting to Slack...")
-		axios.get(`${Urls.api}/slack/connect`)
+        console.log("Connecting to Zendesk...")
+        const json = JSON.stringify({"url": window.location.href})
+        console.log(json)
+		axios.post(`${Urls.api}/zendesk/connect`, json, {
+			headers: { 'content-type': 'application/json'}
+		})
 			.then((res) => {
 				this.getConnectedState().then(
                     data => {
@@ -53,9 +57,9 @@ class SlackConnect extends Component {
         const { connected } = this.state
         return (
             <div>
-                <Button color={this.state.connectedColor} onClick={this.connect}>{connected ? <b>Connected: Slack</b> : <b>Not Connected: Slack</b> }</Button>
+                <Button color={this.state.connectedColor} onClick={this.connect}>{connected ? <b>Connected: Zendesk</b> : <b>Not Connected: Zendesk</b> }</Button>
             </div>
         )
     }
 }
-export {SlackConnect};
+export {ZendeskConnect};

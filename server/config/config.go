@@ -33,12 +33,25 @@ func PostConfig(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	datastore.SaveConfig(payload)
+	if payload["slackurl"] != nil {
+		payload["zendeskuser"] = c.Zendesk.ZendeskUser
+		payload["zendeskapi"] = c.Zendesk.ZendeskAPI
+		payload["zendeskurl"] = c.Zendesk.ZendeskURL
+		datastore.SaveConfig(payload)
+		return
+	}
+	if payload["zendeskuser"] != nil {
+		payload["slackurl"] = c.Slack.SlackURL
+		payload["slackapi"] = c.Slack.SlackAPI
+		payload["slacksigning"] = c.Slack.SlackSigning
+		datastore.SaveConfig(payload)
+		return
+	}
 }
 
 func LoadConfig() (config Config) {
 	rows := datastore.LoadConfig()
-	err := rows.Scan(&config.Slack.SlackURL, &config.Slack.SlackAPI, &config.Slack.SlackSigning)
+	err := rows.Scan(&config.Slack.SlackURL, &config.Slack.SlackAPI, &config.Slack.SlackSigning, &config.Zendesk.ZendeskUser, &config.Zendesk.ZendeskAPI, &config.Zendesk.ZendeskURL)
 	if err != nil {
 		fmt.Println("Error scanning config into struct", err.Error())
 	}

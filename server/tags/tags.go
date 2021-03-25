@@ -26,7 +26,6 @@ func loadTags() {
 	tags := datastore.LoadTags()
 	T = nil
 	for _, tag := range tags {
-
 		T = append(T, Tag{
 			ID:               tag["id"].(int),
 			Tag:              fmt.Sprintf("%v", tag["tag"]),
@@ -37,7 +36,7 @@ func loadTags() {
 			Added:            tag["added"].(time.Time),
 		})
 	}
-	fmt.Println("Loaded tags: ", len(T))
+
 }
 
 func removeTag(ID int) {

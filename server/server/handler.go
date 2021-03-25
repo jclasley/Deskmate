@@ -7,6 +7,7 @@ import (
 	"github.com/tylerconlee/Deskmate/server/config"
 	"github.com/tylerconlee/Deskmate/server/slack"
 	"github.com/tylerconlee/Deskmate/server/tags"
+	"github.com/tylerconlee/Deskmate/server/zendesk"
 )
 
 // APIHandler is a base path for all API related requests
@@ -18,6 +19,11 @@ func APIHandler(w http.ResponseWriter, r *http.Request) {
 func SlackHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Request received for /slack endpoint")
 	slack.EventHandler(w, r)
+}
+
+func SlackCallbackHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Request received for /slack/callback endpoint")
+	slack.CallbackHandler(w, r)
 }
 
 func SlackUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -46,6 +52,19 @@ func SlackStatusHandler(w http.ResponseWriter, r *http.Request) {
 func SlackConnectHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Request received for /slack/connect endpoint")
 	slack.ConnectHandler(w, r)
+}
+
+// ZendeskStatusHandler returns a health check if Zendesk is connected
+func ZendeskStatusHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Request received for /zendesk/status endpoint")
+	zendesk.StatusHandler(w, r)
+}
+
+// ZendeskConnectHandler routes the request to start a connection
+// to the configured Zendesk instance
+func ZendeskConnectHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Request received for /Zendesk/connect endpoint")
+	zendesk.ConnectHandler(w, r)
 }
 
 // TriageHandler routes the request for the triage delete endpoint
@@ -82,6 +101,7 @@ func ConfigHandler(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPost:
 		fmt.Println("POST method request for /config endpoint")
 		config.PostConfig(w, r)
+		zendesk.SetConfig()
 	}
 
 }

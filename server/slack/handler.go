@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/slackevents"
@@ -71,14 +73,18 @@ func UserListHandler(w http.ResponseWriter, r *http.Request) {
 // Depending on the event type, Deskmate either verifies the URL or
 // processes incoming text
 func EventHandler(w http.ResponseWriter, r *http.Request) {
+
 	body, err := ioutil.ReadAll(r.Body)
+
 	if err != nil {
+		fmt.Println("Error reading request", err)
 		w.WriteHeader(http.StatusBadRequest)
 		status = false
 		return
 	}
 	sv, err := slack.NewSecretsVerifier(r.Header, c.Slack.SlackSigning)
 	if err != nil {
+		fmt.Println("Error creating secrets verifier", err)
 		w.WriteHeader(http.StatusBadRequest)
 		status = false
 		return
@@ -121,4 +127,46 @@ func EventHandler(w http.ResponseWriter, r *http.Request) {
 			HandleMentionEvent(ev)
 		}
 	}
+}
+
+func CallbackHandler(w http.ResponseWriter, r *http.Request) {
+	payload := &slack.InteractionCallback{}
+	err := json.Unmarshal([]byte(r.PostFormValue("payload")), payload)
+	if err != nil {
+
+	}
+	fmt.Println("Handling Slack callback", payload)
+	AcknowledgeTicket(payload)
+
+	return
+}
+
+func AcknowledgeTicket(payload *slack.InteractionCallback) {
+	f, _ := strconv.ParseFloat(payload.ActionCallback.BlockActions[0].ActionTs, 10)
+	i := int64(f)
+	ts := time.Unix(i, 0)
+	fmt.Println("Ticket alert acknowledged by ", payload.User.Name)
+	ts.Format(time.RFC822Z)
+	t := fmt.Sprintf("<@%s> acknowledged this alert at %s", payload.User.Name, ts.String())
+
+	ackImage := slack.NewImageBlockElement("https://emojipedia-us.s3.amazonaws.com/thumbs/120/apple/114/white-heavy-check-mark_2705.png", "white checkmark icon")
+	ackText := slack.NewTextBlockObject("mrkdwn", t, false, false)
+
+	ackSection := slack.NewContextBlock(
+		"",
+		[]slack.MixedElement{ackImage, ackText}...,
+	)
+	var respBlocks []slack.Block
+	for _, block := range payload.Message.Msg.Blocks.BlockSet {
+		respBlocks = append(respBlocks, block)
+	}
+	respBlocks = respBlocks[:len(respBlocks)-1]
+	respBlocks = append(respBlocks, ackSection)
+	replaceOriginal := slack.MsgOptionReplaceOriginal(payload.ResponseURL)
+
+	opts := []slack.MsgOption{}
+	opts = append(opts, slack.MsgOptionText(payload.Message.Msg.Text, false))
+	opts = append(opts, slack.MsgOptionBlocks(respBlocks...))
+	opts = append(opts, replaceOriginal)
+	api.SendMessage(payload.Channel.ID, opts...)
 }

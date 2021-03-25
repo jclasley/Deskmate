@@ -1,9 +1,15 @@
 package slack
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+
+	"github.com/slack-go/slack"
+	"go.uber.org/ratelimit"
+)
 
 func getChannelInfo(channel string) (info Channel) {
-	c, err := api.GetChannelInfo(channel)
+	c, err := api.GetConversationInfo(channel, false)
 	if err != nil {
 		fmt.Println("Error retrieving channel information")
 	}
@@ -27,9 +33,32 @@ func getUserInfo(user string) (info User) {
 }
 
 func ListChannels() (channels []map[string]string) {
-	c, err := api.GetChannels(true)
+	params := slack.GetConversationsParameters{
+		ExcludeArchived: "true",
+		Limit:           1000,
+		Types: []string{
+			"public_channel",
+		}}
+	c, s, err := api.GetConversations(&params)
+	rl := ratelimit.New(20, ratelimit.Per(time.Minute))
+	for {
+		rl.Take()
+		if s != "" {
+			var v []slack.Channel
+			params = slack.GetConversationsParameters{Cursor: s,
+				ExcludeArchived: "true",
+				Limit:           1000,
+				Types: []string{
+					"public_channel",
+				}}
+			v, s, err = api.GetConversations(&params)
+			c = append(c, v...)
+		} else {
+			break
+		}
+	}
 	if err != nil {
-		fmt.Println("Error retrieving channel list")
+		fmt.Println("Error retrieving channel list", err)
 	}
 	for _, channel := range c {
 		channels = append(channels, map[string]string{

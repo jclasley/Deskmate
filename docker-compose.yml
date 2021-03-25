@@ -32,6 +32,16 @@ services:
     links:
       - db
 
+  zendesk:
+    build:
+      context: ./zendesk
+      args:
+        app_env: ${APP_ENV}
+    volumes:
+      - ./zendesk:/go/src/github.com/tylerconlee/Deskmate/zendesk
+    ports:
+      - "6000:8090"
+
   frontend:
     build:
       context: ./client

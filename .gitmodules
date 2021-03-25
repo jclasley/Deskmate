@@ -1,0 +1,3 @@
+[submodule "zendesk"]
+	path = zendesk
+	url = git@github.com:TylerConlee/SlabAPI.git
