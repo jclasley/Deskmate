@@ -21,7 +21,7 @@ RUN chmod +x /wait
 # if production setting will build binary
 CMD if [ ${APP_ENV} = production ]; \
 	then \
-	server; \
+	sh -c "/wait && server"; \
 	else \
 	go get github.com/pilu/fresh && \
 	fresh; \

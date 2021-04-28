@@ -40,6 +40,7 @@ func sendSLANotification(ticket Ticket, channel string, tag string) {
 				"ID":            ticket.ID,
 				"Subject":       ticket.Subject,
 				"CreatedAt":     ticket.CreatedAt,
+				"Assignee":      ticket.Assignee,
 				"TimeRemaining": message,
 				"Channel":       channel,
 				"Tag":           tag,
