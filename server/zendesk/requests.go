@@ -60,8 +60,12 @@ func getAllTickets() {
 }
 
 func getUser(id int) {
+	var userVar map[string]interface{}
 	userID := strconv.Itoa(id)
-	userVar := variables
+
+	for k, v := range variables {
+		userVar[k] = v
+	}
 
 	userVar["id"] = graphql.String(userID)
 	err := client.Query(context.Background(), &AssigneeQuery, userVar)
