@@ -59,19 +59,21 @@ func getAllTickets() {
 	}
 }
 
-func getUser(id int) {
-	var userVar map[string]interface{}
-	userID := strconv.Itoa(id)
+func getUser(ticket *Ticket) {
+	fmt.Println(variables)
+	userVar := make(map[string]interface{})
 
 	for k, v := range variables {
 		userVar[k] = v
 	}
-
+	userID := strconv.Itoa(ticket.Assignee)
 	userVar["id"] = graphql.String(userID)
 	err := client.Query(context.Background(), &AssigneeQuery, userVar)
 	if err != nil {
 		fmt.Println("Error retrieving user details", err)
 	} else {
+		ticket.User = string(AssigneeQuery.User.Name)
+		ticket.Email = string(AssigneeQuery.User.Email)
 		fmt.Println(AssigneeQuery)
 	}
 }

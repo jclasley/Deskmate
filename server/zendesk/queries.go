@@ -20,6 +20,7 @@ var TicketQuery struct {
 var AssigneeQuery struct {
 	User struct {
 		ID    graphql.String
+		Name  graphql.String
 		Email graphql.String
 	} `graphql:"getUser(user: $user, apikey: $apikey, url: $url, id: $id)"`
 }

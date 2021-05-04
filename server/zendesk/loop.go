@@ -51,7 +51,7 @@ func iteration(t *time.Ticker, interval time.Duration) {
 	for _, ticket := range activeTickets {
 		notify := checkTag(ticket)
 		if notify != nil {
-			getUser(ticket.Assignee)
+			getUser(&ticket)
 			for _, t := range notify {
 				switch t.notificationType {
 				case "breaches":

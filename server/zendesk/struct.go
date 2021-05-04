@@ -9,6 +9,8 @@ import "time"
 type Ticket struct {
 	ID             int
 	Assignee       int
+	User           string
+	Email          string
 	SLA            string
 	Tags           []string
 	UpdatedAt      time.Time
