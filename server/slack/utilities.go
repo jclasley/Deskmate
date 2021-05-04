@@ -37,7 +37,6 @@ func getUserID(email string) (info string) {
 	if err != nil {
 		fmt.Println("Error retrieving user information", err.Error())
 	}
-	fmt.Println(u)
 	info = u.ID
 	return
 

@@ -55,6 +55,5 @@ func LoadConfig() (config Config) {
 	if err != nil {
 		fmt.Println("Error scanning config into struct", err.Error())
 	}
-	fmt.Println(config)
 	return config
 }

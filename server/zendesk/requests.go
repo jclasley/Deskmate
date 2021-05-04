@@ -60,7 +60,6 @@ func getAllTickets() {
 }
 
 func getUser(ticket *Ticket) {
-	fmt.Println(variables)
 	userVar := make(map[string]interface{})
 
 	for k, v := range variables {
@@ -74,6 +73,5 @@ func getUser(ticket *Ticket) {
 	} else {
 		ticket.User = string(AssigneeQuery.User.Name)
 		ticket.Email = string(AssigneeQuery.User.Email)
-		fmt.Println(AssigneeQuery)
 	}
 }
