@@ -2,6 +2,8 @@ package zendesk
 
 import (
 	"fmt"
+	"os"
+	"strings"
 	"time"
 
 	"github.com/shurcooL/graphql"
@@ -12,8 +14,14 @@ var activeTickets []Ticket
 var lastRan time.Time
 
 func Connect(host string) {
+	var a string
+	if os.Getenv("APP_ENV") == "development" {
+		host = strings.Replace(host, "3", "6", 1)
 
-	a := fmt.Sprintf("%szendesk/query", host)
+		a = fmt.Sprintf("%squery", host)
+	} else {
+		a = fmt.Sprintf("%szendesk/query", host)
+	}
 	client = graphql.NewClient(a, nil)
 
 	variables = map[string]interface{}{
@@ -40,25 +48,24 @@ func iteration(t *time.Ticker, interval time.Duration) {
 
 	lastRan = time.Now()
 	getAllTickets()
-	if activeTickets != nil {
-		for _, ticket := range activeTickets {
-			notify := checkTag(ticket)
-			if notify != nil {
-
-				for _, t := range notify {
-					switch t.notificationType {
-					case "breaches":
-						sendSLANotification(ticket, t.channel, t.tag)
-					case "new":
-						sendNewNotification(ticket, t.channel, t.tag)
-					case "updates":
-						sendUpdatedNotification(ticket, t.channel, t.tag)
-					}
+	for _, ticket := range activeTickets {
+		notify := checkTag(ticket)
+		if notify != nil {
+			getUser(&ticket)
+			for _, t := range notify {
+				switch t.notificationType {
+				case "breaches":
+					sendSLANotification(ticket, t.channel, t.tag)
+				case "new":
+					sendNewNotification(ticket, t.channel, t.tag)
+				case "updates":
+					sendUpdatedNotification(ticket, t.channel, t.tag)
 				}
 			}
-
 		}
+
 	}
+
 	activeTickets = nil
 	<-t.C
 }

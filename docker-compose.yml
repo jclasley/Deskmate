@@ -23,7 +23,6 @@ services:
       - db
     ports:
       - "5000:8080"
-    command: sh -c "/wait && server"
     environment:
       - WAIT_HOSTS=db:5432
       - WAIT_HOSTS_TIMEOUT=300

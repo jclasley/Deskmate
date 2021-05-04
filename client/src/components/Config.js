@@ -170,7 +170,7 @@ class ZendeskConfig extends Component {
 				this.setState({alertVisible: true, alertMessage: "Configuration Updated Successfully", alertColor: "success"}, ()=> {window.setTimeout(()=>{this.setState({alertVisible:false})},8000)});
 			})
 			.catch(err => {
-				this.setState({alertVisible: true, alertMessage: err, alertColor: "danger"}, ()=> {window.setTimeout(()=>{this.setState({alertVisible:false})},8000)});
+				this.setState({alertVisible: true, alertMessage: JSON.stringify(err), alertColor: "danger"}, ()=> {window.setTimeout(()=>{this.setState({alertVisible:false})},8000)});
 			});
 			axios.post(`${Urls.api}/config/zendesk`, json, {
 				headers: { 'content-type': 'application/json'}
@@ -179,7 +179,7 @@ class ZendeskConfig extends Component {
 					this.setState({alertVisible: true, alertMessage: "Configuration Updated Successfully", alertColor: "success"}, ()=> {window.setTimeout(()=>{this.setState({alertVisible:false})},8000)});
 				})
 				.catch(err => {
-					this.setState({alertVisible: true, alertMessage: err, alertColor: "danger"}, ()=> {window.setTimeout(()=>{this.setState({alertVisible:false})},8000)});
+					this.setState({alertVisible: true, alertMessage: JSON.stringify(err), alertColor: "danger"}, ()=> {window.setTimeout(()=>{this.setState({alertVisible:false})},8000)});
 				});
 	}
 	

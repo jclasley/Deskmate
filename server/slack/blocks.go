@@ -7,7 +7,11 @@ import (
 )
 
 func SLANotification(notification map[string]interface{}) {
-
+	user := "Unassigned"
+	if notification["Email"] != "" {
+		email := fmt.Sprintf("%s", notification["Email"])
+		user = getUserID(email)
+	}
 	divSection := slack.NewDividerBlock()
 	alertmsg := fmt.Sprintf("<!here> Upcoming SLA Alert on #%d - Less than %s remaining", notification["ID"], notification["TimeRemaining"])
 	// Header Section
@@ -15,7 +19,7 @@ func SLANotification(notification map[string]interface{}) {
 	headerSection := slack.NewSectionBlock(headerText, nil, nil)
 
 	// Main alert body
-	ticketDetails := fmt.Sprintf("*<%s|%s>*\nTicket Created: %s\nTag: %s", notification["URL"], notification["Subject"], notification["CreatedAt"], notification["Tag"])
+	ticketDetails := fmt.Sprintf("*<%s|%s>*\nTicket Created: %s\nTag: %s\nAssignee: <@%s>", notification["URL"], notification["Subject"], notification["CreatedAt"], notification["Tag"], user)
 
 	scheduleText := slack.NewTextBlockObject("mrkdwn", ticketDetails, false, false)
 	schedeuleSection := slack.NewSectionBlock(scheduleText, nil, nil)
@@ -84,8 +88,15 @@ func NewNotification(notification map[string]interface{}) {
 }
 
 func UpdatedNotification(notification map[string]interface{}) {
+	user := "Unassigned"
+	if notification["Email"] != "" {
+		email := fmt.Sprintf("%s", notification["Email"])
+		user = getUserID(email)
+	}
 	t := activeTriage(notification["Channel"].(string))
 	// Build Message with blocks created above
+
+	divSection := slack.NewDividerBlock()
 	var message string
 	if t != "" {
 		message = fmt.Sprintf("<@%s> - Ticket update received - #%d", t, notification["ID"])
@@ -100,7 +111,7 @@ func UpdatedNotification(notification map[string]interface{}) {
 	headerSection := slack.NewSectionBlock(headerText, nil, nil)
 
 	// Fields
-	ca := fmt.Sprintf("*Created At:*\n%s\n*Updated At:*\n%s", notification["CreatedAt"], notification["UpdatedAt"])
+	ca := fmt.Sprintf("*Created At:*\n%s\n*Updated At:*\n%s\n*Assignee*\n<@%s>\n", notification["CreatedAt"], notification["UpdatedAt"], user)
 	typeField := slack.NewTextBlockObject("mrkdwn", ca, false, false)
 
 	fieldSlice := make([]*slack.TextBlockObject, 0)
@@ -114,8 +125,8 @@ func UpdatedNotification(notification map[string]interface{}) {
 
 	actionBlock := slack.NewActionBlock("", approveBtn)
 
-	api.PostMessage(notification["Channel"].(string), slack.MsgOptionText(message, false), slack.MsgOptionBlocks(headerSection,
-		fieldsSection,
+	api.PostMessage(notification["Channel"].(string), slack.MsgOptionText(message, false), slack.MsgOptionBlocks(headerSection, divSection,
+		fieldsSection, divSection,
 		actionBlock))
 
 }

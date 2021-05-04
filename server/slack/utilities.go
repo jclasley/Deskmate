@@ -32,6 +32,16 @@ func getUserInfo(user string) (info User) {
 	return
 }
 
+func getUserID(email string) (info string) {
+	u, err := api.GetUserByEmail(email)
+	if err != nil {
+		fmt.Println("Error retrieving user information", err.Error())
+	}
+	info = u.ID
+	return
+
+}
+
 func ListChannels() (channels []map[string]string) {
 	params := slack.GetConversationsParameters{
 		ExcludeArchived: "true",

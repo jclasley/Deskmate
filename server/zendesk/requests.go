@@ -3,6 +3,7 @@ package zendesk
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
 
@@ -39,9 +40,13 @@ func getAllTickets() {
 					fmt.Println("Error converting updatedat string to time", err)
 				}
 			}
-
+			assignee, err := strconv.Atoi(string(ticket.Assigneeid))
+			if err != nil {
+				fmt.Println("Error converting assignee ID from string to int")
+			}
 			activeTickets = append(activeTickets, Ticket{
 				ID:        int(ticket.ID),
+				Assignee:  assignee,
 				SLA:       string(ticket.SLA),
 				Tags:      tags,
 				Status:    string(ticket.Status),
@@ -51,5 +56,22 @@ func getAllTickets() {
 			})
 
 		}
+	}
+}
+
+func getUser(ticket *Ticket) {
+	userVar := make(map[string]interface{})
+
+	for k, v := range variables {
+		userVar[k] = v
+	}
+	userID := strconv.Itoa(ticket.Assignee)
+	userVar["id"] = graphql.String(userID)
+	err := client.Query(context.Background(), &AssigneeQuery, userVar)
+	if err != nil {
+		fmt.Println("Error retrieving user details", err)
+	} else {
+		ticket.User = string(AssigneeQuery.User.Name)
+		ticket.Email = string(AssigneeQuery.User.Email)
 	}
 }
