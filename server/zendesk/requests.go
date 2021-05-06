@@ -70,6 +70,9 @@ func getUser(ticket *Ticket) {
 	err := client.Query(context.Background(), &AssigneeQuery, userVar)
 	if err != nil {
 		fmt.Println("Error retrieving user details", err)
+
+		ticket.User = string("")
+		ticket.Email = string("")
 	} else {
 		ticket.User = string(AssigneeQuery.User.Name)
 		ticket.Email = string(AssigneeQuery.User.Email)

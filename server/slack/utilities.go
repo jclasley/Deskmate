@@ -36,6 +36,7 @@ func getUserID(email string) (info string) {
 	u, err := api.GetUserByEmail(email)
 	if err != nil {
 		fmt.Println("Error retrieving user information", err.Error())
+		return ""
 	}
 	info = u.ID
 	return

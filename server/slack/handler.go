@@ -135,7 +135,6 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 
 	}
-	fmt.Println("Handling Slack callback", payload)
 	AcknowledgeTicket(payload)
 
 	return

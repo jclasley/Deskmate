@@ -1,8 +1,6 @@
 package zendesk
 
 import (
-	"fmt"
-
 	"github.com/shurcooL/graphql"
 	con "github.com/tylerconlee/Deskmate/server/config"
 )
@@ -22,5 +20,4 @@ func SetConfig() {
 		apikey: graphql.String(global.Zendesk.ZendeskAPI),
 		url:    graphql.String(global.Zendesk.ZendeskURL),
 	}
-	fmt.Println("config: ", c)
 }
