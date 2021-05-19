@@ -63,7 +63,8 @@ func RegisterScript(script Script) {
 func HandleMentionEvent(event *slackevents.AppMentionEvent) {
 
 	// Strip @bot-name out
-	re, err := regexp.Compile(`^<@.*> *`)
+  // optional brackets, matches anything not a space following '@'
+	re, err := regexp.Compile(`^<*@\S*>* *`) 
 	if err != nil {
 		fmt.Println("error parsing command", err.Error())
 	}
