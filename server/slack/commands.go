@@ -57,14 +57,13 @@ func RegisterScript(script Script) {
 }
 
 // HandleMentionEvent parses the mention of the app in Slack and
-// matches it to the associated command, running the command if the
+// matches it to the assoociated command, running the command if the
 // function is available. If not, it sends a message back to Slack to
 // indicate it doesn't exist.
 func HandleMentionEvent(event *slackevents.AppMentionEvent) {
 
 	// Strip @bot-name out
-	// regex matches anything that is not a space-character (\r, \n, \t, ' '), including the '<' characters
-	re, err := regexp.Compile(`^@\S* *`)
+	re, err := regexp.Compile(`^<@.*> *`)
 	if err != nil {
 		fmt.Println("error parsing command", err.Error())
 	}
