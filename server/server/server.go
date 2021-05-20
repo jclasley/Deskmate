@@ -15,7 +15,7 @@ func Launch() {
 	r := mux.NewRouter()
 
 	// Web App Endpoints
-	s := r.PathPrefix("/api").Subrouter()
+	s := r.PathPrefix("/handler").Subrouter()
 	// "/api/"
 	s.HandleFunc("/", APIHandler)
 	// "/api/config"
@@ -34,12 +34,12 @@ func Launch() {
 
 	s.HandleFunc("/zendesk/connect", ZendeskConnectHandler)
 
-	s.HandleFunc("/triage/{id}", TriageHandler).Methods("GET", "POST", "DELETE", http.MethodOptions)
+	s.HandleFunc("/triage/{id}", TriageHandler).Methods("POST", "DELETE", http.MethodOptions)
 
 	s.HandleFunc("/triage", TriageAllHandler)
 
 	// "/api/tags"
-	s.HandleFunc("/tags", TagsHandler).Methods("GET", "POST", "PUT", "DELETE", http.MethodOptions)
+	s.HandleFunc("/tags", TagsHandler).Methods("POST", "PUT", "DELETE", http.MethodOptions)
 
 	s.HandleFunc("/tags/{id}", TagHandler).Methods("PUT", "DELETE", http.MethodOptions)
 

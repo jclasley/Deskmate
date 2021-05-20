@@ -12,7 +12,7 @@ import (
 
 // APIHandler is a base path for all API related requests
 func APIHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request received for /api endpoint")
+	fmt.Println("Request received for /handler endpoint")
 }
 
 // SlackHandler routes all event callbacks from Slack
