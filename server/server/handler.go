@@ -26,27 +26,6 @@ func SlackCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	slack.CallbackHandler(w, r)
 }
 
-func SlackUserHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request received for /slack/users endpoint")
-	slack.UserListHandler(w, r)
-}
-
-func SlackChannelHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request received for /slack/channels endpoint")
-	slack.ChannelListHandler(w, r)
-}
-
-func SlackGroupHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request received for /slack/groups endpoint")
-	slack.GroupListHandler(w, r)
-}
-
-// SlackStatusHandler returns a health check if Slack is connected
-func SlackStatusHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request received for /slack/status endpoint")
-	slack.StatusHandler(w, r)
-}
-
 // SlackConnectHandler routes the request to start a connection
 // to the configured Slack instance
 func SlackConnectHandler(w http.ResponseWriter, r *http.Request) {
