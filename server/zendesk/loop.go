@@ -56,12 +56,13 @@ func iteration(t *time.Ticker, interval time.Duration) {
 
 				switch t.notificationType {
 				case "breaches":
-					getUser(&ticket)
+
 					sendSLANotification(ticket, t.channel, t.tag)
 				case "new":
+
 					sendNewNotification(ticket, t.channel, t.tag)
 				case "updates":
-					getUser(&ticket)
+
 					sendUpdatedNotification(ticket, t.channel, t.tag)
 				}
 			}
