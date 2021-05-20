@@ -35,7 +35,7 @@ func sendSLANotification(ticket Ticket, channel string, tag string) {
 		fmt.Println(ticket.ID, "SLA: ", ticket.SLA, " Send SLA?: ", send)
 		if send {
 			message, _ := prepSLANotification(ticket, notify, tag)
-
+			getUser(&ticket)
 			notification := map[string]interface{}{
 				"ID":            ticket.ID,
 				"Subject":       ticket.Subject,
@@ -76,6 +76,7 @@ func sendUpdatedNotification(ticket Ticket, channel string, tag string) {
 	fmt.Println(ticket.ID, "Last updated: ", ticket.UpdatedAt, " Last Ran: ", lastRan)
 	if ticket.UpdatedAt.After(lastRan.Add(-(2 * time.Minute))) {
 		url := fmt.Sprintf("https://%s.zendesk.com/agent/tickets/%d", string(c.url), ticket.ID)
+		getUser(&ticket)
 		notification := map[string]interface{}{
 			"ID":        ticket.ID,
 			"Subject":   ticket.Subject,

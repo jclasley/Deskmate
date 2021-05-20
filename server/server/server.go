@@ -19,7 +19,7 @@ func Launch() {
 	// "/api/"
 	s.HandleFunc("/", APIHandler)
 	// "/api/config"
-	s.HandleFunc("/config", ConfigHandler).Methods("GET", "POST", "PUT", http.MethodOptions)
+	s.HandleFunc("/config", ConfigHandler).Methods("POST", "PUT", http.MethodOptions)
 
 	s.HandleFunc("/slack", SlackHandler).Methods("GET", "POST", http.MethodOptions)
 	s.HandleFunc("/slack/callback", SlackCallbackHandler).Methods("GET", "POST", http.MethodOptions)

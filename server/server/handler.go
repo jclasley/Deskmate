@@ -95,9 +95,6 @@ func TriageAllHandler(w http.ResponseWriter, r *http.Request) {
 func ConfigHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	switch r.Method {
-	case http.MethodGet:
-		fmt.Println("GET method request for /config endpoint")
-		config.GetConfig(w, r)
 	case http.MethodPost:
 		fmt.Println("POST method request for /config endpoint")
 		config.PostConfig(w, r)
