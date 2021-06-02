@@ -24,9 +24,6 @@ func GetConfig(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
-func PutConfig(w http.ResponseWriter, r *http.Request) {
-
-}
 func PostConfig(w http.ResponseWriter, r *http.Request) {
 	payload := make(map[string]interface{})
 	err := json.NewDecoder(r.Body).Decode(&payload)

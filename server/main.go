@@ -23,10 +23,4 @@ func main() {
 	// Zendesk.
 	server.Launch()
 
-	// TODO: Establish connection to Slack
-	// With the webserver up and running, Deskmate will need an endpoint that
-	// will be used for the Events API (https://api.slack.com/events-api). This
-	// will likely be `/events`, which Slack will send POST data to. From there,
-	// the `slack-go/slack` package will have the handler for that endpoint.
-
 }
