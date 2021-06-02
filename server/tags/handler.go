@@ -9,7 +9,10 @@ import (
 	"time"
 
 	"github.com/tylerconlee/Deskmate/server/datastore"
+	l "github.com/tylerconlee/Deskmate/server/log"
 )
+
+var log = l.Log
 
 // GetAllTagsHandler recieves the request for getting all tags loaded and
 // returns a JSON encoded tag object
@@ -17,7 +20,7 @@ func GetAllTagsHandler(w http.ResponseWriter, r *http.Request) {
 	loadTags()
 	t, err := json.Marshal(T)
 	if err != nil {
-		fmt.Println("Error marshalling JSON for tags")
+		log.Errorw("Error marshalling JSON for tags", "error", err.Error())
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -33,7 +36,7 @@ func PostTagHandler(w http.ResponseWriter, r *http.Request) {
 	var t Tag
 	err := decoder.Decode(&t)
 	if err != nil {
-		panic(err)
+		log.Errorw("Error decoding JSON for tags", "error", err.Error())
 	}
 
 	tag := map[string]interface{}{
@@ -49,7 +52,7 @@ func PostTagHandler(w http.ResponseWriter, r *http.Request) {
 
 	m, err := json.Marshal(T)
 	if err != nil {
-		fmt.Println("Error marshalling JSON for tags")
+		log.Errorw("Error marshalling JSON for tags", "error", err.Error())
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -65,7 +68,7 @@ func UpdateTagHandler(w http.ResponseWriter, r *http.Request) {
 	var t Tag
 	err := decoder.Decode(&t)
 	if err != nil {
-		panic(err)
+		log.Errorw("Error decoding JSON for tags", "error", err.Error())
 	}
 
 	ID, err := strconv.Atoi(r.RequestURI)
@@ -88,7 +91,7 @@ func UpdateTagHandler(w http.ResponseWriter, r *http.Request) {
 // DeleteTagHandler receives the DELETE request for the specified tag and removes that tag from the database
 func DeleteTagHandler(w http.ResponseWriter, r *http.Request) {
 	t := path.Base(r.RequestURI)
-	fmt.Println("Deleting tag ID: ", t)
+	log.Debug("Deleting tag from database", "tag", t)
 	ID, err := strconv.Atoi(t)
 	if err != nil {
 		fmt.Println(err)
