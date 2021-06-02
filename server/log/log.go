@@ -6,12 +6,12 @@ import (
 	"go.uber.org/zap"
 )
 
-var Log *zap.Logger
+var Log *zap.SugaredLogger
 
 func init() {
 	var err error
-	Log, err = zap.NewDevelopment()
-	Log.Sugar()
+	l, err := zap.NewDevelopment()
+	Log = l.Sugar()
 
 	if err != nil {
 		os.Exit(1)
