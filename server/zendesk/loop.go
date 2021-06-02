@@ -7,11 +7,13 @@ import (
 	"time"
 
 	"github.com/shurcooL/graphql"
+	l "github.com/tylerconlee/Deskmate/server/log"
 )
 
 var active = false
 var activeTickets []Ticket
 var lastRan time.Time
+var log = l.Log
 
 func Connect(host string) {
 	var a string
@@ -50,21 +52,18 @@ func iteration(t *time.Ticker, interval time.Duration) {
 	getAllTickets()
 	for _, ticket := range activeTickets {
 		notify := checkTag(ticket)
-		if notify != nil {
+		for _, t := range notify {
 
-			for _, t := range notify {
+			switch t.notificationType {
+			case "breaches":
 
-				switch t.notificationType {
-				case "breaches":
+				sendSLANotification(ticket, t.channel, t.tag)
+			case "new":
 
-					sendSLANotification(ticket, t.channel, t.tag)
-				case "new":
+				sendNewNotification(ticket, t.channel, t.tag)
+			case "updates":
 
-					sendNewNotification(ticket, t.channel, t.tag)
-				case "updates":
-
-					sendUpdatedNotification(ticket, t.channel, t.tag)
-				}
+				sendUpdatedNotification(ticket, t.channel, t.tag)
 			}
 		}
 

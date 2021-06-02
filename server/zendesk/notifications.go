@@ -32,7 +32,7 @@ func sendSLANotification(ticket Ticket, channel string, tag string) {
 	url := fmt.Sprintf("https://%s.zendesk.com/agent/tickets/%d", string(c.url), ticket.ID)
 	if ticket.SLA != "" {
 		send, notify := UpdateCache(ticket, channel)
-		fmt.Println(ticket.ID, "SLA: ", ticket.SLA, " Send SLA?: ", send)
+		log.Debugw("Processing SLA notification", "ticket", ticket.ID, "sla", ticket, "send", send)
 		if send {
 			message, _ := prepSLANotification(ticket, notify, tag)
 			getUser(&ticket)
@@ -55,7 +55,7 @@ func sendSLANotification(ticket Ticket, channel string, tag string) {
 }
 
 func sendNewNotification(ticket Ticket, channel string, tag string) {
-	fmt.Println(ticket.ID, "Created: ", ticket.CreatedAt, " Last Ran: ", lastRan)
+	log.Debugw("Processing New notification", "ticket", ticket.ID, "created", ticket.CreatedAt, "last-ran", lastRan)
 	if ticket.CreatedAt.After(lastRan.Add(-(2 * time.Minute))) {
 		url := fmt.Sprintf("https://%s.zendesk.com/agent/tickets/%d", string(c.url), ticket.ID)
 		notification := map[string]interface{}{
@@ -73,7 +73,7 @@ func sendNewNotification(ticket Ticket, channel string, tag string) {
 
 func sendUpdatedNotification(ticket Ticket, channel string, tag string) {
 
-	fmt.Println(ticket.ID, "Last updated: ", ticket.UpdatedAt, " Last Ran: ", lastRan)
+	log.Debugw("Processing Updated notification", "ticket", ticket.ID, "created", ticket.CreatedAt, "last-ran", lastRan)
 	if ticket.UpdatedAt.After(lastRan.Add(-(2 * time.Minute))) {
 		url := fmt.Sprintf("https://%s.zendesk.com/agent/tickets/%d", string(c.url), ticket.ID)
 		getUser(&ticket)
@@ -125,7 +125,7 @@ func GetTimeRemaining(ticket Ticket) (remain time.Time) {
 
 	breach, err := time.Parse(time.RFC3339, ticket.SLA)
 	if nil != err {
-		fmt.Println("Error parsing time on ticket", err)
+		log.Errorw("Error parsing time on ticket", "error", err.Error())
 	}
 	return breach
 }
@@ -180,7 +180,7 @@ func UpdateCache(ticket Ticket, channel string) (bool, int64) {
 			f := s.FieldByName("ID")
 			if f.IsValid() {
 				if f.Interface() == ticket.ID && s.FieldByName("Type").Int() == notify && s.FieldByName("Channel").String() == channel {
-					fmt.Println(ticket.ID, " has already received a notification")
+					log.Debugf("%d has already received a notification", ticket.ID)
 					return false, 0
 				}
 

@@ -19,7 +19,7 @@ func ConnectHandler(w http.ResponseWriter, r *http.Request) {
 func StatusHandler(w http.ResponseWriter, r *http.Request) {
 	js, err := json.Marshal(active)
 	if err != nil {
-		fmt.Println("Error marshalling JSON for config")
+		log.Errorw("Error marshalling JSON for config", "error", err.Error())
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
