@@ -66,7 +66,7 @@ func HandleMentionEvent(event *slackevents.AppMentionEvent) {
 	// optional brackets, matches anything not a space following '@'
 	re, err := regexp.Compile(`^<*@\S*>* *`)
 	if err != nil {
-		fmt.Println("error parsing command", err.Error())
+		log.Errorw("Error parsing Slack command", "error", err.Error())
 	}
 	event.Text = re.ReplaceAllString(event.Text, "")
 
