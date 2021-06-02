@@ -93,17 +93,3 @@ func ListUsers() (users []map[string]string) {
 	}
 	return users
 }
-
-func ListGroups() (groups []map[string]string) {
-	g, err := api.GetGroups(true)
-	if err != nil {
-		fmt.Println("Error retrieving groups list")
-	}
-	for _, group := range g {
-		groups = append(groups, map[string]string{
-			"GroupName": group.Name,
-			"ID":        group.ID,
-		})
-	}
-	return groups
-}

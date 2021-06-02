@@ -21,7 +21,7 @@ func StatusHandler(w http.ResponseWriter, r *http.Request) {
 	info := Ping()
 	js, err := json.Marshal(info)
 	if err != nil {
-		fmt.Println("Error marshalling JSON for config")
+		log.Errorw("Error marshalling JSON for config", "error", err.Error())
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
@@ -40,17 +40,7 @@ func ChannelListHandler(w http.ResponseWriter, r *http.Request) {
 	channels := ListChannels()
 	js, err := json.Marshal(channels)
 	if err != nil {
-		fmt.Println("Error marshalling JSON for channels")
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(js)
-}
-
-func GroupListHandler(w http.ResponseWriter, r *http.Request) {
-	groups := ListGroups()
-	js, err := json.Marshal(groups)
-	if err != nil {
-		fmt.Println("Error marshalling JSON for groups")
+		log.Errorw("Error marshalling JSON for channels", "error", err.Error())
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
@@ -60,7 +50,7 @@ func UserListHandler(w http.ResponseWriter, r *http.Request) {
 	user := ListUsers()
 	js, err := json.Marshal(user)
 	if err != nil {
-		fmt.Println("Error marshalling JSON for user")
+		log.Errorw("Error marshalling JSON for user", "error", err.Error())
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
@@ -77,14 +67,14 @@ func EventHandler(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 
 	if err != nil {
-		fmt.Println("Error reading request", err)
+		log.Errorw("Error reading Slack event request", "error", err.Error())
 		w.WriteHeader(http.StatusBadRequest)
 		status = false
 		return
 	}
 	sv, err := slack.NewSecretsVerifier(r.Header, c.Slack.SlackSigning)
 	if err != nil {
-		fmt.Println("Error creating secrets verifier", err)
+		log.Errorw("Error creating secrets verifier", "error", err.Error())
 		w.WriteHeader(http.StatusBadRequest)
 		status = false
 		return
@@ -105,7 +95,6 @@ func EventHandler(w http.ResponseWriter, r *http.Request) {
 		status = false
 		return
 	}
-	fmt.Println("Slack event received: ", eventsAPIEvent.InnerEvent.Type)
 
 	if eventsAPIEvent.Type == slackevents.URLVerification {
 		var r *slackevents.ChallengeResponse
@@ -123,7 +112,7 @@ func EventHandler(w http.ResponseWriter, r *http.Request) {
 		innerEvent := eventsAPIEvent.InnerEvent
 		switch ev := innerEvent.Data.(type) {
 		case *slackevents.AppMentionEvent:
-			fmt.Println("Handling mention event", ev)
+			log.Debugw("Handling Slack mention event", "user", ev.User, "channel", ev.Channel)
 			HandleMentionEvent(ev)
 		}
 	}
@@ -133,18 +122,16 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 	payload := &slack.InteractionCallback{}
 	err := json.Unmarshal([]byte(r.PostFormValue("payload")), payload)
 	if err != nil {
-
+		log.Errorw("Error unmarshalling Slack callback", "error", err.Error())
 	}
 	AcknowledgeTicket(payload)
-
-	return
 }
 
 func AcknowledgeTicket(payload *slack.InteractionCallback) {
-	f, _ := strconv.ParseFloat(payload.ActionCallback.BlockActions[0].ActionTs, 10)
+	f, _ := strconv.ParseFloat(payload.ActionCallback.BlockActions[0].ActionTs, 32)
 	i := int64(f)
 	ts := time.Unix(i, 0)
-	fmt.Println("Ticket alert acknowledged by ", payload.User.Name)
+	log.Debugf("Ticket alert acknowledged by ", payload.User.Name)
 	ts.Format(time.RFC822Z)
 	t := fmt.Sprintf("<@%s> acknowledged this alert at %s", payload.User.Name, ts.String())
 
@@ -156,9 +143,8 @@ func AcknowledgeTicket(payload *slack.InteractionCallback) {
 		[]slack.MixedElement{ackImage, ackText}...,
 	)
 	var respBlocks []slack.Block
-	for _, block := range payload.Message.Msg.Blocks.BlockSet {
-		respBlocks = append(respBlocks, block)
-	}
+	respBlocks = append(respBlocks, payload.Message.Msg.Blocks.BlockSet...)
+
 	respBlocks = respBlocks[:len(respBlocks)-1]
 	respBlocks = append(respBlocks, ackSection)
 	replaceOriginal := slack.MsgOptionReplaceOriginal(payload.ResponseURL)

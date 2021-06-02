@@ -105,7 +105,7 @@ func loadTriage() {
 					exists = true
 				}
 			}
-			if exists == false {
+			if !exists {
 				addTriage(channel, user, row["started"].(time.Time), false)
 			}
 		}

@@ -16,10 +16,10 @@ var variables map[string]interface{}
 func getAllTickets() {
 	err := client.Query(context.Background(), &TicketQuery, variables)
 	if err != nil {
-		fmt.Println("Error parsing tickets: ", err)
+		log.Errorw("Error parsing tickets in getAllTickets", "error", err.Error())
 	} else {
 		t := TicketQuery.Tickets
-		fmt.Println("Tickets retrieved: ", len(t.Tickets))
+		log.Debug("Tickets retrieved: ", len(t.Tickets))
 		for _, ticket := range t.Tickets {
 
 			var tags []string
@@ -29,7 +29,7 @@ func getAllTickets() {
 			created := fmt.Sprintf("%s%s", strings.Replace(string(ticket.Createdat[0:19]), " ", "T", 1), "Z")
 			createdAt, err := time.Parse(time.RFC3339, created)
 			if err != nil {
-				fmt.Println("Error converting createdat string to time", err)
+				log.Errorw("Error converting createdat string to time", "error", err.Error())
 			}
 			var updated string
 			var updatedAt time.Time
@@ -37,12 +37,12 @@ func getAllTickets() {
 				updated = fmt.Sprintf("%s%s", strings.Replace(string(ticket.Updatedat[0:19]), " ", "T", 1), "Z")
 				updatedAt, err = time.Parse(time.RFC3339, updated)
 				if err != nil {
-					fmt.Println("Error converting updatedat string to time", err)
+					log.Errorw("Error converting updatedat string to time", "error", err.Error())
 				}
 			}
 			assignee, err := strconv.Atoi(string(ticket.Assigneeid))
 			if err != nil {
-				fmt.Println("Error converting assignee ID from string to int")
+				log.Errorw("Error converting assignee ID from string to int", "error", err.Error())
 			}
 			activeTickets = append(activeTickets, Ticket{
 				ID:        int(ticket.ID),
@@ -69,7 +69,7 @@ func getUser(ticket *Ticket) {
 	userVar["id"] = graphql.String(userID)
 	err := client.Query(context.Background(), &AssigneeQuery, userVar)
 	if err != nil {
-		fmt.Println("Error retrieving user details", err)
+		log.Errorw("Error retrieving user details", "error", err.Error())
 
 		ticket.User = string("")
 		ticket.Email = string("")
