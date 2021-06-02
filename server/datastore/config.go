@@ -3,15 +3,22 @@ package datastore
 import (
 	"database/sql"
 	"fmt"
+
+	l "github.com/tylerconlee/Deskmate/server/log"
 )
 
-var configID = 0
+var (
+	configID = 0
+	log      = l.Log
+)
 
 // LoadConfig pulls the configuration details from the database and returns a
 // pointer to a sql.Row
 func LoadConfig() (rows *sql.Row) {
 	// Load config from database
 	row := db.QueryRow("SELECT slack_url,slack_api,slack_signing, zendesk_user, zendesk_api, zendesk_url from configuration where id = 1 ")
+
+	log.Debug("Retrieved configuration from datastore")
 	return row
 }
 
