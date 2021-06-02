@@ -46,16 +46,6 @@ func ChannelListHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
-func GroupListHandler(w http.ResponseWriter, r *http.Request) {
-	groups := ListGroups()
-	js, err := json.Marshal(groups)
-	if err != nil {
-		fmt.Println("Error marshalling JSON for groups")
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(js)
-}
-
 func UserListHandler(w http.ResponseWriter, r *http.Request) {
 	user := ListUsers()
 	js, err := json.Marshal(user)
