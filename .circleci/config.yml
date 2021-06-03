@@ -1,0 +1,41 @@
+version: 2.1
+orbs:
+  node: circleci/node@4.5.0
+  go: circleci/go@1.6.0
+jobs:
+  test-client:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-deps-{{ checksum "./client/package-lock.json" }}
+      - node/install-packages:
+          app-dir: ./client
+          override-ci-command: npm install
+      - save_cache:
+          key: v1-deps-{{ checksum "./client/package-lock.json" }}
+          paths:
+            - ./client/node_modules
+      - run: cat ./client/package.json #to be replaced with tests later
+  test-server:
+    working_directory: ~/Deskmate/server
+    docker:
+      - image: circleci/golang
+    steps:
+      - checkout:
+          path: ~/Deskmate
+      - run: cd server
+      - go/load-cache
+      - go/mod-download-cached
+      - go/save-cache
+      - run: go vet
+      - run: go test -v ./...
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test-client
+      - test-server
