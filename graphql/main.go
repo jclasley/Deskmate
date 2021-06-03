@@ -1,7 +1,7 @@
 package main
 
 import (
-	logger "github.com/tylerconlee/Deskmate/zendesk/log"
+	logger "github.com/tylerconlee/Deskmate/graphql/log"
 )
 
 var (

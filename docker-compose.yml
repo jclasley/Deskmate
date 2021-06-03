@@ -31,13 +31,13 @@ services:
     links:
       - db
 
-  zendesk:
+  graphql:
     build:
-      context: ./zendesk
+      context: ./graphql
       args:
         app_env: ${APP_ENV}
     volumes:
-      - ./zendesk:/go/src/github.com/tylerconlee/Deskmate/zendesk
+      - ./graphql:/go/src/github.com/tylerconlee/Deskmate/graphql
     ports:
       - "6000:8090"
 

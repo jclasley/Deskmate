@@ -3,7 +3,7 @@ package zendesk
 import (
 	"context"
 
-	"github.com/tylerconlee/Deskmate/zendesk/model"
+	"github.com/tylerconlee/Deskmate/graphql/model"
 )
 
 // GetOrganization takes the client, c, and requests the details for the
