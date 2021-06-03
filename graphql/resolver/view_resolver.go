@@ -3,8 +3,8 @@ package resolver
 import (
 	"context"
 
-	"github.com/tylerconlee/Deskmate/zendesk/model"
-	"github.com/tylerconlee/Deskmate/zendesk/zendesk"
+	"github.com/tylerconlee/Deskmate/graphql/model"
+	"github.com/tylerconlee/Deskmate/graphql/zendesk"
 )
 
 // *** GET View functions *** //

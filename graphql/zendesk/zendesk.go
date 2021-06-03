@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	logger "github.com/tylerconlee/Deskmate/zendesk/log"
-	"github.com/tylerconlee/Deskmate/zendesk/model"
+	logger "github.com/tylerconlee/Deskmate/graphql/log"
+	"github.com/tylerconlee/Deskmate/graphql/model"
 	"github.com/tylerconlee/zendesk-go/zendesk"
 )
 

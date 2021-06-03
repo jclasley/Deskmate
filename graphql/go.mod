@@ -1,6 +1,6 @@
-module github.com/tylerconlee/Deskmate/zendesk
+module github.com/tylerconlee/Deskmate/graphql
 
-go 1.13
+go 1.15
 
 require (
 	github.com/99designs/gqlgen v0.13.1-0.20210415065809-5ad012e3d7be

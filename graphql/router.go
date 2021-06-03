@@ -7,8 +7,8 @@ import (
 
 	"github.com/99designs/gqlgen/handler"
 	"github.com/gorilla/mux"
-	"github.com/tylerconlee/Deskmate/zendesk/graph"
-	"github.com/tylerconlee/Deskmate/zendesk/resolver"
+	"github.com/tylerconlee/Deskmate/graphql/graph"
+	"github.com/tylerconlee/Deskmate/graphql/resolver"
 )
 
 // NewRouter initializes a new router, or map, for any request incoming to the
