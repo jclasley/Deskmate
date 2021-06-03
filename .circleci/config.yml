@@ -22,7 +22,6 @@ jobs:
   build-server:
     docker:
       - image: circleci/golang
-    working_directory: ~/Deskmate/server
     steps:
       - checkout
       - run: pwd
