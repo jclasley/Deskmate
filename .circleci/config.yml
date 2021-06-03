@@ -32,7 +32,7 @@ jobs:
       - run: go vet
       - run: go test -v ./...
   test-graphql:
-    working_directory: ~/Deskmate/zendesk
+    working_directory: ~/Deskmate/graphql
     docker:
       - image: circleci/golang
     steps:
