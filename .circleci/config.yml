@@ -22,7 +22,7 @@ jobs:
   build-server:
     docker:
       - image: circleci/golang
-    working_directory: /go/src/github.com/tylerconlee/Deskmate/server
+    working_directory: ~/project/server
     steps:
       - checkout
       - go/load-cache
