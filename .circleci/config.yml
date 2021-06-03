@@ -25,7 +25,7 @@ jobs:
     working_directory: ~/Deskmate/server
     steps:
       - checkout
-      - run: ls -al
+      - run: pwd
       - go/load-cache
       - go/mod-download-cached
       - go/save-cache
