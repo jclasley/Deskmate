@@ -53,7 +53,13 @@ class SlackConnect extends Component {
         const { connected } = this.state
         return (
             <div>
-                <Button color={this.state.connectedColor} onClick={this.connect}>{connected ? <b>Connected: Slack</b> : <b>Not Connected: Slack</b> }</Button>
+                <Button
+                    color={this.state.connectedColor}
+                    onClick={this.connect}
+                    data-testid="slack_connect"
+                >
+                    {connected ? <b>Connected: Slack</b> : <b>Not Connected: Slack</b>}
+                </Button>
             </div>
         )
     }
