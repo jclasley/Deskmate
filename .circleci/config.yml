@@ -2,8 +2,6 @@ version: 2.1
 orbs:
   node: circleci/node@4.5.0
   go: circleci/go@1.6.0
-executors:
-  golang: go/default
 jobs:
   build-client:
     docker:
@@ -22,10 +20,13 @@ jobs:
             - ./client/node_modules
       - run: cat ./client/package.json #to be replaced with tests later
   build-server:
-    working_directory: /go/src/github.com/tylerconlee/Deskmate/server
-    executor: golang
+    working_directory: ~/Deskmate/server
+    docker:
+      - image: circleci/golang
     steps:
-      - checkout
+      - checkout:
+          path: ~/Deskmate
+      - run: cd server
       - go/load-cache
       - go/mod-download-cached
       - go/save-cache
