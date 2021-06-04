@@ -21,6 +21,7 @@ func GetAllTagsHandler(w http.ResponseWriter, r *http.Request) {
 	t, err := json.Marshal(T)
 	if err != nil {
 		log.Errorw("Error marshalling JSON for tags", "error", err.Error())
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -37,6 +38,7 @@ func PostTagHandler(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&t)
 	if err != nil {
 		log.Errorw("Error decoding JSON for tags", "error", err.Error())
+		return
 	}
 
 	tag := map[string]interface{}{
@@ -69,6 +71,7 @@ func UpdateTagHandler(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&t)
 	if err != nil {
 		log.Errorw("Error decoding JSON for tags", "error", err.Error())
+		return
 	}
 
 	ID, err := strconv.Atoi(r.RequestURI)
@@ -94,7 +97,8 @@ func DeleteTagHandler(w http.ResponseWriter, r *http.Request) {
 	log.Debug("Deleting tag from database", "tag", t)
 	ID, err := strconv.Atoi(t)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorw("Error converting tag ID to int", "error", err.Error())
+		return
 	}
 	removeTag(ID)
 	datastore.RemoveTag(ID)
