@@ -46,7 +46,7 @@ func ConnectPostgres() {
 	db, err = sql.Open("postgres", connection)
 	if err != nil {
 		fmt.Println("Error opening connection to Postgres database:", err.Error())
-		// TODO: Add logging for an error on database connection
+		return
 	}
 
 	// Ping database to ensure connection
@@ -54,7 +54,7 @@ func ConnectPostgres() {
 	if err != nil {
 
 		fmt.Println("Error pinging Postgres database:", err.Error())
-		// TODO: Add logging for a failed ping, likely due to a connection issue
+		return
 	}
 	fmt.Println("Successfully connected to Postgres")
 	checkTable()

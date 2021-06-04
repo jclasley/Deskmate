@@ -59,6 +59,7 @@ func SaveConfig(data map[string]interface{}) {
 		data["zendeskapi"]).Scan(&configID)
 	if err != nil {
 		fmt.Println("error saving configuration into database", err.Error())
+		return
 	}
 
 }
