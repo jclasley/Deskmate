@@ -3,6 +3,7 @@ package datastore
 import (
 	"database/sql"
 	"fmt"
+	"os"
 
 	// pq is the postgres driver for the sql package
 	_ "github.com/lib/pq"
@@ -33,12 +34,13 @@ var (
 // connection with Postgres, and then ping the database to ensure the
 // connection is active.
 func ConnectPostgres() {
+	envVars := retrieveEnvConfig()
 	config = ConnectionDetails{
 		host:     "db",
 		port:     5432,
-		user:     "docker",
-		password: "docker",
-		dbname:   "postgres",
+		user:     envVars["POSTGRES_USER"],
+		password: envVars["POSTGRES_PASSWORD"],
+		dbname:   envVars["POSTGRES_DB"],
 	}
 
 	// Open a connection using connection details
@@ -58,4 +60,12 @@ func ConnectPostgres() {
 	}
 	fmt.Println("Successfully connected to Postgres")
 	checkTable()
+}
+
+func retrieveEnvConfig() (map[string]string) {
+	env := make(map[string]string)
+	env["POSTGRES_USER"] = os.Getenv("POSTGRES_USER")
+	env["POSTGRES_PASSWORD"] = os.Getenv("POSTGRES_PASSWORD")
+	env["POSTGRES_DB"] = os.Getenv("POSTGRES_DB")
+	return env
 }
