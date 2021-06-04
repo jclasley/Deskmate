@@ -8,29 +8,29 @@ class SlackConnect extends Component {
 		super(props);
 		this.state = {
 			connected: false,
+            connectedColor: "danger", // should have an initial state for each thing
 			error: null,
 		}
 	}
-    componentDidMount() {
-		if (!this.state.connected) {
-			this.getConnectedState().then(
-                data => {
-                    this.setState({connected: data})
-                    if (this.state.connected === true) {
-                        this.setState({connectedColor: "success"})
-                    } else {
-                        this.setState({connectedColor: "danger"})
-                    }
-                })
-			.catch(err => {})
+    async componentDidMount() {
+        if (!this.state.connected) {
+            try {
+                const { data } = await axios.get(`${Urls.api}/slack/status`);
+                this.setState({ connected: data });
+                this.setState({ connectedColor: data ? "success" : "danger" });
+            } catch (err) {
+                console.trace(err);
+            }
 		}
     }
 
 	async getConnectedState() {
         const res = await axios.get(`${Urls.api}/slack/status`);
-        console.log(res.data);
+        console.log(res);
 
-		return await res.data;
+        // because this is 'await'ed already, there is no need to return it as a promise.
+        // async/await avoids having to do the promise chain, we can just await this function when it's called in the future
+        return res.data;
 	}
     connect = e => {
         e.preventDefault()
