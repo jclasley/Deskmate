@@ -123,6 +123,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 	err := json.Unmarshal([]byte(r.PostFormValue("payload")), payload)
 	if err != nil {
 		log.Errorw("Error unmarshalling Slack callback", "error", err.Error())
+		return
 	}
 	AcknowledgeTicket(payload)
 }

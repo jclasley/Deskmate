@@ -17,6 +17,7 @@ func getAllTickets() {
 	err := client.Query(context.Background(), &TicketQuery, variables)
 	if err != nil {
 		log.Errorw("Error parsing tickets in getAllTickets", "error", err.Error())
+		return
 	} else {
 		t := TicketQuery.Tickets
 		log.Debug("Tickets retrieved: ", len(t.Tickets))
@@ -30,6 +31,7 @@ func getAllTickets() {
 			createdAt, err := time.Parse(time.RFC3339, created)
 			if err != nil {
 				log.Errorw("Error converting createdat string to time", "error", err.Error())
+
 			}
 			var updated string
 			var updatedAt time.Time
@@ -38,11 +40,13 @@ func getAllTickets() {
 				updatedAt, err = time.Parse(time.RFC3339, updated)
 				if err != nil {
 					log.Errorw("Error converting updatedat string to time", "error", err.Error())
+
 				}
 			}
 			assignee, err := strconv.Atoi(string(ticket.Assigneeid))
 			if err != nil {
 				log.Errorw("Error converting assignee ID from string to int", "error", err.Error())
+
 			}
 			activeTickets = append(activeTickets, Ticket{
 				ID:        int(ticket.ID),

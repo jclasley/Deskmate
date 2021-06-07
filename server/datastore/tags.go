@@ -28,6 +28,7 @@ func LoadTags() (t []map[string]interface{}) {
 			// Check for a scan error.
 			// Query rows will be closed with defer.
 			log.Fatalw("Unable to load tags from datastore", "error", err.Error())
+			return
 		}
 		t = append(t, map[string]interface{}{"id": id, "tag": tag, "slackID": slackID, "groupID": groupID, "channel": channel, "notificationType": notificationType, "added": added})
 
@@ -36,6 +37,7 @@ func LoadTags() (t []map[string]interface{}) {
 	err = row.Err()
 	if err != nil {
 		log.Fatalw("Unable to load tags from datastore", "error", err.Error())
+		return
 	}
 	return t
 }
@@ -45,7 +47,8 @@ func LoadTags() (t []map[string]interface{}) {
 func CreateTag(t map[string]interface{}) {
 	_, err = db.Query("INSERT INTO tags(tag, slack_id, group_id, channel, notification_type, added) VALUES ($1, $2, $3, $4, $5, $6)", t["tag"], t["slackID"], t["groupID"], t["channel"], t["notificationType"], t["added"])
 	if err != nil {
-		log.Fatalw("Unable to save tags to datastore", "error", err.Error())
+		log.Errorw("Unable to save tags to datastore", "error", err.Error())
+		return
 	}
 }
 
@@ -54,7 +57,8 @@ func CreateTag(t map[string]interface{}) {
 func RemoveTag(tagID int) {
 	_, err = db.Query("DELETE FROM tags WHERE id = $1", tagID)
 	if err != nil {
-		log.Fatalw("Unable to remove tags from datastore", "error", err.Error())
+		log.Errorw("Unable to remove tags from datastore", "error", err.Error())
+		return
 	}
 }
 
@@ -62,7 +66,8 @@ func RemoveTag(tagID int) {
 func UpdateTag(t map[string]interface{}) {
 	_, err = db.Query("UPDATE tags SET slack_id = $1, group_id = $2, channel =$3, notification_type = $4, added = $5 WHERE id = $6", t["slackID"], t["groupID"], t["channel"], t["notificationType"], t["added"], t["id"])
 	if err != nil {
-		log.Fatalw("Unable to update tags in datastore", "error", err.Error())
+		log.Errorw("Unable to update tags in datastore", "error", err.Error())
+		return
 	}
 
 }

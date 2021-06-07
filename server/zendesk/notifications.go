@@ -126,6 +126,7 @@ func GetTimeRemaining(ticket Ticket) (remain time.Time) {
 	breach, err := time.Parse(time.RFC3339, ticket.SLA)
 	if nil != err {
 		log.Errorw("Error parsing time on ticket", "error", err.Error())
+		return
 	}
 	return breach
 }

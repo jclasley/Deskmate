@@ -22,6 +22,7 @@ func GetConfig(w http.ResponseWriter, r *http.Request) {
 	js, err := json.Marshal(c)
 	if err != nil {
 		log.Errorw("Error retrieving config from database", "error", err.Error())
+		return
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
@@ -32,6 +33,7 @@ func PostConfig(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&payload)
 	if err != nil {
 		log.Errorw("Error saving config to database", "error", err.Error())
+		return
 	}
 	if payload["slackurl"] != nil {
 		payload["zendeskuser"] = c.Zendesk.ZendeskUser
@@ -54,6 +56,7 @@ func LoadConfig() (config Config) {
 	err := rows.Scan(&config.Slack.SlackURL, &config.Slack.SlackAPI, &config.Slack.SlackSigning, &config.Zendesk.ZendeskUser, &config.Zendesk.ZendeskAPI, &config.Zendesk.ZendeskURL)
 	if err != nil {
 		log.Errorw("Error retrieving config from database", "error", err.Error())
+		return
 	}
 	return config
 }

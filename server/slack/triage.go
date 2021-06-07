@@ -63,6 +63,7 @@ func GetAllTriage(w http.ResponseWriter, r *http.Request) {
 	t, err := json.Marshal(T)
 	if err != nil {
 		fmt.Println("Error marshalling JSON for config")
+		return
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(t)
