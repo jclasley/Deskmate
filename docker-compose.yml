@@ -3,7 +3,7 @@ services:
   db:
     build: ./db
     volumes:
-      - ./db/pgdata:/pgdata
+      - db:/pgdata
     ports:
       - "5432"
     environment:
@@ -19,6 +19,8 @@ services:
         app_env: ${APP_ENV}
     volumes:
       - ./server:/go/src/github.com/tylerconlee/Deskmate/server
+      # for setting of API config -- note that the `config.json` should be at the ROOT level of the machine running the docker-compose
+      - ./config.json:/go/src/github.com/tylerconlee/Deskmate/server/config.json
     depends_on: 
       - db
     ports:
@@ -50,3 +52,5 @@ services:
       - ./client/src:/client/src 
     ports:
       - "3000:3000"
+volumes:
+  db:

@@ -3,13 +3,14 @@ package config
 import (
 	"encoding/json"
 	"net/http"
+	"os"
 
 	"github.com/tylerconlee/Deskmate/server/datastore"
 	l "github.com/tylerconlee/Deskmate/server/log"
 )
 
 var (
-	c   Config
+	c   *Config
 	log = l.Log
 )
 
@@ -51,12 +52,30 @@ func PostConfig(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func LoadConfig() (config Config) {
-	rows := datastore.LoadConfig()
-	err := rows.Scan(&config.Slack.SlackURL, &config.Slack.SlackAPI, &config.Slack.SlackSigning, &config.Zendesk.ZendeskUser, &config.Zendesk.ZendeskAPI, &config.Zendesk.ZendeskURL)
-	if err != nil {
-		log.Errorw("Error retrieving config from database", "error", err.Error())
-		return
-	}
+// LoadConfig returns the configuration file as loaded from environment variables. Requires several environment variables that were previously fetched from the Postgres DB. Environment variables are set with the inclusion of a 'config.json' in the 'server' directory. This file can and should be overwritten via a bind-mount in the 'docker-compose.yml'. An example called 'config_example.json' is included for documentation of the JSON shape.
+//
+// SLACK_API, SLACK_SIGN, SLACK_URL, ZEN_API, ZEN_URL, ZEN_USER
+func LoadConfig() (*Config) {
+	// ! removed for the timebeing, will be re-implemented once entry to Deskmate is secured via authentication
+	// rows := datastore.LoadConfig()
+	// err := rows.Scan(&config.Slack.SlackURL, &config.Slack.SlackAPI, &config.Slack.SlackSigning, &config.Zendesk.ZendeskUser, &config.Zendesk.ZendeskAPI, &config.Zendesk.ZendeskURL)
+	// if err != nil {
+	// 	log.Errorw("Error retrieving config from database", "error", err.Error())
+	// 	return
+	// }
+	// return config
+
+	config := new(Config)
+	unmarshalConfig(config)
 	return config
+}
+
+func unmarshalConfig(c *Config) {
+	f,err := os.ReadFile("./config.json")
+	if err != nil {
+		log.Errorw("Error retrieving config.json", "error", err.Error())
+	}
+	if err := json.Unmarshal(f, c); err != nil {
+		log.Errorw("Error unmarshaling json to struct", "error", err.Error())
+	}
 }

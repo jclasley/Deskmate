@@ -1,0 +1,12 @@
+{
+    "slack": {
+        "sign": "exampleSign",
+        "api": "key_goes_here",
+        "url": "url_to_channel"
+    },
+    "zendesk": {
+        "user": "example_user",
+        "api": "zen_key_goes_here",
+        "url": "zen_url"
+    }
+}
