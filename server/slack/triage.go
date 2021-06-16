@@ -45,9 +45,9 @@ var T []Triage
 // DeleteTriage takes the request URI which has a channel ID in it,
 // and removes the triage role associated with that channel.
 func DeleteTriage(w http.ResponseWriter, r *http.Request) (n Triage) {
-	u := path.Base(r.RequestURI)
-	fmt.Println("Removing active triager for channel: ", u)
-	removeTriage(u)
+	user := path.Base(r.RequestURI)
+	fmt.Println("Removing active triager for channel: ", user)
+	removeTriage(user)
 	return
 }
 
@@ -60,13 +60,13 @@ func GetAllTriage(w http.ResponseWriter, r *http.Request) {
 	if T == nil {
 		loadTriage()
 	}
-	t, err := json.Marshal(T)
+	triage, err := json.Marshal(T)
 	if err != nil {
 		fmt.Println("Error marshalling JSON for config")
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(t)
+	w.Write(triage)
 
 }
 
@@ -86,9 +86,9 @@ func setTriage(channel string, user string) {
 
 }
 
-func saveTriage(t Triage) {
+func saveTriage(user Triage) {
 	fmt.Println("Saving triage role to database")
-	datastore.SaveTriage(t.User.ID, t.Channel.ID)
+	datastore.SaveTriage(user.User.ID, user.Channel.ID)
 }
 
 func loadTriage() {
@@ -115,18 +115,18 @@ func loadTriage() {
 }
 
 func addTriage(channel string, user string, started time.Time, save bool) {
-	u := getUserInfo(user)
-	c := getChannelInfo(channel)
-	t := Triage{
-		Channel: c,
-		User:    u,
+	userInfo := getUserInfo(user)
+	channelInfo := getChannelInfo(channel)
+	triager := Triage{
+		Channel: channelInfo,
+		User:    userInfo,
 		Started: started,
 	}
-	T = append(T, t)
+	T = append(T, triager)
 	if save {
-		saveTriage(t)
+		saveTriage(triager)
 	}
-	fmt.Println("Added triage: ", t)
+	fmt.Println("Added triage: ", triager)
 }
 
 func removeTriage(channel string) {
