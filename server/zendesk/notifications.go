@@ -170,11 +170,11 @@ func UpdateCache(ticket Ticket, channel string) (bool, int64) {
 	notify := GetNotifyType(time.Until(expire))
 
 	// take the ticket expiration time and add 15 minutes
-	t := expire.Add(15 * time.Minute)
+	expireTime := expire.Add(15 * time.Minute)
 
 	// if the ticket expiration time is after 15 minutes from now and there's a
 	// valid notification type
-	if t.After(time.Now()) && notify != 0 {
+	if expireTime.After(time.Now()) && notify != 0 {
 		rangeOnMe := reflect.ValueOf(Sent)
 		for i := 0; i < rangeOnMe.Len(); i++ {
 			s := rangeOnMe.Index(i)
@@ -204,13 +204,13 @@ func cleanCache(ticket Ticket) {
 	for i := 0; i < len(Sent); i++ {
 		item := Sent[i]
 		if ticket.ID == item.ID {
-			t := item.Expire.Add(15 * time.Minute)
+			expireTime := item.Expire.Add(15 * time.Minute)
 
 			d := 1 * time.Minute
 			sentupdate := item.LastUpdate.Truncate(d)
 			ticketupdate := ticket.UpdatedAt.Truncate(d)
 
-			if t.Before(time.Now()) || sentupdate.Before(ticketupdate) {
+			if expireTime.Before(time.Now()) || sentupdate.Before(ticketupdate) {
 
 				Sent = append(Sent[:i], Sent[i+1:]...)
 				i--

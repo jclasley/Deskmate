@@ -12,34 +12,34 @@ import (
 func Launch() {
 	slack.LoadConfig()
 
-	r := mux.NewRouter()
+	router := mux.NewRouter()
 
 	// Web App Endpoints
-	s := r.PathPrefix("/handler").Subrouter()
+	sub := router.PathPrefix("/handler").Subrouter()
 	// "/api/"
-	s.HandleFunc("/", APIHandler)
+	sub.HandleFunc("/", APIHandler)
 	// "/api/config"
-	s.HandleFunc("/config", ConfigHandler).Methods("POST", "PUT", http.MethodOptions)
+	sub.HandleFunc("/config", ConfigHandler).Methods("POST", "PUT", http.MethodOptions)
 
-	s.HandleFunc("/slack", SlackHandler).Methods("GET", "POST", http.MethodOptions)
-	s.HandleFunc("/slack/callback", SlackCallbackHandler).Methods("GET", "POST", http.MethodOptions)
-	s.HandleFunc("/slack/connect", SlackConnectHandler)
+	sub.HandleFunc("/slack", SlackHandler).Methods("GET", "POST", http.MethodOptions)
+	sub.HandleFunc("/slack/callback", SlackCallbackHandler).Methods("GET", "POST", http.MethodOptions)
+	sub.HandleFunc("/slack/connect", SlackConnectHandler)
 
-	s.HandleFunc("/zendesk/status", ZendeskStatusHandler)
+	sub.HandleFunc("/zendesk/status", ZendeskStatusHandler)
 
-	s.HandleFunc("/zendesk/connect", ZendeskConnectHandler)
+	sub.HandleFunc("/zendesk/connect", ZendeskConnectHandler)
 
-	s.HandleFunc("/triage/{id}", TriageHandler).Methods("POST", "DELETE", http.MethodOptions)
+	sub.HandleFunc("/triage/{id}", TriageHandler).Methods("POST", "DELETE", http.MethodOptions)
 
-	s.HandleFunc("/triage", TriageAllHandler)
+	sub.HandleFunc("/triage", TriageAllHandler)
 
 	// "/api/tags"
-	s.HandleFunc("/tags", TagsHandler).Methods("POST", "PUT", "DELETE", http.MethodOptions)
+	sub.HandleFunc("/tags", TagsHandler).Methods("POST", "PUT", "DELETE", http.MethodOptions)
 
-	s.HandleFunc("/tags/{id}", TagHandler).Methods("PUT", "DELETE", http.MethodOptions)
+	sub.HandleFunc("/tags/{id}", TagHandler).Methods("PUT", "DELETE", http.MethodOptions)
 
-	r.Use(mux.CORSMethodMiddleware(r))
+	router.Use(mux.CORSMethodMiddleware(router))
 	headers := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
 	origin := handlers.AllowedOrigins([]string{"*"})
-	http.ListenAndServe(":8080", handlers.CORS(headers, origin)(r))
+	http.ListenAndServe(":8080", handlers.CORS(headers, origin)(router))
 }
