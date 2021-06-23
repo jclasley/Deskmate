@@ -40,6 +40,6 @@ func Launch() {
 
 	router.Use(mux.CORSMethodMiddleware(router))
 	headers := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
-	origin := handlers.AllowedOrigins([]string{"*"})
+	origin := handlers.AllowedOrigins([]string{"http://localhost:3000"})
 	http.ListenAndServe(":8080", handlers.CORS(headers, origin)(router))
 }
