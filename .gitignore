@@ -2,3 +2,4 @@ Deskmate
 db/pgdata
 server/tmp
 .env
+*config.json

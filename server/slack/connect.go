@@ -8,7 +8,7 @@ import (
 
 var (
 	api    = slack.New(c.Slack.SlackAPI)
-	c      config.Config
+	c      *config.Config
 	status bool
 
 	log = l.Log
