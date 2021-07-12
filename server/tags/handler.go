@@ -18,14 +18,14 @@ var log = l.Log
 // returns a JSON encoded tag object
 func GetAllTagsHandler(w http.ResponseWriter, r *http.Request) {
 	loadTags()
-	t, err := json.Marshal(T)
+	tags, err := json.Marshal(T)
 	if err != nil {
 		log.Errorw("Error marshalling JSON for tags", "error", err.Error())
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(t)
+	w.Write(tags)
 
 }
 
@@ -34,31 +34,31 @@ func GetAllTagsHandler(w http.ResponseWriter, r *http.Request) {
 func PostTagHandler(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 
-	var t Tag
-	err := decoder.Decode(&t)
+	var newTag Tag
+	err := decoder.Decode(&newTag)
 	if err != nil {
 		log.Errorw("Error decoding JSON for tags", "error", err.Error())
 		return
 	}
 
 	tag := map[string]interface{}{
-		"tag":              t.Tag,
-		"slackID":          t.SlackID,
-		"groupID":          t.GroupID,
-		"channel":          t.Channel,
-		"notificationType": t.NotificationType,
+		"tag":              newTag.Tag,
+		"slackID":          newTag.SlackID,
+		"groupID":          newTag.GroupID,
+		"channel":          newTag.Channel,
+		"notificationType": newTag.NotificationType,
 		"added":            time.Now(),
 	}
 
 	datastore.CreateTag(tag)
 
-	m, err := json.Marshal(T)
+	message, err := json.Marshal(T)
 	if err != nil {
 		log.Errorw("Error marshalling JSON for tags", "error", err.Error())
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(m)
+	w.Write(message)
 
 }
 
@@ -67,8 +67,8 @@ func PostTagHandler(w http.ResponseWriter, r *http.Request) {
 func UpdateTagHandler(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 
-	var t Tag
-	err := decoder.Decode(&t)
+	var newTag Tag
+	err := decoder.Decode(&newTag)
 	if err != nil {
 		log.Errorw("Error decoding JSON for tags", "error", err.Error())
 		return
@@ -80,11 +80,11 @@ func UpdateTagHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	tag := map[string]interface{}{
 		"id":               ID,
-		"tag":              t.Tag,
-		"slackID":          t.SlackID,
-		"groupID":          t.GroupID,
-		"channel":          t.Channel,
-		"notificationType": t.NotificationType,
+		"tag":              newTag.Tag,
+		"slackID":          newTag.SlackID,
+		"groupID":          newTag.GroupID,
+		"channel":          newTag.Channel,
+		"notificationType": newTag.NotificationType,
 		"added":            time.Now(),
 	}
 	datastore.UpdateTag(tag)
@@ -93,9 +93,9 @@ func UpdateTagHandler(w http.ResponseWriter, r *http.Request) {
 
 // DeleteTagHandler receives the DELETE request for the specified tag and removes that tag from the database
 func DeleteTagHandler(w http.ResponseWriter, r *http.Request) {
-	t := path.Base(r.RequestURI)
-	log.Debug("Deleting tag from database", "tag", t)
-	ID, err := strconv.Atoi(t)
+	tag := path.Base(r.RequestURI)
+	log.Debug("Deleting tag from database", "tag", tag)
+	ID, err := strconv.Atoi(tag)
 	if err != nil {
 		log.Errorw("Error converting tag ID to int", "error", err.Error())
 		return

@@ -10,8 +10,9 @@ import (
 )
 
 var (
-	c   *Config
+	config  *Config
 	log = l.Log
+
 )
 
 // GetConfig sends a request to the database to grab the
@@ -19,8 +20,8 @@ var (
 // an instance of 'c', the config for Deskmate. If it
 // runs into any errors, it reports them to the logs.
 func GetConfig(w http.ResponseWriter, r *http.Request) {
-	c = LoadConfig()
-	js, err := json.Marshal(c)
+	config = LoadConfig()
+	js, err := json.Marshal(config)
 	if err != nil {
 		log.Errorw("Error retrieving config from database", "error", err.Error())
 		return
@@ -37,16 +38,16 @@ func PostConfig(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if payload["slackurl"] != nil {
-		payload["zendeskuser"] = c.Zendesk.ZendeskUser
-		payload["zendeskapi"] = c.Zendesk.ZendeskAPI
-		payload["zendeskurl"] = c.Zendesk.ZendeskURL
+		payload["zendeskuser"] = config.Zendesk.ZendeskUser
+		payload["zendeskapi"] = config.Zendesk.ZendeskAPI
+		payload["zendeskurl"] = config.Zendesk.ZendeskURL
 		datastore.SaveConfig(payload)
 		return
 	}
 	if payload["zendeskuser"] != nil {
-		payload["slackurl"] = c.Slack.SlackURL
-		payload["slackapi"] = c.Slack.SlackAPI
-		payload["slacksigning"] = c.Slack.SlackSigning
+		payload["slackurl"] = config.Slack.SlackURL
+		payload["slackapi"] = config.Slack.SlackAPI
+		payload["slacksigning"] = config.Slack.SlackSigning
 		datastore.SaveConfig(payload)
 		return
 	}

@@ -31,12 +31,12 @@ func createConfigTable() {
 		log.Fatalw("Table creation error for Config", "error", err.Error())
 		return
 	}
-	a, err := result.RowsAffected()
+	affectedRows, err := result.RowsAffected()
 	if err != nil {
 		log.Fatalw("Table creation error for Config", "error", err.Error())
 		return
 	}
-	if a != 0 {
+	if affectedRows != 0 {
 		log.Debug("Configuration table successfully created")
 	}
 
@@ -58,12 +58,12 @@ func createTriageTable() {
 		return
 
 	}
-	a, err := result.RowsAffected()
+	affectedRows, err := result.RowsAffected()
 	if err != nil {
 		log.Fatalw("Table creation error for Triage", "error", err.Error())
 		return
 	}
-	if a != 0 {
+	if affectedRows != 0 {
 		log.Debug("Triage table successfully created")
 	}
 
@@ -87,13 +87,13 @@ func createTagsTable() {
 		return
 
 	}
-	a, err := result.RowsAffected()
+	affectedRows, err := result.RowsAffected()
 	if err != nil {
 		log.Fatalw("Table creation error for Tagts", "error", err.Error())
 
 		return
 	}
-	if a != 0 {
+	if affectedRows != 0 {
 		log.Debug("Tags table successfully created")
 	}
 
