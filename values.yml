@@ -10,6 +10,7 @@ deployment:
       image: "<<image_name>>"
       imagePullPolicy: "IfNotPresent"
       command: # commands necessary to start the service
+      # TODO: fix these commands after fixing the Dockerfile
         - /server/main # should match the container command
 
       ports: 
