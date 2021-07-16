@@ -10,14 +10,13 @@ deployment:
       image: "<<image_name>>"
       imagePullPolicy: "IfNotPresent"
       command: # commands necessary to start the service
-      # TODO: fix these commands after fixing the Dockerfile
-        - /server/main # should match the container command
+        - ./serverStart.sh
 
       ports: 
         - containerPort: 8080
           name: server
           protocol: TCP
-        - containerPort: 8081
+        - containerPort: 8090
           name: zendesk
           protocol: TCP
         
@@ -33,5 +32,5 @@ serviceNodePort:
     nodePort: 30151
   
   - name: zendesk
-    port: 8081
+    port: 8090
     nodePort: 30152

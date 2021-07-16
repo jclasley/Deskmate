@@ -31,7 +31,7 @@ jobs:
     executor: ccc
     environment: # NOTE: requires ECR, not yet established
       NAME: itd-deskmate
-      DOCKERFILE_PATH: server/Dockerfile # NOTE: requires refactoring of the Dockerfile
+      DOCKERFILE_PATH: Dockerfile
       DOCKER_REGISTRY: ecr
       TWISTLOCK_ENFORCE: false
     working_directory: ~/Deskmate
