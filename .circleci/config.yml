@@ -91,3 +91,15 @@ workflows:
       - test-client
       - test-server
       - test-graphql
+      - publish:
+          context: org-global
+          filters:
+            branches:
+              only: main
+      - deploy:
+          context: org-global
+          filters:
+            branches:
+              only: main
+          requires:
+            - publish
