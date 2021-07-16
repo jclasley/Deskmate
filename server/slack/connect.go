@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	api    = slack.New(c.Slack.SlackAPI)
+	api    *slack.Client
 	c      *config.Config
 	status bool
 
