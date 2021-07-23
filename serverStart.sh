@@ -1,4 +1,5 @@
 #!/bin/sh
 /go/bin/zendesk&
 /go/bin/server
-echo "servers running"
+
+# need to hit connect endpoints of each server wiht a `curl`
