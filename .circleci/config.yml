@@ -16,6 +16,7 @@ jobs:
   deploy:
     executor: ccc
     environment:
+      NAMESPACE: internal-tools
       NAME: itd-deskmate
       VALUES_FILE: values.yml
     working_directory: ~/Deskmate
