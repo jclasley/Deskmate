@@ -1,0 +1,36 @@
+flags:
+  selectorsIncludeRelease: false
+
+team: ITD
+
+deployment:
+  replicas: 1 # scale up if it is necessary that this service always exists
+  containers: 
+    deskmate: # container name
+      image: "<<image_name>>"
+      imagePullPolicy: "IfNotPresent"
+      command: # commands necessary to start the service
+        - ./serverStart.sh
+
+      ports: 
+        - containerPort: 8080
+          name: server
+          protocol: TCP
+        - containerPort: 8090
+          name: zendesk
+          protocol: TCP
+        
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          memory: 512Mi
+
+serviceNodePort:
+  - name: server
+    port: 8080
+    nodePort: 30151
+  
+  - name: zendesk
+    port: 8090
+    nodePort: 30152

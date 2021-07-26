@@ -27,7 +27,7 @@ describe("on render", () => {
         const { queryByText } = el;
         const label = queryByText('Connected: Slack');
         expect(axios.get).toHaveBeenCalled();
-        () => expect(label).not.toBe(null);
+        await waitFor(() => expect(label).not.toBe(null));
     })
 });
 
