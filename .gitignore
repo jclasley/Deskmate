@@ -3,3 +3,4 @@ db/pgdata
 server/tmp
 .env
 *config.json
+.vscode

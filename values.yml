@@ -10,7 +10,21 @@ deployment:
       image: "<<image_name>>"
       imagePullPolicy: "IfNotPresent"
       command: # commands necessary to start the service
-        - ./serverStart.sh
+        - /scripts/serverStart.sh
+
+      envSecret:
+        POSTGRES_USER:
+          secret: deskmate-basic-auth
+          key: username
+        POSTGRES_PASSWORD:
+          secret: deskmate-basic-auth
+          key: password
+        POSTGRES_DB:
+          secret: deskmate-basic-auth
+          key: dbName
+        
+
+            
 
       ports: 
         - containerPort: 8080

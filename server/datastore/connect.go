@@ -36,7 +36,7 @@ var (
 func ConnectPostgres() {
 	envVars := retrieveEnvConfig()
 	config = ConnectionDetails{
-		host:     "db",
+		host:     "itd-deskmate.db.infra.circleci.com",
 		port:     5432,
 		user:     envVars["POSTGRES_USER"],
 		password: envVars["POSTGRES_PASSWORD"],
