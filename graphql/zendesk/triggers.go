@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/circleci/Deskmate/graphql/model"
-	"github.com/circleci/zendesk-go/zendesk"
+	"github.com/tylerconlee/zendesk-go/zendesk"
 )
 
 // GetTriggers uses the preconfigured client, c, and sends a request for all

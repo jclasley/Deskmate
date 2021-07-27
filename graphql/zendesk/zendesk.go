@@ -6,7 +6,7 @@ import (
 
 	logger "github.com/circleci/Deskmate/graphql/log"
 	"github.com/circleci/Deskmate/graphql/model"
-	"github.com/circleci/zendesk-go/zendesk"
+	"github.com/tylerconlee/zendesk-go/zendesk"
 )
 
 var (

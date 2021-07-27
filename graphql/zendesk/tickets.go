@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/circleci/Deskmate/graphql/model"
-	"github.com/circleci/zendesk-go/zendesk"
+	"github.com/tylerconlee/zendesk-go/zendesk"
 	"go.uber.org/ratelimit"
 	"go.uber.org/zap"
 )
