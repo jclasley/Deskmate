@@ -92,6 +92,8 @@ workflows:
       - test-client
       - test-server
       - test-graphql
+  publish-and-deploy:
+    jobs:
       - publish:
           context: org-global
           filters:

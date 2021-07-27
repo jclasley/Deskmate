@@ -9,8 +9,8 @@ import (
 )
 
 // Launch starts the webserver for Deskmate and waits for incoming requests
-func Launch() {
-	slack.LoadConfig()
+func Launch(c *config.Config) {
+	slack.LoadConfig(c)
 
 	router := mux.NewRouter()
 

@@ -17,8 +17,8 @@ var (
 // LoadConfig is called by the Connect() function and requests
 // the LoadConfig function from the config package. It sets the
 // loaded configuration to the package-wide variable 'c'
-func LoadConfig() {
-	c = config.LoadConfig()
+func LoadConfig(conf *config.Config) {
+	c = conf
 	api = slack.New(c.Slack.SlackAPI)
 }
 

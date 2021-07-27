@@ -10,9 +10,8 @@ import (
 )
 
 var (
-	config  *Config
-	log = l.Log
-
+	config *Config
+	log    = l.Log
 )
 
 // GetConfig sends a request to the database to grab the
@@ -56,23 +55,23 @@ func PostConfig(w http.ResponseWriter, r *http.Request) {
 // LoadConfig returns the configuration file as loaded from environment variables. Requires several environment variables that were previously fetched from the Postgres DB. Environment variables are set with the inclusion of a 'config.json' in the 'server' directory. This file can and should be overwritten via a bind-mount in the 'docker-compose.yml'. An example called 'config_example.json' is included for documentation of the JSON shape.
 //
 // SLACK_API, SLACK_SIGN, SLACK_URL, ZEN_API, ZEN_URL, ZEN_USER
-func LoadConfig() (*Config) {
+func LoadConfig() *Config {
 	// ! removed for the timebeing, will be re-implemented once entry to Deskmate is secured via authentication
-	// rows := datastore.LoadConfig()
-	// err := rows.Scan(&config.Slack.SlackURL, &config.Slack.SlackAPI, &config.Slack.SlackSigning, &config.Zendesk.ZendeskUser, &config.Zendesk.ZendeskAPI, &config.Zendesk.ZendeskURL)
-	// if err != nil {
-	// 	log.Errorw("Error retrieving config from database", "error", err.Error())
-	// 	return
-	// }
-	// return config
-
-	config := new(Config)
-	unmarshalConfig(config)
+	rows := datastore.LoadConfig()
+	err := rows.Scan(&config.Slack.SlackURL, &config.Slack.SlackAPI, &config.Slack.SlackSigning, &config.Zendesk.ZendeskUser, &config.Zendesk.ZendeskAPI, &config.Zendesk.ZendeskURL)
+	if err != nil {
+		log.Errorw("Error retrieving config from database", "error", err.Error())
+		return
+	}
 	return config
+
+	// config := new(Config)
+	// unmarshalConfig(config)
+	// return config
 }
 
 func unmarshalConfig(c *Config) {
-	f,err := os.ReadFile("./config.json")
+	f, err := os.ReadFile("./config.json")
 	if err != nil {
 		log.Errorw("Error retrieving config.json", "error", err.Error())
 	}
