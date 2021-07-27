@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	config *Config
+	config = new(Config)
 	log    = l.Log
 )
 
