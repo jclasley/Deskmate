@@ -1,7 +1,7 @@
 package main
 
 import (
-	logger "github.com/circleci/Deskmate/graphql/log"
+	logger "github.com/tylerconlee/Deskmate/graphql/log"
 )
 
 var (
