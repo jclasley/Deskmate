@@ -4,7 +4,7 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/tylerconlee/Deskmate/graphql/model"
+	"github.com/circleci/Deskmate/graphql/model"
 )
 
 // GetUser takes the client, c, and requests the details for the

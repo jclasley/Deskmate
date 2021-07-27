@@ -4,7 +4,7 @@
 FROM golang@sha256:0991060a1447cf648bab7f6bb60335d1243930e38420bee8fec3db1267b84cfa as zendesk
 
 
-WORKDIR $GOPATH/src/github.com/tylerconlee/Deskmate/graphql
+WORKDIR $GOPATH/src/github.com/circleci/Deskmate/graphql
 COPY graphql .
 # Fetch dependencies.
 # Using go get.
@@ -19,7 +19,7 @@ RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-w -s" -o /go/bin/z
 
 FROM golang as server
 
-WORKDIR $GOPATH/src/github.com/tylerconlee/Deskmate/server
+WORKDIR $GOPATH/src/github.com/circleci/Deskmate/server
 COPY server .
 # Fetch dependencies.
 # Using go get.

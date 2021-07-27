@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/tylerconlee/Deskmate/graphql/model"
-	"github.com/tylerconlee/zendesk-go/zendesk"
+	"github.com/circleci/Deskmate/graphql/model"
+	"github.com/circleci/zendesk-go/zendesk"
 	"go.uber.org/ratelimit"
 	"go.uber.org/zap"
 )

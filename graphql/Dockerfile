@@ -19,7 +19,7 @@ RUN adduser \
     --uid "${UID}" \    
     "${USER}"
 
-WORKDIR $GOPATH/src/github.com/tylerconlee/Deskmate/graphql
+WORKDIR $GOPATH/src/github.com/circleci/Deskmate/graphql
 COPY . .
 # Fetch dependencies.
 # Using go get.
