@@ -44,7 +44,7 @@ func ConnectPostgres() {
 	}
 
 	// Open a connection using connection details
-	connection := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", config.host, config.port, config.user, config.password, config.dbname)
+	connection := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=require", config.host, config.port, config.user, config.password, config.dbname)
 	db, err = sql.Open("postgres", connection)
 	if err != nil {
 		fmt.Println("Error opening connection to Postgres database:", err.Error())
