@@ -3,11 +3,11 @@ package server
 import (
 	"net/http"
 
-	"github.com/tylerconlee/Deskmate/server/config"
-	l "github.com/tylerconlee/Deskmate/server/log"
-	"github.com/tylerconlee/Deskmate/server/slack"
-	"github.com/tylerconlee/Deskmate/server/tags"
-	"github.com/tylerconlee/Deskmate/server/zendesk"
+	"github.com/circleci/Deskmate/server/config"
+	l "github.com/circleci/Deskmate/server/log"
+	"github.com/circleci/Deskmate/server/slack"
+	"github.com/circleci/Deskmate/server/tags"
+	"github.com/circleci/Deskmate/server/zendesk"
 )
 
 var log = l.Log
@@ -26,13 +26,6 @@ func SlackHandler(w http.ResponseWriter, r *http.Request) {
 func SlackCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	log.Debug("Request received for /slack/callback endpoint")
 	slack.CallbackHandler(w, r)
-}
-
-// SlackConnectHandler routes the request to start a connection
-// to the configured Slack instance
-func SlackConnectHandler(w http.ResponseWriter, r *http.Request) {
-	log.Debug("Request received for /slack/connect endpoint")
-	slack.ConnectHandler(w, r)
 }
 
 // ZendeskStatusHandler returns a health check if Zendesk is connected

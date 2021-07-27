@@ -2,8 +2,8 @@ package slack
 
 import (
 	"github.com/slack-go/slack"
-	"github.com/tylerconlee/Deskmate/server/config"
-	l "github.com/tylerconlee/Deskmate/server/log"
+	"github.com/circleci/Deskmate/server/config"
+	l "github.com/circleci/Deskmate/server/log"
 )
 
 var (
@@ -17,18 +17,11 @@ var (
 // LoadConfig is called by the Connect() function and requests
 // the LoadConfig function from the config package. It sets the
 // loaded configuration to the package-wide variable 'c'
-func LoadConfig() {
-	c = config.LoadConfig()
+func LoadConfig(conf *config.Config) {
+	c = conf
 	api = slack.New(c.Slack.SlackAPI)
 }
 
-// Connect loads the configuration needed to connect to a Slack instance,
-// and then uses the OAuth Bot API key for Slack to establish a connection.
-// TODO: Add in a catch for if the connection is unable to be established.
-func Connect() {
-	LoadConfig()
-	api = slack.New(c.Slack.SlackAPI)
-}
 
 // Ping checks to see if there's a valid connection to a Slack instance by
 // requesting the Team information from Slack and returning a boolean value.

@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	l "github.com/tylerconlee/Deskmate/server/log"
+	l "github.com/circleci/Deskmate/server/log"
 )
 
 var (

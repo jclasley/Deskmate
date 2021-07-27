@@ -1,9 +1,12 @@
 package main
 
 import (
-	"github.com/tylerconlee/Deskmate/server/datastore"
-	"github.com/tylerconlee/Deskmate/server/server"
+	"github.com/circleci/Deskmate/server/datastore"
+	"github.com/circleci/Deskmate/server/config"
+	"github.com/circleci/Deskmate/server/server"
 )
+
+var c *config.Config
 
 func main() {
 	// On launch, Deskmate should connect to a local Postgres database using
@@ -13,6 +16,7 @@ func main() {
 	// Slack API authentication token.
 	// Further configuration would then be handled within the Deskmate app in
 	// Slack.
+	c = config.LoadConfig()
 	datastore.ConnectPostgres()
 
 	// Deskmate will use heavy use of the SlabAPI GraphQL API project. In order
@@ -21,6 +25,6 @@ func main() {
 	// other projects.
 	// That will allow Deskmate to launch a webserver with the GraphQL API for
 	// Zendesk.
-	server.Launch()
+	server.Launch(c)
 
 }

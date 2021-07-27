@@ -7,7 +7,7 @@ import (
 	"path"
 	"time"
 
-	"github.com/tylerconlee/Deskmate/server/datastore"
+	"github.com/circleci/Deskmate/server/datastore"
 )
 
 // Triage outlines the various users that are currently in the

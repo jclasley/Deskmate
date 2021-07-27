@@ -5,12 +5,13 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/tylerconlee/Deskmate/server/slack"
+	"github.com/circleci/Deskmate/server/config"
+	"github.com/circleci/Deskmate/server/slack"
 )
 
 // Launch starts the webserver for Deskmate and waits for incoming requests
-func Launch() {
-	slack.LoadConfig()
+func Launch(c *config.Config) {
+	slack.LoadConfig(c)
 
 	router := mux.NewRouter()
 
@@ -23,7 +24,6 @@ func Launch() {
 
 	sub.HandleFunc("/slack", SlackHandler).Methods("GET", "POST", http.MethodOptions)
 	sub.HandleFunc("/slack/callback", SlackCallbackHandler).Methods("GET", "POST", http.MethodOptions)
-	sub.HandleFunc("/slack/connect", SlackConnectHandler)
 
 	sub.HandleFunc("/zendesk/status", ZendeskStatusHandler)
 

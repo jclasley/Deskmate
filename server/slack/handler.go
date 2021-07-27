@@ -27,14 +27,6 @@ func StatusHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
-// ConnectHandler handles the request from the front end to establish
-// a connection to Slack using the saved configuration. On the front end,
-// this is triggered by the button in the top right corner.
-// SEE: src/components/SlackConnect.js
-// TODO: Add log or notification to indicate successful call to start connection
-func ConnectHandler(w http.ResponseWriter, r *http.Request) {
-	Connect()
-}
 
 func ChannelListHandler(w http.ResponseWriter, r *http.Request) {
 	channels := ListChannels()
