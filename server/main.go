@@ -16,8 +16,8 @@ func main() {
 	// Slack API authentication token.
 	// Further configuration would then be handled within the Deskmate app in
 	// Slack.
-	c = config.LoadConfig()
 	datastore.ConnectPostgres()
+	c = config.LoadConfig()
 
 	// Deskmate will use heavy use of the SlabAPI GraphQL API project. In order
 	// to do so, however, the SlabAPI project will have to be revamped to not
