@@ -2,10 +2,11 @@ package main
 
 import (
 	"github.com/tylerconlee/Deskmate/server/datastore"
+	"github.com/tylerconlee/Deskmate/server/config"
 	"github.com/tylerconlee/Deskmate/server/server"
 )
 
-var c *Config
+var c *config.Config
 
 func main() {
 	// On launch, Deskmate should connect to a local Postgres database using

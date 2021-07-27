@@ -22,13 +22,6 @@ func LoadConfig(conf *config.Config) {
 	api = slack.New(c.Slack.SlackAPI)
 }
 
-// Connect loads the configuration needed to connect to a Slack instance,
-// and then uses the OAuth Bot API key for Slack to establish a connection.
-// TODO: Add in a catch for if the connection is unable to be established.
-func Connect() {
-	LoadConfig()
-	api = slack.New(c.Slack.SlackAPI)
-}
 
 // Ping checks to see if there's a valid connection to a Slack instance by
 // requesting the Team information from Slack and returning a boolean value.

@@ -5,6 +5,7 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"github.com/tylerconlee/Deskmate/server/config"
 	"github.com/tylerconlee/Deskmate/server/slack"
 )
 
@@ -23,7 +24,6 @@ func Launch(c *config.Config) {
 
 	sub.HandleFunc("/slack", SlackHandler).Methods("GET", "POST", http.MethodOptions)
 	sub.HandleFunc("/slack/callback", SlackCallbackHandler).Methods("GET", "POST", http.MethodOptions)
-	sub.HandleFunc("/slack/connect", SlackConnectHandler)
 
 	sub.HandleFunc("/zendesk/status", ZendeskStatusHandler)
 

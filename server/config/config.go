@@ -61,13 +61,9 @@ func LoadConfig() *Config {
 	err := rows.Scan(&config.Slack.SlackURL, &config.Slack.SlackAPI, &config.Slack.SlackSigning, &config.Zendesk.ZendeskUser, &config.Zendesk.ZendeskAPI, &config.Zendesk.ZendeskURL)
 	if err != nil {
 		log.Errorw("Error retrieving config from database", "error", err.Error())
-		return
+		return nil
 	}
 	return config
-
-	// config := new(Config)
-	// unmarshalConfig(config)
-	// return config
 }
 
 func unmarshalConfig(c *Config) {

@@ -28,13 +28,6 @@ func SlackCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	slack.CallbackHandler(w, r)
 }
 
-// SlackConnectHandler routes the request to start a connection
-// to the configured Slack instance
-func SlackConnectHandler(w http.ResponseWriter, r *http.Request) {
-	log.Debug("Request received for /slack/connect endpoint")
-	slack.ConnectHandler(w, r)
-}
-
 // ZendeskStatusHandler returns a health check if Zendesk is connected
 func ZendeskStatusHandler(w http.ResponseWriter, r *http.Request) {
 	log.Debug("Request received for /zendesk/status endpoint")
