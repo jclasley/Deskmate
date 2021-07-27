@@ -48,3 +48,11 @@ serviceNodePort:
   - name: zendesk
     port: 8090
     nodePort: 30152
+
+traefik:
+  rules:
+    - host: slackdeskmatehook.circleci.com
+      paths:
+        - path: /slack
+          servicePort: 8080
+  ruleType: Path

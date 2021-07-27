@@ -12,7 +12,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
-	"github.com/tylerconlee/Deskmate/graphql/model"
+	"github.com/circleci/Deskmate/graphql/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -1021,7 +1021,7 @@ func (ec *executionContext) field_Query_getAllTriggers_args(ctx context.Context,
 	var arg0 model.ZendeskConfigInput
 	if tmp, ok := rawArgs["config"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("config"))
-		arg0, err = ec.unmarshalNZendeskConfigInput2githubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐZendeskConfigInput(ctx, tmp)
+		arg0, err = ec.unmarshalNZendeskConfigInput2githubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐZendeskConfigInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1036,7 +1036,7 @@ func (ec *executionContext) field_Query_getAllViews_args(ctx context.Context, ra
 	var arg0 model.ZendeskConfigInput
 	if tmp, ok := rawArgs["config"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("config"))
-		arg0, err = ec.unmarshalNZendeskConfigInput2githubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐZendeskConfigInput(ctx, tmp)
+		arg0, err = ec.unmarshalNZendeskConfigInput2githubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐZendeskConfigInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1051,7 +1051,7 @@ func (ec *executionContext) field_Query_getOrganization_args(ctx context.Context
 	var arg0 model.ZendeskConfigInput
 	if tmp, ok := rawArgs["config"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("config"))
-		arg0, err = ec.unmarshalNZendeskConfigInput2githubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐZendeskConfigInput(ctx, tmp)
+		arg0, err = ec.unmarshalNZendeskConfigInput2githubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐZendeskConfigInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1075,7 +1075,7 @@ func (ec *executionContext) field_Query_getTrigger_args(ctx context.Context, raw
 	var arg0 model.ZendeskConfigInput
 	if tmp, ok := rawArgs["config"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("config"))
-		arg0, err = ec.unmarshalNZendeskConfigInput2githubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐZendeskConfigInput(ctx, tmp)
+		arg0, err = ec.unmarshalNZendeskConfigInput2githubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐZendeskConfigInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1141,7 +1141,7 @@ func (ec *executionContext) field_Query_getViewCount_args(ctx context.Context, r
 	var arg0 model.ZendeskConfigInput
 	if tmp, ok := rawArgs["config"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("config"))
-		arg0, err = ec.unmarshalNZendeskConfigInput2githubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐZendeskConfigInput(ctx, tmp)
+		arg0, err = ec.unmarshalNZendeskConfigInput2githubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐZendeskConfigInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1165,7 +1165,7 @@ func (ec *executionContext) field_Query_getView_args(ctx context.Context, rawArg
 	var arg0 model.ZendeskConfigInput
 	if tmp, ok := rawArgs["config"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("config"))
-		arg0, err = ec.unmarshalNZendeskConfigInput2githubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐZendeskConfigInput(ctx, tmp)
+		arg0, err = ec.unmarshalNZendeskConfigInput2githubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐZendeskConfigInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1588,7 +1588,7 @@ func (ec *executionContext) _Organization_OrganizationFields(ctx context.Context
 	}
 	res := resTmp.([]*model.OrgFields)
 	fc.Result = res
-	return ec.marshalOOrgFields2ᚕᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐOrgFields(ctx, field.Selections, res)
+	return ec.marshalOOrgFields2ᚕᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐOrgFields(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_getOrganization(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1630,7 +1630,7 @@ func (ec *executionContext) _Query_getOrganization(ctx context.Context, field gr
 	}
 	res := resTmp.(*model.Organization)
 	fc.Result = res
-	return ec.marshalNOrganization2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐOrganization(ctx, field.Selections, res)
+	return ec.marshalNOrganization2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐOrganization(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_getAllTickets(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1672,7 +1672,7 @@ func (ec *executionContext) _Query_getAllTickets(ctx context.Context, field grap
 	}
 	res := resTmp.(*model.Tickets)
 	fc.Result = res
-	return ec.marshalNTickets2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTickets(ctx, field.Selections, res)
+	return ec.marshalNTickets2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTickets(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_getAllTriggers(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1714,7 +1714,7 @@ func (ec *executionContext) _Query_getAllTriggers(ctx context.Context, field gra
 	}
 	res := resTmp.(*model.Triggers)
 	fc.Result = res
-	return ec.marshalNTriggers2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggers(ctx, field.Selections, res)
+	return ec.marshalNTriggers2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggers(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_getTrigger(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1756,7 +1756,7 @@ func (ec *executionContext) _Query_getTrigger(ctx context.Context, field graphql
 	}
 	res := resTmp.(*model.Trigger)
 	fc.Result = res
-	return ec.marshalNTrigger2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTrigger(ctx, field.Selections, res)
+	return ec.marshalNTrigger2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTrigger(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_getUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1798,7 +1798,7 @@ func (ec *executionContext) _Query_getUser(ctx context.Context, field graphql.Co
 	}
 	res := resTmp.(*model.User)
 	fc.Result = res
-	return ec.marshalNUser2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐUser(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_getAllViews(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1840,7 +1840,7 @@ func (ec *executionContext) _Query_getAllViews(ctx context.Context, field graphq
 	}
 	res := resTmp.(*model.Views)
 	fc.Result = res
-	return ec.marshalNViews2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐViews(ctx, field.Selections, res)
+	return ec.marshalNViews2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐViews(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_getView(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1882,7 +1882,7 @@ func (ec *executionContext) _Query_getView(ctx context.Context, field graphql.Co
 	}
 	res := resTmp.(*model.View)
 	fc.Result = res
-	return ec.marshalNView2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐView(ctx, field.Selections, res)
+	return ec.marshalNView2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐView(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_getViewCount(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1924,7 +1924,7 @@ func (ec *executionContext) _Query_getViewCount(ctx context.Context, field graph
 	}
 	res := resTmp.(*model.ViewCount)
 	fc.Result = res
-	return ec.marshalNViewCount2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐViewCount(ctx, field.Selections, res)
+	return ec.marshalNViewCount2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐViewCount(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2479,7 +2479,7 @@ func (ec *executionContext) _Ticket_customfields(ctx context.Context, field grap
 	}
 	res := resTmp.([]*model.CustomField)
 	fc.Result = res
-	return ec.marshalOCustomField2ᚕᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐCustomField(ctx, field.Selections, res)
+	return ec.marshalOCustomField2ᚕᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐCustomField(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Ticket_sla(ctx context.Context, field graphql.CollectedField, obj *model.Ticket) (ret graphql.Marshaler) {
@@ -2549,7 +2549,7 @@ func (ec *executionContext) _Tickets_tickets(ctx context.Context, field graphql.
 	}
 	res := resTmp.([]*model.Ticket)
 	fc.Result = res
-	return ec.marshalNTicket2ᚕᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTicketᚄ(ctx, field.Selections, res)
+	return ec.marshalNTicket2ᚕᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTicketᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Tickets_Count(ctx context.Context, field graphql.CollectedField, obj *model.Tickets) (ret graphql.Marshaler) {
@@ -2829,7 +2829,7 @@ func (ec *executionContext) _Trigger_Conditions(ctx context.Context, field graph
 	}
 	res := resTmp.(*model.TriggerConditions)
 	fc.Result = res
-	return ec.marshalNTriggerConditions2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggerConditions(ctx, field.Selections, res)
+	return ec.marshalNTriggerConditions2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggerConditions(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Trigger_Actions(ctx context.Context, field graphql.CollectedField, obj *model.Trigger) (ret graphql.Marshaler) {
@@ -2864,7 +2864,7 @@ func (ec *executionContext) _Trigger_Actions(ctx context.Context, field graphql.
 	}
 	res := resTmp.([]*model.TriggerAction)
 	fc.Result = res
-	return ec.marshalNTriggerAction2ᚕᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggerActionᚄ(ctx, field.Selections, res)
+	return ec.marshalNTriggerAction2ᚕᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggerActionᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Trigger_Description(ctx context.Context, field graphql.CollectedField, obj *model.Trigger) (ret graphql.Marshaler) {
@@ -3179,7 +3179,7 @@ func (ec *executionContext) _TriggerConditions_Any(ctx context.Context, field gr
 	}
 	res := resTmp.([]*model.TriggerCondition)
 	fc.Result = res
-	return ec.marshalNTriggerCondition2ᚕᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggerConditionᚄ(ctx, field.Selections, res)
+	return ec.marshalNTriggerCondition2ᚕᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggerConditionᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _TriggerConditions_All(ctx context.Context, field graphql.CollectedField, obj *model.TriggerConditions) (ret graphql.Marshaler) {
@@ -3214,7 +3214,7 @@ func (ec *executionContext) _TriggerConditions_All(ctx context.Context, field gr
 	}
 	res := resTmp.([]*model.TriggerCondition)
 	fc.Result = res
-	return ec.marshalNTriggerCondition2ᚕᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggerConditionᚄ(ctx, field.Selections, res)
+	return ec.marshalNTriggerCondition2ᚕᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggerConditionᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Triggers_Triggers(ctx context.Context, field graphql.CollectedField, obj *model.Triggers) (ret graphql.Marshaler) {
@@ -3249,7 +3249,7 @@ func (ec *executionContext) _Triggers_Triggers(ctx context.Context, field graphq
 	}
 	res := resTmp.([]*model.Trigger)
 	fc.Result = res
-	return ec.marshalNTrigger2ᚕᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggerᚄ(ctx, field.Selections, res)
+	return ec.marshalNTrigger2ᚕᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggerᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Triggers_Count(ctx context.Context, field graphql.CollectedField, obj *model.Triggers) (ret graphql.Marshaler) {
@@ -4019,7 +4019,7 @@ func (ec *executionContext) _Views_Views(ctx context.Context, field graphql.Coll
 	}
 	res := resTmp.([]*model.View)
 	fc.Result = res
-	return ec.marshalNView2ᚕᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐViewᚄ(ctx, field.Selections, res)
+	return ec.marshalNView2ᚕᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐViewᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Views_Count(ctx context.Context, field graphql.CollectedField, obj *model.Views) (ret graphql.Marshaler) {
@@ -6285,11 +6285,11 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	return res
 }
 
-func (ec *executionContext) marshalNOrganization2githubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐOrganization(ctx context.Context, sel ast.SelectionSet, v model.Organization) graphql.Marshaler {
+func (ec *executionContext) marshalNOrganization2githubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐOrganization(ctx context.Context, sel ast.SelectionSet, v model.Organization) graphql.Marshaler {
 	return ec._Organization(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNOrganization2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐOrganization(ctx context.Context, sel ast.SelectionSet, v *model.Organization) graphql.Marshaler {
+func (ec *executionContext) marshalNOrganization2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐOrganization(ctx context.Context, sel ast.SelectionSet, v *model.Organization) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6314,7 +6314,7 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 	return res
 }
 
-func (ec *executionContext) marshalNTicket2ᚕᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTicketᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Ticket) graphql.Marshaler {
+func (ec *executionContext) marshalNTicket2ᚕᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTicketᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Ticket) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -6338,7 +6338,7 @@ func (ec *executionContext) marshalNTicket2ᚕᚖgithubᚗcomᚋtylerconleeᚋDe
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTicket2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTicket(ctx, sel, v[i])
+			ret[i] = ec.marshalNTicket2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTicket(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -6358,7 +6358,7 @@ func (ec *executionContext) marshalNTicket2ᚕᚖgithubᚗcomᚋtylerconleeᚋDe
 	return ret
 }
 
-func (ec *executionContext) marshalNTicket2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTicket(ctx context.Context, sel ast.SelectionSet, v *model.Ticket) graphql.Marshaler {
+func (ec *executionContext) marshalNTicket2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTicket(ctx context.Context, sel ast.SelectionSet, v *model.Ticket) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6368,11 +6368,11 @@ func (ec *executionContext) marshalNTicket2ᚖgithubᚗcomᚋtylerconleeᚋDeskm
 	return ec._Ticket(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNTickets2githubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTickets(ctx context.Context, sel ast.SelectionSet, v model.Tickets) graphql.Marshaler {
+func (ec *executionContext) marshalNTickets2githubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTickets(ctx context.Context, sel ast.SelectionSet, v model.Tickets) graphql.Marshaler {
 	return ec._Tickets(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNTickets2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTickets(ctx context.Context, sel ast.SelectionSet, v *model.Tickets) graphql.Marshaler {
+func (ec *executionContext) marshalNTickets2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTickets(ctx context.Context, sel ast.SelectionSet, v *model.Tickets) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6382,11 +6382,11 @@ func (ec *executionContext) marshalNTickets2ᚖgithubᚗcomᚋtylerconleeᚋDesk
 	return ec._Tickets(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNTrigger2githubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTrigger(ctx context.Context, sel ast.SelectionSet, v model.Trigger) graphql.Marshaler {
+func (ec *executionContext) marshalNTrigger2githubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTrigger(ctx context.Context, sel ast.SelectionSet, v model.Trigger) graphql.Marshaler {
 	return ec._Trigger(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNTrigger2ᚕᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggerᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Trigger) graphql.Marshaler {
+func (ec *executionContext) marshalNTrigger2ᚕᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggerᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Trigger) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -6410,7 +6410,7 @@ func (ec *executionContext) marshalNTrigger2ᚕᚖgithubᚗcomᚋtylerconleeᚋD
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTrigger2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTrigger(ctx, sel, v[i])
+			ret[i] = ec.marshalNTrigger2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTrigger(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -6430,7 +6430,7 @@ func (ec *executionContext) marshalNTrigger2ᚕᚖgithubᚗcomᚋtylerconleeᚋD
 	return ret
 }
 
-func (ec *executionContext) marshalNTrigger2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTrigger(ctx context.Context, sel ast.SelectionSet, v *model.Trigger) graphql.Marshaler {
+func (ec *executionContext) marshalNTrigger2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTrigger(ctx context.Context, sel ast.SelectionSet, v *model.Trigger) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6440,7 +6440,7 @@ func (ec *executionContext) marshalNTrigger2ᚖgithubᚗcomᚋtylerconleeᚋDesk
 	return ec._Trigger(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNTriggerAction2ᚕᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggerActionᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TriggerAction) graphql.Marshaler {
+func (ec *executionContext) marshalNTriggerAction2ᚕᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggerActionᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TriggerAction) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -6464,7 +6464,7 @@ func (ec *executionContext) marshalNTriggerAction2ᚕᚖgithubᚗcomᚋtylerconl
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTriggerAction2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggerAction(ctx, sel, v[i])
+			ret[i] = ec.marshalNTriggerAction2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggerAction(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -6484,7 +6484,7 @@ func (ec *executionContext) marshalNTriggerAction2ᚕᚖgithubᚗcomᚋtylerconl
 	return ret
 }
 
-func (ec *executionContext) marshalNTriggerAction2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggerAction(ctx context.Context, sel ast.SelectionSet, v *model.TriggerAction) graphql.Marshaler {
+func (ec *executionContext) marshalNTriggerAction2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggerAction(ctx context.Context, sel ast.SelectionSet, v *model.TriggerAction) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6494,7 +6494,7 @@ func (ec *executionContext) marshalNTriggerAction2ᚖgithubᚗcomᚋtylerconlee�
 	return ec._TriggerAction(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNTriggerCondition2ᚕᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggerConditionᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TriggerCondition) graphql.Marshaler {
+func (ec *executionContext) marshalNTriggerCondition2ᚕᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggerConditionᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TriggerCondition) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -6518,7 +6518,7 @@ func (ec *executionContext) marshalNTriggerCondition2ᚕᚖgithubᚗcomᚋtylerc
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTriggerCondition2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggerCondition(ctx, sel, v[i])
+			ret[i] = ec.marshalNTriggerCondition2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggerCondition(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -6538,7 +6538,7 @@ func (ec *executionContext) marshalNTriggerCondition2ᚕᚖgithubᚗcomᚋtylerc
 	return ret
 }
 
-func (ec *executionContext) marshalNTriggerCondition2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggerCondition(ctx context.Context, sel ast.SelectionSet, v *model.TriggerCondition) graphql.Marshaler {
+func (ec *executionContext) marshalNTriggerCondition2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggerCondition(ctx context.Context, sel ast.SelectionSet, v *model.TriggerCondition) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6548,7 +6548,7 @@ func (ec *executionContext) marshalNTriggerCondition2ᚖgithubᚗcomᚋtylerconl
 	return ec._TriggerCondition(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNTriggerConditions2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggerConditions(ctx context.Context, sel ast.SelectionSet, v *model.TriggerConditions) graphql.Marshaler {
+func (ec *executionContext) marshalNTriggerConditions2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggerConditions(ctx context.Context, sel ast.SelectionSet, v *model.TriggerConditions) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6558,11 +6558,11 @@ func (ec *executionContext) marshalNTriggerConditions2ᚖgithubᚗcomᚋtylercon
 	return ec._TriggerConditions(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNTriggers2githubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggers(ctx context.Context, sel ast.SelectionSet, v model.Triggers) graphql.Marshaler {
+func (ec *executionContext) marshalNTriggers2githubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggers(ctx context.Context, sel ast.SelectionSet, v model.Triggers) graphql.Marshaler {
 	return ec._Triggers(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNTriggers2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐTriggers(ctx context.Context, sel ast.SelectionSet, v *model.Triggers) graphql.Marshaler {
+func (ec *executionContext) marshalNTriggers2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐTriggers(ctx context.Context, sel ast.SelectionSet, v *model.Triggers) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6572,11 +6572,11 @@ func (ec *executionContext) marshalNTriggers2ᚖgithubᚗcomᚋtylerconleeᚋDes
 	return ec._Triggers(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNUser2githubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2githubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {
 	return ec._User(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6586,11 +6586,11 @@ func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋtylerconleeᚋDeskmat
 	return ec._User(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNView2githubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐView(ctx context.Context, sel ast.SelectionSet, v model.View) graphql.Marshaler {
+func (ec *executionContext) marshalNView2githubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐView(ctx context.Context, sel ast.SelectionSet, v model.View) graphql.Marshaler {
 	return ec._View(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNView2ᚕᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐViewᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.View) graphql.Marshaler {
+func (ec *executionContext) marshalNView2ᚕᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐViewᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.View) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -6614,7 +6614,7 @@ func (ec *executionContext) marshalNView2ᚕᚖgithubᚗcomᚋtylerconleeᚋDesk
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNView2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐView(ctx, sel, v[i])
+			ret[i] = ec.marshalNView2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐView(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -6634,7 +6634,7 @@ func (ec *executionContext) marshalNView2ᚕᚖgithubᚗcomᚋtylerconleeᚋDesk
 	return ret
 }
 
-func (ec *executionContext) marshalNView2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐView(ctx context.Context, sel ast.SelectionSet, v *model.View) graphql.Marshaler {
+func (ec *executionContext) marshalNView2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐView(ctx context.Context, sel ast.SelectionSet, v *model.View) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6644,11 +6644,11 @@ func (ec *executionContext) marshalNView2ᚖgithubᚗcomᚋtylerconleeᚋDeskmat
 	return ec._View(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNViewCount2githubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐViewCount(ctx context.Context, sel ast.SelectionSet, v model.ViewCount) graphql.Marshaler {
+func (ec *executionContext) marshalNViewCount2githubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐViewCount(ctx context.Context, sel ast.SelectionSet, v model.ViewCount) graphql.Marshaler {
 	return ec._ViewCount(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNViewCount2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐViewCount(ctx context.Context, sel ast.SelectionSet, v *model.ViewCount) graphql.Marshaler {
+func (ec *executionContext) marshalNViewCount2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐViewCount(ctx context.Context, sel ast.SelectionSet, v *model.ViewCount) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6658,11 +6658,11 @@ func (ec *executionContext) marshalNViewCount2ᚖgithubᚗcomᚋtylerconleeᚋDe
 	return ec._ViewCount(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNViews2githubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐViews(ctx context.Context, sel ast.SelectionSet, v model.Views) graphql.Marshaler {
+func (ec *executionContext) marshalNViews2githubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐViews(ctx context.Context, sel ast.SelectionSet, v model.Views) graphql.Marshaler {
 	return ec._Views(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNViews2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐViews(ctx context.Context, sel ast.SelectionSet, v *model.Views) graphql.Marshaler {
+func (ec *executionContext) marshalNViews2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐViews(ctx context.Context, sel ast.SelectionSet, v *model.Views) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -6672,7 +6672,7 @@ func (ec *executionContext) marshalNViews2ᚖgithubᚗcomᚋtylerconleeᚋDeskma
 	return ec._Views(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNZendeskConfigInput2githubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐZendeskConfigInput(ctx context.Context, v interface{}) (model.ZendeskConfigInput, error) {
+func (ec *executionContext) unmarshalNZendeskConfigInput2githubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐZendeskConfigInput(ctx context.Context, v interface{}) (model.ZendeskConfigInput, error) {
 	res, err := ec.unmarshalInputZendeskConfigInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -6958,7 +6958,7 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return graphql.MarshalBoolean(*v)
 }
 
-func (ec *executionContext) marshalOCustomField2ᚕᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐCustomField(ctx context.Context, sel ast.SelectionSet, v []*model.CustomField) graphql.Marshaler {
+func (ec *executionContext) marshalOCustomField2ᚕᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐCustomField(ctx context.Context, sel ast.SelectionSet, v []*model.CustomField) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -6985,7 +6985,7 @@ func (ec *executionContext) marshalOCustomField2ᚕᚖgithubᚗcomᚋtylerconlee
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalOCustomField2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐCustomField(ctx, sel, v[i])
+			ret[i] = ec.marshalOCustomField2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐCustomField(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -6999,7 +6999,7 @@ func (ec *executionContext) marshalOCustomField2ᚕᚖgithubᚗcomᚋtylerconlee
 	return ret
 }
 
-func (ec *executionContext) marshalOCustomField2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐCustomField(ctx context.Context, sel ast.SelectionSet, v *model.CustomField) graphql.Marshaler {
+func (ec *executionContext) marshalOCustomField2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐCustomField(ctx context.Context, sel ast.SelectionSet, v *model.CustomField) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -7021,7 +7021,7 @@ func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.Sele
 	return graphql.MarshalInt(*v)
 }
 
-func (ec *executionContext) marshalOOrgFields2ᚕᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐOrgFields(ctx context.Context, sel ast.SelectionSet, v []*model.OrgFields) graphql.Marshaler {
+func (ec *executionContext) marshalOOrgFields2ᚕᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐOrgFields(ctx context.Context, sel ast.SelectionSet, v []*model.OrgFields) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -7048,7 +7048,7 @@ func (ec *executionContext) marshalOOrgFields2ᚕᚖgithubᚗcomᚋtylerconlee�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalOOrgFields2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐOrgFields(ctx, sel, v[i])
+			ret[i] = ec.marshalOOrgFields2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐOrgFields(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -7062,7 +7062,7 @@ func (ec *executionContext) marshalOOrgFields2ᚕᚖgithubᚗcomᚋtylerconlee�
 	return ret
 }
 
-func (ec *executionContext) marshalOOrgFields2ᚖgithubᚗcomᚋtylerconleeᚋDeskmateᚋzendeskᚋmodelᚐOrgFields(ctx context.Context, sel ast.SelectionSet, v *model.OrgFields) graphql.Marshaler {
+func (ec *executionContext) marshalOOrgFields2ᚖgithubᚗcomᚋcircleciᚋDeskmateᚋzendeskᚋmodelᚐOrgFields(ctx context.Context, sel ast.SelectionSet, v *model.OrgFields) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}

@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"time"
 
-	logger "github.com/tylerconlee/Deskmate/graphql/log"
-	"github.com/tylerconlee/Deskmate/graphql/model"
-	"github.com/tylerconlee/zendesk-go/zendesk"
+	logger "github.com/circleci/Deskmate/graphql/log"
+	"github.com/circleci/Deskmate/graphql/model"
+	"github.com/circleci/zendesk-go/zendesk"
 )
 
 var (
