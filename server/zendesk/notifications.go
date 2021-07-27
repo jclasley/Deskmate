@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/tylerconlee/Deskmate/server/slack"
-	"github.com/tylerconlee/Deskmate/server/tags"
+	"github.com/circleci/Deskmate/server/slack"
+	"github.com/circleci/Deskmate/server/tags"
 )
 
 // Sent is a collection of all NotifySent tickets that is checked before each // notification is sent.

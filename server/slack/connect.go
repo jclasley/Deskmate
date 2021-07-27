@@ -2,8 +2,8 @@ package slack
 
 import (
 	"github.com/slack-go/slack"
-	"github.com/tylerconlee/Deskmate/server/config"
-	l "github.com/tylerconlee/Deskmate/server/log"
+	"github.com/circleci/Deskmate/server/config"
+	l "github.com/circleci/Deskmate/server/log"
 )
 
 var (

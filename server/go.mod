@@ -1,4 +1,4 @@
-module github.com/tylerconlee/Deskmate/server
+module github.com/circleci/Deskmate/server
 
 go 1.15
 

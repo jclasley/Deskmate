@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/tylerconlee/Deskmate/server/datastore"
+	"github.com/circleci/Deskmate/server/datastore"
 )
 
 // T represents all of the currently active tags that have been

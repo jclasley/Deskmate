@@ -5,8 +5,8 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/tylerconlee/Deskmate/server/config"
-	"github.com/tylerconlee/Deskmate/server/slack"
+	"github.com/circleci/Deskmate/server/config"
+	"github.com/circleci/Deskmate/server/slack"
 )
 
 // Launch starts the webserver for Deskmate and waits for incoming requests

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/tylerconlee/Deskmate/server/datastore"
-	"github.com/tylerconlee/Deskmate/server/config"
-	"github.com/tylerconlee/Deskmate/server/server"
+	"github.com/circleci/Deskmate/server/datastore"
+	"github.com/circleci/Deskmate/server/config"
+	"github.com/circleci/Deskmate/server/server"
 )
 
 var c *config.Config

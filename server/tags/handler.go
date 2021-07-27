@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/tylerconlee/Deskmate/server/datastore"
-	l "github.com/tylerconlee/Deskmate/server/log"
+	"github.com/circleci/Deskmate/server/datastore"
+	l "github.com/circleci/Deskmate/server/log"
 )
 
 var log = l.Log

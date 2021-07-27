@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/shurcooL/graphql"
-	l "github.com/tylerconlee/Deskmate/server/log"
+	l "github.com/circleci/Deskmate/server/log"
 )
 
 var active = false

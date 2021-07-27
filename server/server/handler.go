@@ -3,11 +3,11 @@ package server
 import (
 	"net/http"
 
-	"github.com/tylerconlee/Deskmate/server/config"
-	l "github.com/tylerconlee/Deskmate/server/log"
-	"github.com/tylerconlee/Deskmate/server/slack"
-	"github.com/tylerconlee/Deskmate/server/tags"
-	"github.com/tylerconlee/Deskmate/server/zendesk"
+	"github.com/circleci/Deskmate/server/config"
+	l "github.com/circleci/Deskmate/server/log"
+	"github.com/circleci/Deskmate/server/slack"
+	"github.com/circleci/Deskmate/server/tags"
+	"github.com/circleci/Deskmate/server/zendesk"
 )
 
 var log = l.Log
