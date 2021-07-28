@@ -40,6 +40,12 @@ deployment:
         requests:
           memory: 512Mi
 
+service:
+  - name: server
+    port: 8080
+    targetPort: 8080
+
+
 serviceNodePort:
   - name: server
     port: 8080
