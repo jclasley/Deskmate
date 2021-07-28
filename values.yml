@@ -59,6 +59,6 @@ traefik:
   rules:
     - host: slackdeskmatehook.circleci.com
       paths:
-        - path: /
+        - path: /handler/slack/callback
           servicePort: 8080
   ruleType: Path
