@@ -43,7 +43,7 @@ deployment:
 service:
   - name: server
     port: 8080
-    targetPort: 80
+    targetPort: 8080
 
 
       #serviceNodePort:
@@ -59,6 +59,6 @@ traefik:
   rules:
     - host: slackdeskmatehook.circleci.com
       paths:
-        - path: /*
+        - path: /
           servicePort: 8080
-  ruleType: Path
+  ruleType: PathPrefix
