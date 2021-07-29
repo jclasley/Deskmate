@@ -46,14 +46,14 @@ service:
     targetPort: 8080
 
 
-serviceNodePort:
-  - name: server
-    port: 8080
-    nodePort: 30151
-  
-  - name: zendesk
-    port: 8090
-    nodePort: 30152
+      #serviceNodePort:
+      #  - name: server
+      #    port: 8080
+      #    nodePort: 30151
+      #  
+      #  - name: zendesk
+      #    port: 8090
+      #    nodePort: 30152
 
 traefik:
   rules:
