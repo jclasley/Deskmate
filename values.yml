@@ -60,5 +60,6 @@ traefik:
     - host: slackdeskmatehook.circleci.com
       paths:
         - path: /
-          servicePort: 8080
+          backend:
+            servicePort: 8080
   ruleType: PathPrefix
