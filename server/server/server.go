@@ -23,6 +23,7 @@ func Launch(c *config.Config) {
 	sub.HandleFunc("/config", ConfigHandler).Methods("POST", "PUT", http.MethodOptions)
 
 	sub.HandleFunc("/slack", SlackHandler).Methods("GET", "POST", http.MethodOptions)
+	sub.HandleFunc("/slack/status", slack.StatusHandler).Methods("GET", http.MethodOptions)
 	sub.HandleFunc("/slack/callback", SlackCallbackHandler).Methods("GET", "POST", http.MethodOptions)
 
 	sub.HandleFunc("/zendesk/status", ZendeskStatusHandler)
