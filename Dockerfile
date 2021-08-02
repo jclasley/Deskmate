@@ -47,7 +47,7 @@ FROM alpine AS user
 RUN apk update && apk add --no-cache git ca-certificates tzdata && update-ca-certificates
 
 # Install curl
-RUN apk --no-cache add curl
+RUN apk update && apk --no-cache add curl
 
 # Create appuser
 ENV USER=appuser
