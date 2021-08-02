@@ -45,6 +45,10 @@ FROM alpine AS user
 # Git is required for fetching the dependencies.
 # Ca-certificates is required to call HTTPS endpoints.
 RUN apk update && apk add --no-cache git ca-certificates tzdata && update-ca-certificates
+
+# Install curl
+RUN apk --no-cache add curl
+
 # Create appuser
 ENV USER=appuser
 ENV UID=10001
