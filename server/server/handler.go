@@ -44,7 +44,6 @@ func ZendeskConnectHandler(w http.ResponseWriter, r *http.Request) {
 // TriageHandler routes the request for the triage delete endpoint
 // to the DeleteTriage function
 func TriageHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	switch r.Method {
 	case http.MethodDelete:
 		log.Debug("DELETE method request for /triage/{channel} endpoint")
@@ -56,7 +55,6 @@ func TriageHandler(w http.ResponseWriter, r *http.Request) {
 // TriageAllHandler routes the incoming request to the triage endpoint to
 // return all current triagers stored in slack.T
 func TriageAllHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	log.Debug("GET method request for /triage endpoint")
 	slack.GetAllTriage(w, r)
 
@@ -67,7 +65,6 @@ func TriageAllHandler(w http.ResponseWriter, r *http.Request) {
 // configuration state. The POST request goes to the config.PostConfig function
 // which saves the incoming configuration
 func ConfigHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	switch r.Method {
 	case http.MethodPost:
 		log.Debug("POST method request for /config endpoint")
