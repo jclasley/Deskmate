@@ -1,9 +1,9 @@
 #!/bin/sh
 /go/bin/zendesk&
-/go/bin/server
+/go/bin/server&
 
-# somehowWait 3
-# need to hit connect endpoints of each server wiht a `curl`
+sleep 5
 
-# curl localhost:8080/handler/slack/connect
-# curl localhost:8080/handler/zendesk/connect
+curl localhost:8080/handler/slack/connect
+curl localhost:8080/handler/zendesk/connect
+
