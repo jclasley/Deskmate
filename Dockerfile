@@ -14,7 +14,7 @@ RUN go mod verify
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-w -s" -o /go/bin/zendesk
 
 ##############################
-# STEP 3 build out REST server
+# STEP 2 build out REST server
 ##############################
 
 FROM golang as server
@@ -62,7 +62,7 @@ RUN adduser \
     "${USER}"
 
 ############################
-# STEP 2 build a small image
+# STEP 4 build a small image
 ############################
 # Can't run from sratch, need to be able to `chmod`
 FROM alpine
@@ -81,14 +81,13 @@ COPY --from=zendesk /go/bin/zendesk /go/bin/zendesk
 COPY --from=server /go/bin/server /go/bin/server
 # Run the zendesk binary.
 
-# Copy the command to run both servers at startup
-COPY serverStart.sh /scripts/serverStart.sh
-RUN ["chmod", "+x", "/scripts/serverStart.sh"]
-
 # Use an unprivileged user.
 USER appuser:appuser
 EXPOSE 8090
 EXPOSE 8080
 
-ENTRYPOINT ["/scripts/serverStart.sh"]
+# Copy the command to run both servers at startup
+COPY serverStart.sh /scripts/serverStart.sh
+RUN ["chmod", "+x", "/scripts/serverStart.sh"]
 
+ENTRYPOINT ["/scripts/serverStart.sh"]
