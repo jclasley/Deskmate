@@ -82,7 +82,6 @@ COPY --from=server /go/bin/server /go/bin/server
 # Run the zendesk binary.
 
 # Use an unprivileged user.
-USER appuser:appuser
 EXPOSE 8090
 EXPOSE 8080
 
@@ -90,4 +89,5 @@ EXPOSE 8080
 COPY serverStart.sh /scripts/serverStart.sh
 RUN ["chmod", "+x", "/scripts/serverStart.sh"]
 
+USER appuser:appuser
 ENTRYPOINT ["/scripts/serverStart.sh"]
