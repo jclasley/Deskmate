@@ -3,7 +3,7 @@ package zendesk
 import (
 	"context"
 
-	"github.com/tylerconlee/Deskmate/graphql/model"
+	"github.com/circleci/Deskmate/graphql/model"
 	"go.uber.org/zap"
 )
 

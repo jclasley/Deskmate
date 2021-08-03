@@ -83,8 +83,6 @@ github.com/tidwall/pretty v1.0.0/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhV
 github.com/tidwall/pretty v1.1.0/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=
 github.com/tidwall/pretty v1.1.1 h1:nt6/Ot5LtZnJCWwEFlelOixPo0xhPFsuZlKyOL3Xfnc=
 github.com/tidwall/pretty v1.1.1/go.mod h1:ITEVvHYasfjBbM0u2Pg8T2nJnzm8xPwvNhhsoaGGjNU=
-github.com/tylerconlee/Deskmate/graphql v0.0.0-20210726192057-3147ead3e9d1 h1:t6FyyEAGjYyk6izgZ0SsEpepMGMkBLTypSvPAn93HzI=
-github.com/tylerconlee/Deskmate/graphql v0.0.0-20210726192057-3147ead3e9d1/go.mod h1:X4+nQjlUKX9fzTX7h5qoDObHyOBZDShwtlBTTrUJrrs=
 github.com/tylerconlee/zendesk-go v0.0.10 h1:2hz4IGuiN5OHUAHKGEzGogTxjwCZF1CcrAo/qbUHMDc=
 github.com/tylerconlee/zendesk-go v0.0.10/go.mod h1:l/4tbwTHX64j+sZ047SMqf48nlwNk8Ai3OWzAhk/8GA=
 github.com/urfave/cli/v2 v2.1.1/go.mod h1:SE9GqnLQmjVa0iPEY0f1w3ygNIYcIJ0OKPMoW2caLfQ=
