@@ -32,7 +32,7 @@ func Connect(host string) {
 		"url":    c.url,
 	}
 	if !active {
-		RunTimer(time.Minute)
+		go RunTimer(time.Minute)
 	}
 }
 
