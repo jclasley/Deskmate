@@ -1,4 +1,4 @@
-module github.com/tylerconlee/Deskmate/graphql
+module github.com/circleci/Deskmate/graphql
 
 go 1.15
 
