@@ -2,11 +2,9 @@ package main
 
 import (
 	"github.com/circleci/Deskmate/server/datastore"
-	"github.com/circleci/Deskmate/server/config"
 	"github.com/circleci/Deskmate/server/server"
 )
 
-var c *config.Config
 
 func main() {
 	// On launch, Deskmate should connect to a local Postgres database using
@@ -17,7 +15,6 @@ func main() {
 	// Further configuration would then be handled within the Deskmate app in
 	// Slack.
 	datastore.ConnectPostgres()
-	c = config.LoadConfig()
 
 	// Deskmate will use heavy use of the SlabAPI GraphQL API project. In order
 	// to do so, however, the SlabAPI project will have to be revamped to not
