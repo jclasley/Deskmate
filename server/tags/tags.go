@@ -22,7 +22,7 @@ type Tag struct {
 	Added            time.Time
 }
 
-func loadTags() {
+func LoadTags() {
 	tags := datastore.LoadTags()
 	T = nil
 	for _, tag := range tags {

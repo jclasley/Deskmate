@@ -17,7 +17,7 @@ var log = l.Log
 // GetAllTagsHandler recieves the request for getting all tags loaded and
 // returns a JSON encoded tag object
 func GetAllTagsHandler(w http.ResponseWriter, r *http.Request) {
-	loadTags()
+	LoadTags()
 	tags, err := json.Marshal(T)
 	if err != nil {
 		log.Errorw("Error marshalling JSON for tags", "error", err.Error())

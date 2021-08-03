@@ -4,6 +4,7 @@ import (
 	"github.com/circleci/Deskmate/server/datastore"
 	"github.com/circleci/Deskmate/server/server"
 	"github.com/circleci/Deskmate/server/zendesk"
+	"github.com/circleci/Deskmate/server/tags"
 )
 
 
@@ -26,5 +27,7 @@ func main() {
 	zendesk.SetConfig()
 	zendesk.Connect("http://localhost:8090/")
 
+	tags.LoadTags()
+	
 	server.Launch()
 }
