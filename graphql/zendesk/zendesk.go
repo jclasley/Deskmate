@@ -7,6 +7,7 @@ import (
 	logger "github.com/tylerconlee/Deskmate/graphql/log"
 	"github.com/tylerconlee/Deskmate/graphql/model"
 	"github.com/tylerconlee/zendesk-go/zendesk"
+	"go.uber.org/zap"
 )
 
 var (
@@ -39,7 +40,7 @@ func Connect(config *model.ZendeskConfigInput) *Client {
 	}
 	c.client, err = zendesk.NewClient(&client)
 	if err != nil {
-
+		log.Error("error creating zendesk client", zap.String("Error", err.Error()))
 	}
 	c.client.SetSubdomain(config.URL)
 	c.client.SetCredential(zendesk.NewAPITokenCredential(config.User, config.Apikey))
