@@ -5,13 +5,12 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/circleci/Deskmate/server/config"
 	"github.com/circleci/Deskmate/server/slack"
 )
 
 // Launch starts the webserver for Deskmate and waits for incoming requests
-func Launch(c *config.Config) {
-	slack.LoadConfig(c)
+func Launch() {
+	slack.LoadConfig()
 
 	router := mux.NewRouter()
 

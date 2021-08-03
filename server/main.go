@@ -25,6 +25,6 @@ func main() {
 	// other projects.
 	// That will allow Deskmate to launch a webserver with the GraphQL API for
 	// Zendesk.
-	server.Launch(c)
+	server.Launch()
 
 }
