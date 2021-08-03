@@ -13,7 +13,7 @@ func ConnectHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	SetConfig()
-	Connect(payload["url"].(string))
+	Connect("http://localhost:8090/")
 }
 
 func StatusHandler(w http.ResponseWriter, r *http.Request) {

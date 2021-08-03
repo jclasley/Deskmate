@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/circleci/Deskmate/server/datastore"
 	"github.com/circleci/Deskmate/server/server"
+	"github.com/circleci/Deskmate/server/zendesk"
 )
 
 
@@ -23,5 +24,6 @@ func main() {
 	// That will allow Deskmate to launch a webserver with the GraphQL API for
 	// Zendesk.
 	server.Launch()
-
+	zendesk.SetConfig()
+	zendesk.Connect("http://localhost:8090/")
 }
