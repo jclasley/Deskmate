@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/circleci/Deskmate/server/datastore"
 	"github.com/circleci/Deskmate/server/server"
-	"github.com/circleci/Deskmate/server/zendesk"
+	// "github.com/circleci/Deskmate/server/zendesk"
 )
 
 
