@@ -23,8 +23,8 @@ func main() {
 	// other projects.
 	// That will allow Deskmate to launch a webserver with the GraphQL API for
 	// Zendesk.
-	zendesk.SetConfig()
-	zendesk.Connect("http://localhost:8090/")
+	// zendesk.SetConfig()
+	// zendesk.Connect("http://localhost:8090/")
 
 	server.Launch()
 }
