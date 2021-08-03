@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/tylerconlee/Deskmate/graphql/model"
+	"github.com/circleci/Deskmate/graphql/model"
 	"github.com/tylerconlee/zendesk-go/zendesk"
 )
 
