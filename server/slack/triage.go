@@ -104,6 +104,7 @@ func loadTriage() {
 			for _, item := range T {
 				if item.Channel.ID == channel {
 					exists = true
+					break
 				}
 			}
 			if !exists {
