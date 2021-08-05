@@ -64,23 +64,25 @@ func (c *Client) GetTickets(ctx context.Context) (output []*model.Ticket, err er
 		assignee := strconv.Itoa(int(ticket.AssigneeID))
 		requester := strconv.Itoa(int(ticket.RequesterID))
 		organization := strconv.Itoa(int(ticket.OrganizationID))
-		save := &model.Ticket{
-			URL:            ticket.URL,
-			ID:             int(ticket.ID),
-			Createdat:      ticket.CreatedAt.String(),
-			Updatedat:      ticket.UpdatedAt.String(),
-			Subject:        ticket.Subject,
-			Description:    ticket.Description,
-			Priority:       ticket.Priority,
-			Status:         ticket.Status,
-			Assigneeid:     assignee,
-			Requesterid:    requester,
-			Organizationid: organization,
-			Groupid:        int(ticket.GroupID),
-			Tags:           ticket.Tags,
-			SLA:            sla,
+		if ticket.Status != "deleted" {
+			save := &model.Ticket{
+				URL:            ticket.URL,
+				ID:             int(ticket.ID),
+				Createdat:      ticket.CreatedAt.String(),
+				Updatedat:      ticket.UpdatedAt.String(),
+				Subject:        ticket.Subject,
+				Description:    ticket.Description,
+				Priority:       ticket.Priority,
+				Status:         ticket.Status,
+				Assigneeid:     assignee,
+				Requesterid:    requester,
+				Organizationid: organization,
+				Groupid:        int(ticket.GroupID),
+				Tags:           ticket.Tags,
+				SLA:            sla,
+			}
+			output = append(output, save)
 		}
-		output = append(output, save)
 	}
 	return
 }
