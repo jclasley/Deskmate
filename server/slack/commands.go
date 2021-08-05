@@ -47,6 +47,13 @@ func init() {
 		CommandDescription: "unset",
 		Function:           unsetTriageFunc,
 	})
+	RegisterScript(Script{
+		Name:               "Whois",
+		Matcher:            "(?i)^whois$",
+		Description:        "returns the current user set as the triage role",
+		CommandDescription: "whois",
+		Function:           whoIsTriageFunc,
+	})
 
 }
 
@@ -114,3 +121,8 @@ func unsetTriageFunc(event *slackevents.AppMentionEvent) {
 	removeTriage(event.Channel)
 	api.PostMessage(event.Channel, slack.MsgOptionText(fmt.Sprintf("<@%s> is no longer set as the triage role for this channel", event.User), false))
 }
+func whoIsTriageFunc(event *slackevents.AppMentionEvent) {
+	t := activeTriage(event.Channel)
+	api.PostMessage(event.Channel, slack.MsgOptionText(fmt.Sprintf("<@%s> is currently set as the triage role for this channel", t), false))
+}
+
