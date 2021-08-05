@@ -36,7 +36,8 @@ func (c *Client) GetTickets(ctx context.Context) (output []*model.Ticket, err er
 		t, cursor, eos, err := c.client.GetIncrementalTickets(context.Background(), &opts)
 
 		if err != nil {
-			log.Fatal("Fatal error", zap.String("Error", err.Error()))
+			log.Error("Encountered error while retrieving tickets.", zap.String("Error", err.Error()), zap.Int("total_count", len(tickets)))
+			break
 		}
 		tickets = append(tickets, t...)
 		log.Debug("Retrieved tickets from Zendesk in GetTickets loop", zap.Int("ticket_count", len(t)), zap.Int("total_count", len(tickets)))
