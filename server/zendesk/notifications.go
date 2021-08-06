@@ -3,6 +3,7 @@ package zendesk
 import (
 	"fmt"
 	"reflect"
+	"strconv"
 	"time"
 
 	"github.com/circleci/Deskmate/server/slack"
@@ -222,12 +223,14 @@ func cleanCache(ticket Ticket) {
 
 func checkTag(ticket Ticket) (n []Notify) {
 	for _, tag := range tags.T {
-		if contains(ticket.Tags, tag.Tag) {
-			n = append(n, Notify{
-				channel:          tag.Channel,
-				notificationType: tag.NotificationType,
-				tag:              tag.Tag,
-			})
+		if tag.GroupID == strconv.Itoa(ticket.GroupID) {
+			if contains(ticket.Tags, tag.Tag) {
+				n = append(n, Notify{
+					channel:          tag.Channel,
+					notificationType: tag.NotificationType,
+					tag:              tag.Tag,
+				})
+			}
 		}
 	}
 	return n
