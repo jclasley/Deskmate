@@ -896,7 +896,7 @@ type Ticket {
     assigneeid: String!
     requesterid: String!
     organizationid: String!
-    groupid: Int!
+    groupid: String!
     tags: [String!]
     customfields: [CustomField]
     sla: String!
@@ -2413,9 +2413,9 @@ func (ec *executionContext) _Ticket_groupid(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Ticket_tags(ctx context.Context, field graphql.CollectedField, obj *model.Ticket) (ret graphql.Marshaler) {

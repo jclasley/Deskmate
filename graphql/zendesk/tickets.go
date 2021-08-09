@@ -62,6 +62,7 @@ func (c *Client) GetTickets(ctx context.Context) (output []*model.Ticket, err er
 		}
 		// Type conversion to string, as GraphQL does not suppport int64
 		assignee := strconv.Itoa(int(ticket.AssigneeID))
+		group := strconv.Itoa(int(ticket.GroupID))
 		requester := strconv.Itoa(int(ticket.RequesterID))
 		organization := strconv.Itoa(int(ticket.OrganizationID))
 		if ticket.Status != "deleted" {
@@ -77,7 +78,7 @@ func (c *Client) GetTickets(ctx context.Context) (output []*model.Ticket, err er
 				Assigneeid:     assignee,
 				Requesterid:    requester,
 				Organizationid: organization,
-				Groupid:        int(ticket.GroupID),
+				Groupid:        group,
 				Tags:           ticket.Tags,
 				SLA:            sla,
 			}

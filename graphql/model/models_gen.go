@@ -34,7 +34,7 @@ type Ticket struct {
 	Assigneeid     string         `json:"assigneeid"`
 	Requesterid    string         `json:"requesterid"`
 	Organizationid string         `json:"organizationid"`
-	Groupid        int            `json:"groupid"`
+	Groupid        string         `json:"groupid"`
 	Tags           []string       `json:"tags"`
 	Customfields   []*CustomField `json:"customfields"`
 	SLA            string         `json:"sla"`
