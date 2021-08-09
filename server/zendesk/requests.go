@@ -48,7 +48,7 @@ func getAllTickets() {
 				log.Errorw("Error converting assignee ID from string to int", "error", err.Error())
 
 			}
-			group, err := strconv.Atoi(string(ticket.GroupID))
+			group, err := strconv.Atoi(string(ticket.Groupid))
 			if err != nil {
 				log.Errorw("Error converting assignee ID from string to int", "error", err.Error())
 
