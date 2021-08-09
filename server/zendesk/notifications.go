@@ -225,7 +225,7 @@ func checkTag(ticket Ticket) (n []Notify) {
 	for _, tag := range tags.T {
 
 		if contains(ticket.Tags, tag.Tag) {
-			if tag.GroupID == strconv.Itoa(ticket.GroupID) {
+			if tag.GroupID == strconv.Itoa(ticket.GroupID) || strconv.Itoa(ticket.GroupID) == "" {
 				n = append(n, Notify{
 					channel:          tag.Channel,
 					notificationType: tag.NotificationType,
