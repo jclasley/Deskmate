@@ -223,13 +223,16 @@ func cleanCache(ticket Ticket) {
 
 func checkTag(ticket Ticket) (n []Notify) {
 	for _, tag := range tags.T {
-		if tag.GroupID == strconv.Itoa(ticket.GroupID) {
-			if contains(ticket.Tags, tag.Tag) {
+
+		if contains(ticket.Tags, tag.Tag) {
+			if tag.GroupID == strconv.Itoa(ticket.GroupID) {
 				n = append(n, Notify{
 					channel:          tag.Channel,
 					notificationType: tag.NotificationType,
 					tag:              tag.Tag,
 				})
+			} else {
+				log.Debugf("Group does not match. have: %v, want: %v", tag.GroupID, ticket.GroupID)
 			}
 		}
 	}
