@@ -48,9 +48,15 @@ func getAllTickets() {
 				log.Errorw("Error converting assignee ID from string to int", "error", err.Error())
 
 			}
+			group, err := strconv.Atoi(string(ticket.GroupID))
+			if err != nil {
+				log.Errorw("Error converting assignee ID from string to int", "error", err.Error())
+
+			}
 			activeTickets = append(activeTickets, Ticket{
 				ID:        int(ticket.ID),
 				Assignee:  assignee,
+				GroupID:   group,
 				SLA:       string(ticket.SLA),
 				Tags:      tags,
 				Status:    string(ticket.Status),

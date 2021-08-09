@@ -7,6 +7,7 @@ var TicketQuery struct {
 		Tickets []struct {
 			ID         graphql.Int
 			SLA        graphql.String
+			GroupID    graphql.String
 			Assigneeid graphql.String
 			Tags       []graphql.String
 			Updatedat  graphql.String
