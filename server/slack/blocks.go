@@ -38,7 +38,7 @@ func SLANotification(notification map[string]interface{}) {
 	// Approve and Deny Buttons
 	acknowledgeBtnTxt := slack.NewTextBlockObject("plain_text", "Acknowledge", false, false)
 	acknowledgeBtn := slack.NewButtonBlockElement("", "sla_ticket_ack", acknowledgeBtnTxt)
-	acknowledgeSection := slack.NewSectionBlock(acknowledgeBtnTxt, nil, slack.NewAccessory(acknowledgeBtn))
+	acknowledgeSection := slack.NewActionBlock("", acknowledgeBtn)
 
 	message := fmt.Sprintf("%s left on ticket #%v", notification["TimeRemaining"], notification["ID"])
 	api.PostMessage(notification["Channel"].(string), slack.MsgOptionText(message, false), slack.MsgOptionBlocks(headerSection,
