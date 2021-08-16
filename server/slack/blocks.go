@@ -19,7 +19,7 @@ func SLANotification(notification map[string]interface{}) {
 	headerSection := slack.NewSectionBlock(headerText, nil, nil)
 
 	// Main alert body
-	ticketDetails := fmt.Sprintf("*<%s|%s>*\nTicket Created: %s\nTag: %s\nAssignee: <@%s>", notification["URL"], notification["Subject"], notification["CreatedAt"], notification["Tag"], user)
+	ticketDetails := fmt.Sprintf("*<%s|%s>*\nTicket Created: %s\nTag: %s\nSLA Level: %s\nAssignee: <@%s>", notification["URL"], notification["Subject"], notification["CreatedAt"], notification["Tag"], notification["SLA"], user)
 
 	scheduleText := slack.NewTextBlockObject("mrkdwn", ticketDetails, false, false)
 	schedeuleSection := slack.NewSectionBlock(scheduleText, nil, nil)
