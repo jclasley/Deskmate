@@ -13,7 +13,14 @@ func SLANotification(notification map[string]interface{}) {
 		user = getUserID(email)
 	}
 	divSection := slack.NewDividerBlock()
-	alertmsg := fmt.Sprintf("<!here> Upcoming SLA Alert on #%d - Less than %s remaining", notification["ID"], notification["TimeRemaining"])
+	t := activeTriage(notification["Channel"].(string))
+	// Build Message with blocks created above
+	var alertmsg string
+	if t != "" {
+		alertmsg = fmt.Sprintf("<@%s> - Upcoming SLA Alert on #%d - Less than %s remaining", t, notification["ID"], notification["TimeRemaining"])
+	} else {
+		alertmsg = fmt.Sprintf("<!here> - Upcoming SLA Alert on #%d - Less than %s remaining", notification["ID"], notification["TimeRemaining"])
+	}
 	// Header Section
 	headerText := slack.NewTextBlockObject("mrkdwn", alertmsg, false, false)
 	headerSection := slack.NewSectionBlock(headerText, nil, nil)
