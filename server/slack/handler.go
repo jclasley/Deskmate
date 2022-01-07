@@ -27,7 +27,6 @@ func StatusHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
-
 func ChannelListHandler(w http.ResponseWriter, r *http.Request) {
 	channels := ListChannels()
 	js, err := json.Marshal(channels)
@@ -124,7 +123,7 @@ func AcknowledgeTicket(payload *slack.InteractionCallback) {
 	f, _ := strconv.ParseFloat(payload.ActionCallback.BlockActions[0].ActionTs, 32)
 	i := int64(f)
 	ts := time.Unix(i, 0)
-	log.Debugf("Ticket alert acknowledged by ", payload.User.Name)
+	log.Debugf("Ticket alert acknowledged")
 	ts.Format(time.RFC822Z)
 	t := fmt.Sprintf("<@%s> acknowledged this alert at %s", payload.User.Name, ts.String())
 
