@@ -70,7 +70,7 @@ func GetAllTriage(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func activeTriage(channel string) (triage string) {
+func ActiveTriage(channel string) (triage string) {
 	for _, role := range T {
 		if channel == role.Channel.ID {
 			return role.User.ID

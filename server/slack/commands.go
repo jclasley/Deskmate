@@ -54,6 +54,12 @@ func init() {
 		CommandDescription: "whois",
 		Function:           whoIsTriageFunc,
 	})
+	RegisterScript(Script{
+		Name:        "Enable/Disable Triage Reminders",
+		Matcher:     "(?i)^reminders$",
+		Description: "enables or disables triage reminders when no triager is set",
+		Function:    triageReminderFunc,
+	})
 
 }
 
@@ -122,7 +128,10 @@ func unsetTriageFunc(event *slackevents.AppMentionEvent) {
 	api.PostMessage(event.Channel, slack.MsgOptionText(fmt.Sprintf("<@%s> is no longer set as the triage role for this channel", event.User), false))
 }
 func whoIsTriageFunc(event *slackevents.AppMentionEvent) {
-	t := activeTriage(event.Channel)
+	t := ActiveTriage(event.Channel)
 	api.PostMessage(event.Channel, slack.MsgOptionText(fmt.Sprintf("<@%s> is currently set as the triage role for this channel", t), false))
 }
 
+func triageReminderFunc(event *slackevents.AppMentionEvent) {
+
+}
