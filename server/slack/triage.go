@@ -39,8 +39,15 @@ type User struct {
 	ID   string
 }
 
+type Reminders struct {
+	Channel Channel
+	Enabled bool
+}
+
 // T represents the users that are currently in the triage role
 var T []Triage
+
+var R []Reminders
 
 // DeleteTriage takes the request URI which has a channel ID in it,
 // and removes the triage role associated with that channel.
@@ -137,4 +144,36 @@ func removeTriage(channel string) {
 			break
 		}
 	}
+}
+
+func reminderActiveCheck(channel string) (enabled bool) {
+	for _, reminder := range R {
+		if channel == reminder.Channel.ID {
+			return reminder.Enabled
+		}
+	}
+	return false
+}
+
+func toggleTriageReminder(channel string) (active bool) {
+	channelInfo := getChannelInfo(channel)
+	current := reminderActiveCheck(channel)
+	enabled := !current
+
+	// Loop through existing reminders and determine if they're
+	// already set. If they are, update the value to the new
+	// value.
+	for _, reminder := range R {
+		if channel == reminder.Channel.ID {
+			reminder.Enabled = enabled
+			return enabled
+		}
+	}
+	// If no prior reminder was set, create a new entry
+	remind := Reminders{
+		Channel: channelInfo,
+		Enabled: enabled,
+	}
+	R = append(R, remind)
+	return enabled
 }
