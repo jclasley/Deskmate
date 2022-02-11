@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/circleci/Deskmate/server/datastore"
+	"github.com/slack-go/slack"
 )
 
 // Triage outlines the various users that are currently in the
@@ -40,8 +41,9 @@ type User struct {
 }
 
 type Reminders struct {
-	Channel Channel
-	Enabled bool
+	Channel  Channel
+	Enabled  bool
+	LastSent time.Time
 }
 
 // T represents the users that are currently in the triage role
@@ -176,4 +178,8 @@ func toggleTriageReminder(channel string) (active bool) {
 	}
 	R = append(R, remind)
 	return enabled
+}
+
+func SendReminder(channel string) {
+	api.PostMessage(channel, slack.MsgOptionText(fmt.Sprintf("Triage currently unset for this channel. Please use `@deskmate set` to set the current triager."), false))
 }
