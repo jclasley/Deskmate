@@ -75,7 +75,7 @@ func iteration(t *time.Ticker, interval time.Duration) {
 			// Check if the last time a reminder was sent was 15 minutes
 			// before the current iteration
 			// If it was, send another notification and update the last sent time
-			if reminder.LastSent.Add(15*time.Minute).Before(lastRan) && triage == "" {
+			if reminder.LastSent.Before(lastRan.Add(-(15 * time.Minute))) && triage == "" {
 				slack.SendReminder(reminder.Channel.ID)
 				reminder.LastSent = time.Now()
 			}
