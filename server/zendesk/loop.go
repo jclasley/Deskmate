@@ -6,8 +6,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/shurcooL/graphql"
 	l "github.com/circleci/Deskmate/server/log"
+	"github.com/circleci/Deskmate/server/slack"
+	"github.com/shurcooL/graphql"
 )
 
 var active = false
@@ -51,6 +52,7 @@ func iteration(t *time.Ticker, interval time.Duration) {
 	lastRan = time.Now()
 	getAllTickets()
 	for _, ticket := range activeTickets {
+
 		notify := checkTag(ticket)
 		for _, t := range notify {
 
