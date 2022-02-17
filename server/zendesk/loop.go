@@ -6,8 +6,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/shurcooL/graphql"
 	l "github.com/circleci/Deskmate/server/log"
+	"github.com/circleci/Deskmate/server/slack"
+	"github.com/shurcooL/graphql"
 )
 
 var active = false
@@ -51,6 +52,7 @@ func iteration(t *time.Ticker, interval time.Duration) {
 	lastRan = time.Now()
 	getAllTickets()
 	for _, ticket := range activeTickets {
+
 		notify := checkTag(ticket)
 		for _, t := range notify {
 
@@ -64,6 +66,18 @@ func iteration(t *time.Ticker, interval time.Duration) {
 			case "updates":
 
 				sendUpdatedNotification(ticket, t.channel, t.tag)
+			}
+		}
+		for _, reminder := range slack.R {
+			// GetActiveTriager for the channel to be reminded
+			triage := slack.ActiveTriage(reminder.Channel.ID)
+
+			// Check if the last time a reminder was sent was 15 minutes
+			// before the current iteration
+			// If it was, send another notification and update the last sent time
+			if reminder.LastSent.Before(lastRan.Add(-(15 * time.Minute))) && triage == "" {
+				slack.SendReminder(reminder.Channel.ID)
+				reminder.LastSent = time.Now()
 			}
 		}
 
