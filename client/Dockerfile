@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:17-alpine
 
 # if left blank app will run with dev settings
 # to build production image run:
