@@ -1,9 +1,5 @@
 package datastore
 
-import (
-	"fmt"
-)
-
 // checkTable is called after the connection to Postgres is made. It
 // checks to see if the necessary tables for Deskmate are created, and
 // creates them if they're not available.
@@ -11,7 +7,7 @@ func checkTable() {
 	createConfigTable()
 	createTriageTable()
 	createTagsTable()
-	fmt.Println("Tables successfully loaded/created")
+	log.Info("Datastore tables successfully processed")
 }
 
 // Create the table that Deskmate's configuration is stored in if the table
@@ -31,17 +27,19 @@ func createConfigTable() {
 	// Exec executes a query without returning any rows.
 	result, err := db.Exec(query)
 	if err != nil {
-		fmt.Println("Error creating configuration table", err.Error())
+
+		log.Fatalw("Table creation error for Config", "error", err.Error())
 		return
 	}
-	a, err := result.RowsAffected()
+	affectedRows, err := result.RowsAffected()
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Fatalw("Table creation error for Config", "error", err.Error())
+		return
 	}
-	if a != 0 {
-		fmt.Println("Configuration table successfully created.", a)
+	if affectedRows != 0 {
+		log.Debug("Configuration table successfully created")
 	}
-	return
+
 }
 
 func createTriageTable() {
@@ -56,17 +54,19 @@ func createTriageTable() {
 	// Exec executes a query without returning any rows.
 	result, err := db.Exec(query)
 	if err != nil {
-		fmt.Println("Error creating triage table", err.Error())
+		log.Fatalw("Table creation error for Triage", "error", err.Error())
+		return
+
+	}
+	affectedRows, err := result.RowsAffected()
+	if err != nil {
+		log.Fatalw("Table creation error for Triage", "error", err.Error())
 		return
 	}
-	a, err := result.RowsAffected()
-	if err != nil {
-		fmt.Println(err.Error())
+	if affectedRows != 0 {
+		log.Debug("Triage table successfully created")
 	}
-	if a != 0 {
-		fmt.Println("Triage table successfully created.", a)
-	}
-	return
+
 }
 
 func createTagsTable() {
@@ -83,15 +83,18 @@ func createTagsTable() {
 	// Exec executes a query without returning any rows.
 	result, err := db.Exec(query)
 	if err != nil {
-		fmt.Println("Error creating tags table", err.Error())
+		log.Fatalw("Table creation error for Tags", "error", err.Error())
+		return
+
+	}
+	affectedRows, err := result.RowsAffected()
+	if err != nil {
+		log.Fatalw("Table creation error for Tagts", "error", err.Error())
+
 		return
 	}
-	a, err := result.RowsAffected()
-	if err != nil {
-		fmt.Println(err.Error())
+	if affectedRows != 0 {
+		log.Debug("Tags table successfully created")
 	}
-	if a != 0 {
-		fmt.Println("Tags table successfully created.", a)
-	}
-	return
+
 }

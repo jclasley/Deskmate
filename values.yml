@@ -1,0 +1,65 @@
+flags:
+  selectorsIncludeRelease: false
+
+team: ITD
+
+deployment:
+  replicas: 1 # scale up if it is necessary that this service always exists
+  containers: 
+    deskmate: # container name
+      image: "<<image_name>>"
+      imagePullPolicy: "IfNotPresent"
+      command: # commands necessary to start the service
+        - /scripts/serverStart.sh
+
+      envSecret:
+        POSTGRES_USER:
+          secret: deskmate-basic-auth
+          key: username
+        POSTGRES_PASSWORD:
+          secret: deskmate-basic-auth
+          key: password
+        POSTGRES_DB:
+          secret: deskmate-basic-auth
+          key: dbName
+        
+
+            
+
+      ports: 
+        - containerPort: 8080
+          name: server
+          protocol: TCP
+        - containerPort: 8090
+          name: zendesk
+          protocol: TCP
+        
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          memory: 512Mi
+
+service:
+  - name: server
+    port: 8080
+    targetPort: 8080
+
+
+      #serviceNodePort:
+      #  - name: server
+      #    port: 8080
+      #    nodePort: 30151
+      #  
+      #  - name: zendesk
+      #    port: 8090
+      #    nodePort: 30152
+
+traefik:
+  rules:
+    - host: slackdeskmatehook.circleci.com
+      paths:
+        - path: /
+          backend:
+            servicePort: 8080
+  ruleType: PathPrefix

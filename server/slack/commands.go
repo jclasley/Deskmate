@@ -47,6 +47,25 @@ func init() {
 		CommandDescription: "unset",
 		Function:           unsetTriageFunc,
 	})
+	RegisterScript(Script{
+		Name:               "Whois",
+		Matcher:            "(?i)^whois$",
+		Description:        "returns the current user set as the triage role",
+		CommandDescription: "whois",
+		Function:           whoIsTriageFunc,
+	})
+	RegisterScript(Script{
+		Name:        "Enable/Disable Triage Reminders",
+		Matcher:     "(?i)^toggle reminders$",
+		Description: "enables or disables triage reminders when no triager is set",
+		Function:    toggleTriageReminderFunc,
+	})
+	RegisterScript(Script{
+		Name:        "Get Triage Reminders",
+		Matcher:     "(?i)^get reminders$",
+		Description: "enables or disables triage reminders when no triager is set",
+		Function:    getTriageReminderFunc,
+	})
 
 }
 
@@ -66,7 +85,8 @@ func HandleMentionEvent(event *slackevents.AppMentionEvent) {
 	// optional brackets, matches anything not a space following '@'
 	re, err := regexp.Compile(`^<*@\S*>* *`)
 	if err != nil {
-		fmt.Println("error parsing command", err.Error())
+		log.Errorw("Error parsing Slack command", "error", err.Error())
+		return
 	}
 	event.Text = re.ReplaceAllString(event.Text, "")
 
@@ -112,4 +132,30 @@ func setTriageFunc(event *slackevents.AppMentionEvent) {
 func unsetTriageFunc(event *slackevents.AppMentionEvent) {
 	removeTriage(event.Channel)
 	api.PostMessage(event.Channel, slack.MsgOptionText(fmt.Sprintf("<@%s> is no longer set as the triage role for this channel", event.User), false))
+}
+func whoIsTriageFunc(event *slackevents.AppMentionEvent) {
+	t := ActiveTriage(event.Channel)
+	api.PostMessage(event.Channel, slack.MsgOptionText(fmt.Sprintf("<@%s> is currently set as the triage role for this channel", t), false))
+}
+
+func getTriageReminderFunc(event *slackevents.AppMentionEvent) {
+	a := reminderActiveCheck(event.Channel)
+	var active string
+	if a {
+		active = "enabled"
+	} else {
+		active = "disabled"
+	}
+	api.PostMessage(event.Channel, slack.MsgOptionText(fmt.Sprintf("Triage reminders for this channel are currently set to %s", active), false))
+}
+
+func toggleTriageReminderFunc(event *slackevents.AppMentionEvent) {
+	a := toggleTriageReminder(event.Channel)
+	var active string
+	if a {
+		active = "enabled"
+	} else {
+		active = "disabled"
+	}
+	api.PostMessage(event.Channel, slack.MsgOptionText(fmt.Sprintf("Triage reminders for this channel now set to %s", active), false))
 }

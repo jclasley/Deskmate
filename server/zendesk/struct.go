@@ -10,6 +10,7 @@ type Ticket struct {
 	ID             int
 	Assignee       int
 	User           string
+	GroupID        int
 	Email          string
 	SLA            string
 	Tags           []string

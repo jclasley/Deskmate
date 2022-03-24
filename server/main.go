@@ -1,9 +1,12 @@
 package main
 
 import (
-	"github.com/tylerconlee/Deskmate/server/datastore"
-	"github.com/tylerconlee/Deskmate/server/server"
+	"github.com/circleci/Deskmate/server/datastore"
+	"github.com/circleci/Deskmate/server/server"
+	"github.com/circleci/Deskmate/server/zendesk"
+	"github.com/circleci/Deskmate/server/tags"
 )
+
 
 func main() {
 	// On launch, Deskmate should connect to a local Postgres database using
@@ -21,12 +24,10 @@ func main() {
 	// other projects.
 	// That will allow Deskmate to launch a webserver with the GraphQL API for
 	// Zendesk.
+	zendesk.SetConfig()
+	zendesk.Connect("http://localhost:8090/")
+
+	tags.LoadTags()
+	
 	server.Launch()
-
-	// TODO: Establish connection to Slack
-	// With the webserver up and running, Deskmate will need an endpoint that
-	// will be used for the Events API (https://api.slack.com/events-api). This
-	// will likely be `/events`, which Slack will send POST data to. From there,
-	// the `slack-go/slack` package will have the handler for that endpoint.
-
 }

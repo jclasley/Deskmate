@@ -7,8 +7,8 @@ ARG app_env
 ENV APP_ENV $app_env
 
 # it is okay to leave user/GoDoRP as long as you do not want to share code with other libraries
-COPY . /go/src/github.com/tylerconlee/Deskmate/server
-WORKDIR /go/src/github.com/tylerconlee/Deskmate/server
+COPY . /go/src/github.com/circleci/Deskmate/server
+WORKDIR /go/src/github.com/circleci/Deskmate/server
 
 RUN go get ./
 RUN go build -o deskmate

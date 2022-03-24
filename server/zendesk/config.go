@@ -2,7 +2,7 @@ package zendesk
 
 import (
 	"github.com/shurcooL/graphql"
-	con "github.com/tylerconlee/Deskmate/server/config"
+	con "github.com/circleci/Deskmate/server/config"
 )
 
 type ZendeskConfigInput struct {

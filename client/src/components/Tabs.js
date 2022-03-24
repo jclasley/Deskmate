@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import { CurrentTriage } from './Triage.js'
-import { Config } from './Config.js'
 import classnames from 'classnames';
 import { Tags } from './Tags.js';
 
@@ -51,7 +50,7 @@ const MainTabs = (props) => {
         <TabPane tabId="2">
           <Row>
             <Col sm="12">
-              <Config />
+              Config placeholder
             </Col>
           </Row>
         </TabPane>
