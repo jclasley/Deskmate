@@ -55,7 +55,8 @@ const durationQuery = `select current_timestamp - (select started from triage
 // comes online.
 func SetTriageDuration(slackID string, channel string) {
 	durQuery := fmt.Sprintf(durationQuery, slackID)
-	query := "update triage set triage_interval=(%s) where triage.slack_id=%s and triage.channel=%s"
+	query := "update triage set triage_interval=(%s) where id=" +
+		"(select id from triage where triage.slack_id='%s' and triage.channel='%s' order by started desc limit 1)"
 	query = fmt.Sprintf(query, durQuery, slackID, channel)
 	_, err = db.Query(query)
 	if err != nil {
