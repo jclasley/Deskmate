@@ -142,7 +142,9 @@ func addTriage(channel string, user string, started time.Time, save bool) {
 func removeTriage(channel string) {
 	for i := range T {
 		if T[i].Channel.ID == channel {
+			// splice out the current triager
 			T = append(T[:i], T[i+1:]...)
+			datastore.SetTriageDuration(T[i].User.ID, channel)
 			break
 		}
 	}

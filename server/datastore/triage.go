@@ -1,6 +1,7 @@
 package datastore
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -44,5 +45,19 @@ func SaveTriage(slackID string, channel string) {
 	if err != nil {
 		log.Fatalw("Unable to save triage to datastore", "error", err.Error())
 	}
+}
 
+const durationQuery = `select current_timestamp - (select started from triage
+	where slack_id=$1 order by started desc limit 1)`
+
+// SetTriageDuration is intended to be called every time the active triager changes.
+// This will change if there is either a call to the `unset` command or if a new triager
+// comes online.
+func SetTriageDuration(slackID string, channel string) {
+	query := "update triage set triage_interval=(%s) where triage.slack_id=? and triage.channel=?"
+	query = fmt.Sprintf(query, durationQuery)
+	_, err = db.Query(query, slackID, channel)
+	if err != nil {
+		log.Fatalf("error in updating duration: %q", err.Error())
+	}
 }
