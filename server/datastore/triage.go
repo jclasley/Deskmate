@@ -48,7 +48,7 @@ func SaveTriage(slackID string, channel string) {
 }
 
 const durationQuery = `select current_timestamp - (select started from triage
-	where slack_id=$1 order by started desc limit 1)`
+	where slack_id=? order by started desc limit 1)`
 
 // SetTriageDuration is intended to be called every time the active triager changes.
 // This will change if there is either a call to the `unset` command or if a new triager
