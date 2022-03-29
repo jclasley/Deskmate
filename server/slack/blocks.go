@@ -13,7 +13,7 @@ func SLANotification(notification map[string]interface{}) {
 		user = getUserID(email)
 	}
 	divSection := slack.NewDividerBlock()
-	t := ActiveTriage(notification["Channel"].(string))
+	t, _ := ActiveTriage(notification["Channel"].(string))
 	// Build Message with blocks created above
 	var alertmsg string
 	if t != "" {
@@ -58,7 +58,7 @@ func SLANotification(notification map[string]interface{}) {
 
 func NewNotification(notification map[string]interface{}) {
 
-	t := ActiveTriage(notification["Channel"].(string))
+	t, _ := ActiveTriage(notification["Channel"].(string))
 	// Build Message with blocks created above
 	var message string
 	if t != "" {
@@ -100,7 +100,7 @@ func UpdatedNotification(notification map[string]interface{}) {
 		email := fmt.Sprintf("%s", notification["Email"])
 		user = getUserID(email)
 	}
-	t := ActiveTriage(notification["Channel"].(string))
+	t, _ := ActiveTriage(notification["Channel"].(string))
 	// Build Message with blocks created above
 
 	divSection := slack.NewDividerBlock()

@@ -79,13 +79,13 @@ func GetAllTriage(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func ActiveTriage(channel string) (triage string) {
+func ActiveTriage(channel string) (triage string, err error) {
 	for _, role := range T {
 		if channel == role.Channel.ID {
-			return role.User.ID
+			return role.User.ID, nil
 		}
 	}
-	return ""
+	return "", nil
 }
 
 func setTriage(channel string, user string) {

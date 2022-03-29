@@ -66,6 +66,12 @@ func init() {
 		Description: "enables or disables triage reminders when no triager is set",
 		Function:    getTriageReminderFunc,
 	})
+	RegisterScript(Script{
+		Name:        "Enable/Disable Deskmate",
+		Matcher:     "(?i)^toggle",
+		Description: "enables or disables Deskmate",
+		Function:    toggleDeskmateFunc,
+	})
 
 }
 
@@ -134,7 +140,10 @@ func unsetTriageFunc(event *slackevents.AppMentionEvent) {
 	api.PostMessage(event.Channel, slack.MsgOptionText(fmt.Sprintf("<@%s> is no longer set as the triage role for this channel", event.User), false))
 }
 func whoIsTriageFunc(event *slackevents.AppMentionEvent) {
-	t := ActiveTriage(event.Channel)
+	t, err := ActiveTriage(event.Channel)
+	if err != nil {
+		log.Error("Unable to retrieve ActiveTriage")
+	}
 	api.PostMessage(event.Channel, slack.MsgOptionText(fmt.Sprintf("<@%s> is currently set as the triage role for this channel", t), false))
 }
 
@@ -151,6 +160,17 @@ func getTriageReminderFunc(event *slackevents.AppMentionEvent) {
 
 func toggleTriageReminderFunc(event *slackevents.AppMentionEvent) {
 	a := toggleTriageReminder(event.Channel)
+	var active string
+	if a {
+		active = "enabled"
+	} else {
+		active = "disabled"
+	}
+	api.PostMessage(event.Channel, slack.MsgOptionText(fmt.Sprintf("Triage reminders for this channel now set to %s", active), false))
+}
+
+func toggleDeskmateFunc(event *slackevents.AppMentionEvent) {
+	a := toggleDeskmate(event.Channel)
 	var active string
 	if a {
 		active = "enabled"

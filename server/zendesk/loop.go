@@ -70,7 +70,7 @@ func iteration(t *time.Ticker, interval time.Duration) {
 		}
 		for _, reminder := range slack.R {
 			// GetActiveTriager for the channel to be reminded
-			triage := slack.ActiveTriage(reminder.Channel.ID)
+			triage, _ := slack.ActiveTriage(reminder.Channel.ID)
 
 			// Check if the last time a reminder was sent was 15 minutes
 			// before the current iteration
