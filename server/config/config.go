@@ -40,16 +40,15 @@ func PostConfig(w http.ResponseWriter, r *http.Request) {
 		payload["zendeskuser"] = config.Zendesk.ZendeskUser
 		payload["zendeskapi"] = config.Zendesk.ZendeskAPI
 		payload["zendeskurl"] = config.Zendesk.ZendeskURL
-		datastore.SaveConfig(payload)
-		return
+		
 	}
 	if payload["zendeskuser"] != nil {
 		payload["slackurl"] = config.Slack.SlackURL
 		payload["slackapi"] = config.Slack.SlackAPI
 		payload["slacksigning"] = config.Slack.SlackSigning
-		datastore.SaveConfig(payload)
-		return
 	}
+	datastore.SaveConfig(payload)
+	return
 }
 
 // LoadConfig returns the configuration file as loaded from environment variables. Requires several environment variables that were previously fetched from the Postgres DB. Environment variables are set with the inclusion of a 'config.json' in the 'server' directory. This file can and should be overwritten via a bind-mount in the 'docker-compose.yml'. An example called 'config_example.json' is included for documentation of the JSON shape.
