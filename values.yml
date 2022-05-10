@@ -55,6 +55,14 @@ service:
       #    port: 8090
       #    nodePort: 30152
 
+kong:
+  routes:
+    - host: webhooks.circleci.com
+      port: 8080
+      paths:
+        - /slackdeskmate
+
+# TODO API-268: Remove after migration to Kong.
 traefik:
   rules:
     - host: slackdeskmatehook.circleci.com
