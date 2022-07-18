@@ -1,16 +1,5 @@
 version: '3'
 services:
-  db:
-    build: ./db
-    volumes:
-      - ./db/pgdata:/pgdata
-    ports:
-      - "5432"
-    environment:
-      - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=deskmate
-      - PGDATA=/pgdata
 
   api:
     build:
@@ -18,28 +7,27 @@ services:
       args:
         app_env: ${APP_ENV}
     volumes:
-      - ./server:/go/src/github.com/tylerconlee/Deskmate/server
-    depends_on: 
-      - db
+      - ./server:/go/src/github.com/circleci/Deskmate/server
+      # for setting of API config -- note that the `config.json` should be at the ROOT level of the machine running the docker-compose
+      - ./config.json:/go/src/github.com/circleci/Deskmate/server/config.json
     ports:
-      - "5000:8080"
+      - '5000:8080'
     environment:
       - WAIT_HOSTS=db:5432
       - WAIT_HOSTS_TIMEOUT=300
       - WAIT_SLEEP_INTERVAL=15
       - WAIT_HOST_CONNECT_TIMEOUT=30
-    links:
-      - db
 
-  zendesk:
+
+  graphql:
     build:
-      context: ./zendesk
+      context: ./graphql
       args:
         app_env: ${APP_ENV}
     volumes:
-      - ./zendesk:/go/src/github.com/tylerconlee/Deskmate/zendesk
+      - ./graphql:/go/src/github.com/circleci/Deskmate/graphql
     ports:
-      - "6000:8090"
+      - '6000:8090'
 
   frontend:
     build:
@@ -47,6 +35,6 @@ services:
       args:
         app_env: ${APP_ENV}
     volumes:
-      - ./client/src:/client/src 
+      - ./client/src:/client/src
     ports:
-      - "3000:3000"
+      - '3000:3000'

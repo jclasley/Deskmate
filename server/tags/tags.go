@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/tylerconlee/Deskmate/server/datastore"
+	"github.com/circleci/Deskmate/server/datastore"
 )
 
 // T represents all of the currently active tags that have been
@@ -22,7 +22,7 @@ type Tag struct {
 	Added            time.Time
 }
 
-func loadTags() {
+func LoadTags() {
 	tags := datastore.LoadTags()
 	T = nil
 	for _, tag := range tags {

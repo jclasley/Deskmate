@@ -16,20 +16,21 @@ import {
 import {SlackConnect} from './SlackConnect.js';
 import { ZendeskConnect } from './ZendeskConnect.js';
 
-const Navigation = (props) => {
+const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <div>
+    <div data-testid="navigation">
       <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">deskmate</NavbarBrand>
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          
-
-          <NavbarText><SlackConnect /> <ZendeskConnect /></NavbarText>
+        <NavbarBrand data-testid="logo" href="/">deskmate</NavbarBrand>
+        <NavbarToggler data-testid="toggler" onClick={toggle} />
+        <Collapse data-testid="collapse" isOpen={isOpen} navbar>
+          <NavbarText>
+            <SlackConnect />
+            <ZendeskConnect />
+          </NavbarText>
         </Collapse>
       </Navbar>
     </div>

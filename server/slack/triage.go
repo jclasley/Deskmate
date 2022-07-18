@@ -7,7 +7,8 @@ import (
 	"path"
 	"time"
 
-	"github.com/tylerconlee/Deskmate/server/datastore"
+	"github.com/circleci/Deskmate/server/datastore"
+	"github.com/slack-go/slack"
 )
 
 // Triage outlines the various users that are currently in the
@@ -39,15 +40,23 @@ type User struct {
 	ID   string
 }
 
+type Reminders struct {
+	Channel  Channel
+	Enabled  bool
+	LastSent time.Time
+}
+
 // T represents the users that are currently in the triage role
 var T []Triage
+
+var R []Reminders
 
 // DeleteTriage takes the request URI which has a channel ID in it,
 // and removes the triage role associated with that channel.
 func DeleteTriage(w http.ResponseWriter, r *http.Request) (n Triage) {
-	u := path.Base(r.RequestURI)
-	fmt.Println("Removing active triager for channel: ", u)
-	removeTriage(u)
+	user := path.Base(r.RequestURI)
+	fmt.Println("Removing active triager for channel: ", user)
+	removeTriage(user)
 	return
 }
 
@@ -60,22 +69,23 @@ func GetAllTriage(w http.ResponseWriter, r *http.Request) {
 	if T == nil {
 		loadTriage()
 	}
-	t, err := json.Marshal(T)
+	triage, err := json.Marshal(T)
 	if err != nil {
 		fmt.Println("Error marshalling JSON for config")
+		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(t)
+	w.Write(triage)
 
 }
 
-func activeTriage(channel string) (triage string) {
+func ActiveTriage(channel string) (triage string, err error) {
 	for _, role := range T {
 		if channel == role.Channel.ID {
-			return role.User.ID
+			return role.User.ID, nil
 		}
 	}
-	return ""
+	return "", nil
 }
 
 func setTriage(channel string, user string) {
@@ -85,9 +95,9 @@ func setTriage(channel string, user string) {
 
 }
 
-func saveTriage(t Triage) {
+func saveTriage(user Triage) {
 	fmt.Println("Saving triage role to database")
-	datastore.SaveTriage(t.User.ID, t.Channel.ID)
+	datastore.SaveTriage(user.User.ID, user.Channel.ID)
 }
 
 func loadTriage() {
@@ -103,9 +113,10 @@ func loadTriage() {
 			for _, item := range T {
 				if item.Channel.ID == channel {
 					exists = true
+					break
 				}
 			}
-			if exists == false {
+			if !exists {
 				addTriage(channel, user, row["started"].(time.Time), false)
 			}
 		}
@@ -114,25 +125,64 @@ func loadTriage() {
 }
 
 func addTriage(channel string, user string, started time.Time, save bool) {
-	u := getUserInfo(user)
-	c := getChannelInfo(channel)
-	t := Triage{
-		Channel: c,
-		User:    u,
+	userInfo := getUserInfo(user)
+	channelInfo := getChannelInfo(channel)
+	triager := Triage{
+		Channel: channelInfo,
+		User:    userInfo,
 		Started: started,
 	}
-	T = append(T, t)
+	T = append(T, triager)
 	if save {
-		saveTriage(t)
+		saveTriage(triager)
 	}
-	fmt.Println("Added triage: ", t)
+	fmt.Println("Added triage: ", triager)
 }
 
 func removeTriage(channel string) {
 	for i := range T {
 		if T[i].Channel.ID == channel {
+			// splice out the current triager
+			log.Debug("setting triage duration")
+			datastore.SetTriageDuration(T[i].User.ID, channel)
 			T = append(T[:i], T[i+1:]...)
 			break
 		}
 	}
+}
+
+func reminderActiveCheck(channel string) (enabled bool) {
+	for _, reminder := range R {
+		if channel == reminder.Channel.ID {
+			return reminder.Enabled
+		}
+	}
+	return false
+}
+
+func toggleTriageReminder(channel string) (active bool) {
+	channelInfo := getChannelInfo(channel)
+	current := reminderActiveCheck(channel)
+	enabled := !current
+
+	// Loop through existing reminders and determine if they're
+	// already set. If they are, update the value to the new
+	// value.
+	for _, reminder := range R {
+		if channel == reminder.Channel.ID {
+			reminder.Enabled = enabled
+			return enabled
+		}
+	}
+	// If no prior reminder was set, create a new entry
+	remind := Reminders{
+		Channel: channelInfo,
+		Enabled: enabled,
+	}
+	R = append(R, remind)
+	return enabled
+}
+
+func SendReminder(channel string) {
+	api.PostMessage(channel, slack.MsgOptionText(fmt.Sprintf("Triage currently unset for this channel. Please use `@deskmate set` to set the current triager."), false))
 }

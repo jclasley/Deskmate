@@ -13,13 +13,20 @@ func SLANotification(notification map[string]interface{}) {
 		user = getUserID(email)
 	}
 	divSection := slack.NewDividerBlock()
-	alertmsg := fmt.Sprintf("<!here> Upcoming SLA Alert on #%d - Less than %s remaining", notification["ID"], notification["TimeRemaining"])
+	t, _ := ActiveTriage(notification["Channel"].(string))
+	// Build Message with blocks created above
+	var alertmsg string
+	if t != "" {
+		alertmsg = fmt.Sprintf("<@%s> - Upcoming SLA Alert on #%d - Less than %s remaining", t, notification["ID"], notification["TimeRemaining"])
+	} else {
+		alertmsg = fmt.Sprintf("<!here> - Upcoming SLA Alert on #%d - Less than %s remaining", notification["ID"], notification["TimeRemaining"])
+	}
 	// Header Section
 	headerText := slack.NewTextBlockObject("mrkdwn", alertmsg, false, false)
 	headerSection := slack.NewSectionBlock(headerText, nil, nil)
 
 	// Main alert body
-	ticketDetails := fmt.Sprintf("*<%s|%s>*\nTicket Created: %s\nTag: %s\nAssignee: <@%s>", notification["URL"], notification["Subject"], notification["CreatedAt"], notification["Tag"], user)
+	ticketDetails := fmt.Sprintf("*<%s|%s>*\nTicket Created: %s\nTag: %s\nSLA Level: %s\nAssignee: <@%s>", notification["URL"], notification["Subject"], notification["CreatedAt"], notification["Tag"], notification["SLA"], user)
 
 	scheduleText := slack.NewTextBlockObject("mrkdwn", ticketDetails, false, false)
 	schedeuleSection := slack.NewSectionBlock(scheduleText, nil, nil)
@@ -38,7 +45,7 @@ func SLANotification(notification map[string]interface{}) {
 	// Approve and Deny Buttons
 	acknowledgeBtnTxt := slack.NewTextBlockObject("plain_text", "Acknowledge", false, false)
 	acknowledgeBtn := slack.NewButtonBlockElement("", "sla_ticket_ack", acknowledgeBtnTxt)
-	acknowledgeSection := slack.NewSectionBlock(acknowledgeBtnTxt, nil, slack.NewAccessory(acknowledgeBtn))
+	acknowledgeSection := slack.NewActionBlock("", acknowledgeBtn)
 
 	message := fmt.Sprintf("%s left on ticket #%v", notification["TimeRemaining"], notification["ID"])
 	api.PostMessage(notification["Channel"].(string), slack.MsgOptionText(message, false), slack.MsgOptionBlocks(headerSection,
@@ -51,7 +58,7 @@ func SLANotification(notification map[string]interface{}) {
 
 func NewNotification(notification map[string]interface{}) {
 
-	t := activeTriage(notification["Channel"].(string))
+	t, _ := ActiveTriage(notification["Channel"].(string))
 	// Build Message with blocks created above
 	var message string
 	if t != "" {
@@ -93,7 +100,7 @@ func UpdatedNotification(notification map[string]interface{}) {
 		email := fmt.Sprintf("%s", notification["Email"])
 		user = getUserID(email)
 	}
-	t := activeTriage(notification["Channel"].(string))
+	t, _ := ActiveTriage(notification["Channel"].(string))
 	// Build Message with blocks created above
 
 	divSection := slack.NewDividerBlock()

@@ -8,6 +8,13 @@ import (
 	"go.uber.org/ratelimit"
 )
 
+type Active struct {
+	Channel Channel
+	Enabled bool
+}
+
+var A []Active
+
 func getChannelInfo(channel string) (info Channel) {
 	c, err := api.GetConversationInfo(channel, false)
 	if err != nil {
@@ -94,16 +101,34 @@ func ListUsers() (users []map[string]string) {
 	return users
 }
 
-func ListGroups() (groups []map[string]string) {
-	g, err := api.GetGroups(true)
-	if err != nil {
-		fmt.Println("Error retrieving groups list")
+func toggleDeskmate(channel string) (active bool) {
+	channelInfo := getChannelInfo(channel)
+	current := deskmateActiveCheck(channel)
+	enabled := !current
+
+	// Loop through existing reminders and determine if they're
+	// already set. If they are, update the value to the new
+	// value.
+	for _, active := range A {
+		if channel == active.Channel.ID {
+			active.Enabled = enabled
+			return enabled
+		}
 	}
-	for _, group := range g {
-		groups = append(groups, map[string]string{
-			"GroupName": group.Name,
-			"ID":        group.ID,
-		})
+	// If no prior reminder was set, create a new entry
+	a := Active{
+		Channel: channelInfo,
+		Enabled: enabled,
 	}
-	return groups
+	A = append(A, a)
+	return enabled
+}
+
+func deskmateActiveCheck(channel string) (enabled bool) {
+	for _, active := range A {
+		if channel == active.Channel.ID {
+			return active.Enabled
+		}
+	}
+	return false
 }

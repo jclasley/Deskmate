@@ -3,10 +3,11 @@ package zendesk
 import (
 	"fmt"
 	"reflect"
+	"strconv"
 	"time"
 
-	"github.com/tylerconlee/Deskmate/server/slack"
-	"github.com/tylerconlee/Deskmate/server/tags"
+	"github.com/circleci/Deskmate/server/slack"
+	"github.com/circleci/Deskmate/server/tags"
 )
 
 // Sent is a collection of all NotifySent tickets that is checked before each // notification is sent.
@@ -32,7 +33,7 @@ func sendSLANotification(ticket Ticket, channel string, tag string) {
 	url := fmt.Sprintf("https://%s.zendesk.com/agent/tickets/%d", string(c.url), ticket.ID)
 	if ticket.SLA != "" {
 		send, notify := UpdateCache(ticket, channel)
-		fmt.Println(ticket.ID, "SLA: ", ticket.SLA, " Send SLA?: ", send)
+		log.Debugw("Processing SLA notification", "ticket", ticket.ID, "sla", ticket, "send", send)
 		if send {
 			message, _ := prepSLANotification(ticket, notify, tag)
 			getUser(&ticket)
@@ -55,7 +56,7 @@ func sendSLANotification(ticket Ticket, channel string, tag string) {
 }
 
 func sendNewNotification(ticket Ticket, channel string, tag string) {
-	fmt.Println(ticket.ID, "Created: ", ticket.CreatedAt, " Last Ran: ", lastRan)
+	log.Debugw("Processing New notification", "ticket", ticket.ID, "created", ticket.CreatedAt, "last-ran", lastRan)
 	if ticket.CreatedAt.After(lastRan.Add(-(2 * time.Minute))) {
 		url := fmt.Sprintf("https://%s.zendesk.com/agent/tickets/%d", string(c.url), ticket.ID)
 		notification := map[string]interface{}{
@@ -73,7 +74,7 @@ func sendNewNotification(ticket Ticket, channel string, tag string) {
 
 func sendUpdatedNotification(ticket Ticket, channel string, tag string) {
 
-	fmt.Println(ticket.ID, "Last updated: ", ticket.UpdatedAt, " Last Ran: ", lastRan)
+	log.Debugw("Processing Updated notification", "ticket", ticket.ID, "created", ticket.CreatedAt, "last-ran", lastRan)
 	if ticket.UpdatedAt.After(lastRan.Add(-(2 * time.Minute))) {
 		url := fmt.Sprintf("https://%s.zendesk.com/agent/tickets/%d", string(c.url), ticket.ID)
 		getUser(&ticket)
@@ -125,7 +126,8 @@ func GetTimeRemaining(ticket Ticket) (remain time.Time) {
 
 	breach, err := time.Parse(time.RFC3339, ticket.SLA)
 	if nil != err {
-		fmt.Println("Error parsing time on ticket", err)
+		log.Errorw("Error parsing time on ticket", "error", err.Error())
+		return
 	}
 	return breach
 }
@@ -169,18 +171,18 @@ func UpdateCache(ticket Ticket, channel string) (bool, int64) {
 	notify := GetNotifyType(time.Until(expire))
 
 	// take the ticket expiration time and add 15 minutes
-	t := expire.Add(15 * time.Minute)
+	expireTime := expire.Add(15 * time.Minute)
 
 	// if the ticket expiration time is after 15 minutes from now and there's a
 	// valid notification type
-	if t.After(time.Now()) && notify != 0 {
+	if expireTime.After(time.Now()) && notify != 0 {
 		rangeOnMe := reflect.ValueOf(Sent)
 		for i := 0; i < rangeOnMe.Len(); i++ {
 			s := rangeOnMe.Index(i)
 			f := s.FieldByName("ID")
 			if f.IsValid() {
 				if f.Interface() == ticket.ID && s.FieldByName("Type").Int() == notify && s.FieldByName("Channel").String() == channel {
-					fmt.Println(ticket.ID, " has already received a notification")
+					log.Debugf("%d has already received a notification", ticket.ID)
 					return false, 0
 				}
 
@@ -203,13 +205,13 @@ func cleanCache(ticket Ticket) {
 	for i := 0; i < len(Sent); i++ {
 		item := Sent[i]
 		if ticket.ID == item.ID {
-			t := item.Expire.Add(15 * time.Minute)
+			expireTime := item.Expire.Add(15 * time.Minute)
 
 			d := 1 * time.Minute
 			sentupdate := item.LastUpdate.Truncate(d)
 			ticketupdate := ticket.UpdatedAt.Truncate(d)
 
-			if t.Before(time.Now()) || sentupdate.Before(ticketupdate) {
+			if expireTime.Before(time.Now()) || sentupdate.Before(ticketupdate) {
 
 				Sent = append(Sent[:i], Sent[i+1:]...)
 				i--
@@ -221,12 +223,17 @@ func cleanCache(ticket Ticket) {
 
 func checkTag(ticket Ticket) (n []Notify) {
 	for _, tag := range tags.T {
+
 		if contains(ticket.Tags, tag.Tag) {
-			n = append(n, Notify{
-				channel:          tag.Channel,
-				notificationType: tag.NotificationType,
-				tag:              tag.Tag,
-			})
+			if tag.GroupID == strconv.Itoa(ticket.GroupID) || strconv.Itoa(ticket.GroupID) == "" {
+				n = append(n, Notify{
+					channel:          tag.Channel,
+					notificationType: tag.NotificationType,
+					tag:              tag.Tag,
+				})
+			} else {
+				log.Debugf("Group does not match. have: %v, want: %v", tag.GroupID, ticket.GroupID)
+			}
 		}
 	}
 	return n

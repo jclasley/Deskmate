@@ -1,0 +1,17 @@
+FROM node:alpine
+
+# if left blank app will run with dev settings
+# to build production image run:
+# $ docker build ./client --build-args app_env=production
+ENV NPM_CONFIG_LOGLEVEL warn
+
+RUN mkdir -p /client
+WORKDIR /client
+COPY ./ ./
+
+RUN npm install
+
+# if dev settings will use create-react start script for hot code relaoding via docker-compose shared volume
+# if production setting will build optimized static files and serve using http-server
+CMD [ "npm run start" ]
+EXPOSE 3000

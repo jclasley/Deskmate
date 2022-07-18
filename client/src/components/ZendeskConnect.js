@@ -57,7 +57,12 @@ class ZendeskConnect extends Component {
         const { connected } = this.state
         return (
             <div>
-                <Button color={this.state.connectedColor} onClick={this.connect}>{connected ? <b>Connected: Zendesk</b> : <b>Not Connected: Zendesk</b> }</Button>
+                <Button
+                    color={this.state.connectedColor}
+                    onClick={this.connect}
+                    data-testid="zendesk_connect">
+                    {connected ? <b>Connected: Zendesk</b> : <b>Not Connected: Zendesk</b>}
+                </Button>
             </div>
         )
     }

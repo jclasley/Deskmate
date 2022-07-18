@@ -1,58 +1,52 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 
-	"github.com/tylerconlee/Deskmate/server/config"
-	"github.com/tylerconlee/Deskmate/server/slack"
-	"github.com/tylerconlee/Deskmate/server/tags"
-	"github.com/tylerconlee/Deskmate/server/zendesk"
+	"github.com/circleci/Deskmate/server/config"
+	l "github.com/circleci/Deskmate/server/log"
+	"github.com/circleci/Deskmate/server/slack"
+	"github.com/circleci/Deskmate/server/tags"
+	"github.com/circleci/Deskmate/server/zendesk"
 )
+
+var log = l.Log
 
 // APIHandler is a base path for all API related requests
 func APIHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request received for /handler endpoint")
+	log.Debug("Request received for /handler endpoint")
 }
 
 // SlackHandler routes all event callbacks from Slack
 func SlackHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request received for /slack endpoint")
+	log.Debug("Request received for /slack endpoint")
 	slack.EventHandler(w, r)
 }
 
 func SlackCallbackHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request received for /slack/callback endpoint")
+	log.Debug("Request received for /slack/callback endpoint")
 	slack.CallbackHandler(w, r)
-}
-
-// SlackConnectHandler routes the request to start a connection
-// to the configured Slack instance
-func SlackConnectHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request received for /slack/connect endpoint")
-	slack.ConnectHandler(w, r)
 }
 
 // ZendeskStatusHandler returns a health check if Zendesk is connected
 func ZendeskStatusHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request received for /zendesk/status endpoint")
+	log.Debug("Request received for /zendesk/status endpoint")
 	zendesk.StatusHandler(w, r)
 }
 
 // ZendeskConnectHandler routes the request to start a connection
 // to the configured Zendesk instance
 func ZendeskConnectHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request received for /Zendesk/connect endpoint")
+	log.Debug("Request received for /Zendesk/connect endpoint")
 	zendesk.ConnectHandler(w, r)
 }
 
 // TriageHandler routes the request for the triage delete endpoint
 // to the DeleteTriage function
 func TriageHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 	switch r.Method {
 	case http.MethodDelete:
-		fmt.Println("DELETE method request for /triage/{channel} endpoint")
+		log.Debug("DELETE method request for /triage/{channel} endpoint")
 		slack.DeleteTriage(w, r)
 	}
 
@@ -61,8 +55,7 @@ func TriageHandler(w http.ResponseWriter, r *http.Request) {
 // TriageAllHandler routes the incoming request to the triage endpoint to
 // return all current triagers stored in slack.T
 func TriageAllHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	fmt.Println("GET method request for /triage endpoint")
+	log.Debug("GET method request for /triage endpoint")
 	slack.GetAllTriage(w, r)
 
 }
@@ -72,10 +65,9 @@ func TriageAllHandler(w http.ResponseWriter, r *http.Request) {
 // configuration state. The POST request goes to the config.PostConfig function
 // which saves the incoming configuration
 func ConfigHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 	switch r.Method {
 	case http.MethodPost:
-		fmt.Println("POST method request for /config endpoint")
+		log.Debug("POST method request for /config endpoint")
 		config.PostConfig(w, r)
 		zendesk.SetConfig()
 	}
@@ -89,13 +81,13 @@ func ConfigHandler(w http.ResponseWriter, r *http.Request) {
 // DELETE goes to tags.DeleteTagHandler which removes the tag from the
 // database
 func TagsHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	switch r.Method {
 	case http.MethodGet:
-		fmt.Println("GET method request for /tags endpoint")
+		log.Debug("GET method request for /tags endpoint")
 		tags.GetAllTagsHandler(w, r)
 	case http.MethodPost:
-		fmt.Println("POST method request for /tags/{id} endpoint")
+		log.Debug("POST method request for /tags/{id} endpoint")
 		tags.PostTagHandler(w, r)
 
 	}
@@ -104,15 +96,15 @@ func TagsHandler(w http.ResponseWriter, r *http.Request) {
 // TagHandler handles the requests related to a specific tag, such as updating
 // or deleting
 func TagHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 
 	switch r.Method {
 
 	case http.MethodPut:
-		fmt.Println("PUT method request for /tags endpoint")
+		log.Debug("PUT method request for /tags endpoint")
 		tags.UpdateTagHandler(w, r)
 	case http.MethodDelete:
-		fmt.Println("DELETE method request for /tags endpoint")
+		log.Debug("DELETE method request for /tags endpoint")
 		tags.DeleteTagHandler(w, r)
 	}
 }

@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:17-alpine
 
 # if left blank app will run with dev settings
 # to build production image run:
@@ -11,13 +11,13 @@ RUN mkdir -p /client
 WORKDIR /client
 COPY ./ ./
 
-RUN npm install
+RUN npm install --frozen
 
 # if dev settings will use create-react start script for hot code relaoding via docker-compose shared volume
 # if production setting will build optimized static files and serve using http-server
 CMD if [ ${NODE_ENV} = production ]; \
 	then \
-	npm install -g http-server && \
+	npm install -g http-server --frozen && \
 	npm run build && \
 	cd build && \
 	hs -p 3000; \

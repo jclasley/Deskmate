@@ -1,0 +1,108 @@
+version: 2.1
+orbs:
+  node: circleci/node@4.5.0
+  go: circleci/go@1.6.0
+
+# CCC executor
+executors:
+  ccc:
+    docker:
+    - image: circleci/command-convenience:0.1
+      auth:
+        username: $DOCKER_HUB_USER
+        password: $DOCKER_HUB_PASSWORD
+
+jobs:
+  deploy:
+    executor: ccc
+    environment:
+      NAMESPACE: internal-tools
+      NAME: itd-deskmate
+      VALUES_FILE: values.yml
+    working_directory: ~/Deskmate
+    steps: 
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: cp /tmp/workspace/docker_image.tag .
+      - setup_remote_docker
+      - run: deploy
+
+  publish:
+    executor: ccc
+    environment: # NOTE: requires ECR, not yet established
+      NAME: itd-deskmate
+      DOCKERFILE_PATH: Dockerfile
+      DOCKER_REGISTRY: ecr
+      TWISTLOCK_ENFORCE: false
+    working_directory: ~/Deskmate
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: publish
+      - persist_to_workspace:
+          root: .
+          paths: docker_image.tag
+
+  test-client:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-deps-{{ checksum "./client/package-lock.json" }}
+      - node/install-packages:
+          app-dir: ./client
+          override-ci-command: npm install
+      - save_cache:
+          key: v1-deps-{{ checksum "./client/package-lock.json" }}
+          paths:
+            - ./client/node_modules
+      - run: cat ./client/package.json #to be replaced with tests later
+  test-server:
+    working_directory: ~/Deskmate/server
+    docker:
+      - image: circleci/golang
+    steps:
+      - checkout:
+          path: ~/Deskmate
+      - go/load-cache
+      - go/mod-download-cached
+      - go/save-cache
+      - run: go vet
+      - run: go test -v ./...
+  test-graphql:
+    working_directory: ~/Deskmate/graphql
+    docker:
+      - image: circleci/golang
+    steps:
+      - checkout:
+          path: ~/Deskmate
+      - go/load-cache
+      - go/mod-download-cached
+      - go/save-cache
+      - run: go vet
+      - run: go test -v ./...
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test-client
+      - test-server
+      - test-graphql
+  publish-and-deploy:
+    jobs:
+      - publish:
+          context: org-global
+          filters:
+            branches:
+              only: main
+      - deploy:
+          context: org-global
+          filters:
+            branches:
+              only: main
+          requires:
+            - publish
