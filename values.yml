@@ -61,13 +61,3 @@ kong:
       port: 8080
       paths:
         - /slackdeskmate
-
-# TODO API-268: Remove after migration to Kong.
-traefik:
-  rules:
-    - host: slackdeskmatehook.circleci.com
-      paths:
-        - path: /
-          backend:
-            servicePort: 8080
-  ruleType: PathPrefix
